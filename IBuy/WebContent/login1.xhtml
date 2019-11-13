@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:c="http://java.sun.com/jsf/core"
+  xmlns:ui = "http://java.sun.com/jsf/facelets"
+  xmlns:h = "http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+xmlns:p="http://primefaces.org/ui" 
+xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+  
+  >
+<h:head>
+<link rel="shortcut icon" type="image/x-icon" href="#{resource['favicon.ico']}" />
+<f:facet name="first">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>Login</title>
+	</f:facet>
+	
+	<f:facet name="middle">
+            <h:outputStylesheet name="bootstrap/css/bootstrap.css"/>
+            <h:outputScript name="jquery/jquery.min.js" target="head"/>
+            <h:outputScript name="bootstrap/js/bootstrap.js" target="head"/>
+    </f:facet>
+        
+    <f:facet name="last">
+ 		<h:outputStylesheet name="css/font-awesome.css" />
+    </f:facet>
+    <title>Login</title>
+
+<style>
+<!-- 
+
+.ui-growl{
+	top: 100px;
+	right: 500px; important!;
+}
+
+.ui-container{
+	top: 100px;
+	right: 500px; important!;
+}
+
+ -->
+ </style>
+ 
+ 
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>Login</title>
+
+</h:head>
+
+<h:body>
+	    
+<h:form prependId="false" id="formId" >
+		<p:defaultCommand target="#{loginBean.keyPress}" />
+		<p:growl id="msg" showDetail="true" />
+		<p:focus context="idUName"/>		
+		<p:layout fullPage="true" stateful="false">
+		<p:layoutUnit position="north" size="0" visible="false">
+			<p:outputLabel value="Matt-Agri BUY N SELL" style="#{skin.pageTitle}"/>
+		</p:layoutUnit>
+		<p:layoutUnit position="south" size="50">
+			<p:outputLabel style="#{skin.copyrightLabel}" value="Copyright © 2018. All Rights Reserved | MARXMIND IT SOLUTIONS | Version 4.0"/>
+		</p:layoutUnit>
+		<p:layoutUnit position="west" size="300" >
+			
+			<p:outputLabel  value="Date updated: "/><h:outputText  value=" February 19, 2018"/><br/>
+        	<p:outputLabel  value="Latest version: "/><h:outputText  value=" 4.0"/><br/>
+        	<p:outputLabel  value="Previous version: "/><h:outputText  value=" 3.6"/><br/>
+        	<p:outputLabel style="#{skin.label}" value="Note: "/><h:outputText style="text-align:justify;#{skin.label}" value="A software update can include, but is not limited to: (1)Application stability improvements, bug fixes. (2)New or Enhanced features. (3)Further improvements to performance."/><br/>
+        	
+		</p:layoutUnit>
+		<p:layoutUnit position="east" size="300" >
+			
+			<p:panelGrid columns="2" id="idUName">
+        	
+        	<f:facet name="header">
+        		<p>Sign In</p>
+        	</f:facet>
+        	
+        	<p:outputLabel value="Username:" style="#{skin.label}"/>
+			
+        	<p:inputText style="width: 15em;#{skin.textInput}" a:placeholder="Username"  id="uname" value="#{loginBean.name}" />
+        	
+			<p:outputLabel value="Password:" style="#{skin.label}"/>
+			<p:password style="width: 15em;#{skin.textInput}" a:placeholder="Password" id="password" value="#{loginBean.password}"/>
+			
+			<f:facet name="footer">
+				<h:commandButton id="logId" value="Sign in" styleClass="btn btn-primary" style="#{skin.textInput}" action="#{loginBean.validateUserNamePassword}"/>
+			</f:facet>
+			
+        </p:panelGrid>
+        	
+		</p:layoutUnit>
+		<p:layoutUnit position="center">
+			<p:graphicImage name="gif/wallpaper.png" style="width: 100%; height: 100%"/>
+		</p:layoutUnit>
+		</p:layout>
+
+</h:form>
+
+</h:body>
+</html>

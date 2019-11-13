@@ -1,0 +1,615 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui = "http://java.sun.com/jsf/facelets"
+  xmlns:h = "http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+xmlns:p="http://primefaces.org/ui" 
+xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+ xmlns:pp="http://primefaces.prime.com.tr/ui"    
+  >
+<h:head>
+<link rel="shortcut icon" type="image/ico" href="#{request.contextPath}/resources/img/favicon.ico" />
+<f:facet name="first">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>Client Profile</title>
+	</f:facet>
+	
+	<f:facet name="middle">
+            <h:outputStylesheet name="bootstrap/css/bootstrap.min.css"/>
+            <h:outputStylesheet name="css/pageHeaderFooter.css"/>
+            <h:outputScript name="jquery/jquery.min.js" target="head"/>
+            <h:outputScript name="bootstrap/js/bootstrap.min.js" target="head"/>
+            
+    </f:facet>
+        
+    <f:facet name="last">
+ 		<h:outputStylesheet name="css/font-awesome.css" />
+    </f:facet>
+    <title>Client Profile</title>
+
+
+<style>
+<!-- 
+
+.ui-growl{
+	top: 100px;
+	right: 500px; important!;
+}
+
+.ui-container{
+	top: 100px;
+	right: 500px; important!;
+}
+
+ -->
+ </style>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>Client Profile</title>
+
+</h:head>
+
+<h:body>
+
+<h:form prependId="false" id="formId" >
+		
+		<p:growl id="msg" showDetail="true"/>
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" style="#{skin.msg}">
+       	<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+       	<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    	</p:confirmDialog>
+		
+		<div class="page-header">
+	 					<a><p:outputLabel value="Client Profile" style="#{skin.pageTitle};"/></a>
+	    </div>
+		
+		<p:layout fullPage="true" stateful="false">
+		
+		<p:layoutUnit position="north" size="50" visible="true">
+		
+			<p:inputText value="#{clientBean.searchString}" a:placeholder="Search here" styleClass="form-control">
+                         <p:ajax event="keyup" listener="#{clientBean.loadSearch}" delay="800" update="dataId taClient"/>
+            </p:inputText>    
+			
+		</p:layoutUnit>
+		<p:layoutUnit position="south" size="0" visible="false"/>
+		
+		<p:layoutUnit position="center">
+		
+		<p:dataTable id="dataId" value="#{clientBean.clientList}" var="rpt" 
+					rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15,20,50,100"
+                         scrollable="true" style="#{skin.table}"  paginatorPosition="top"
+                         >
+							
+							<f:facet name="header">
+								<p:outputLabel value="Total Collectibles: Php #{clientBean.totalCollectible}" styleClass="form-control"/>
+						 </f:facet>
+							
+							<p:column headerText="[*]" width="50">
+            					<p:commandButton update="dataId msg" icon="fa fa-trash" actionListener="#{clientBean.deleteRow(rpt)}">
+            						<p:confirm header="Confirmation" message="Are you sure you want to delete this data?" icon="ui-icon-alert" />
+            					</p:commandButton>
+            				</p:column>
+							
+							<p:column headerText="View" width="50" exportable="false">
+            					<p:commandButton icon="fa fa-search" update="taClient" actionListener="#{clientBean.clickItem(rpt)}"/>
+            				</p:column>
+							
+							<p:column headerText="Collectible" width="70">
+            						<p:outputLabel value="Php#{rpt.amntCollectible}" />
+            				</p:column>
+            				
+							
+            				<p:column headerText="Date" width="70">
+            						<p:outputLabel value="#{rpt.registeredDate}" />
+            				</p:column>
+            					
+            				<p:column headerText="Name" width="150">
+            						<p:outputLabel value="#{rpt.fullName}" />
+            				</p:column>
+            				
+            				<p:column headerText="Guarantor" width="150">
+            						<p:outputLabel value="#{rpt.contactNumber}" />
+            				</p:column>
+            				
+            				<p:column headerText="Address" width="150">
+            						<p:outputLabel value="#{rpt.address}" />
+            				</p:column>
+            				
+						</p:dataTable>
+		
+		</p:layoutUnit>
+		
+		<p:layoutUnit position="west" size="700" visible="true">
+		
+			<p:tabView dynamic="true" cache="true" id="taClient" style="#{skin.tabs}">
+						
+						<p:tab title="Client Information">
+						
+						<p:toolbar id="tbCl">
+            				<f:facet name="left">
+            				</f:facet>
+            				<f:facet name="right">
+                         
+                         	<p:commandButton update=":formId:taClient" icon="fa fa-file-o" value="Clear"  actionListener="#{clientBean.clearFields}"/>
+                            <p:commandButton  value="Save" icon="fa fa-floppy-o" update="dataId taClient msg" actionListener="#{clientBean.save}">
+								<p:confirm header="Confirmation" message="Are you sure you want to save?." icon="ui-icon-alert" />
+							</p:commandButton>
+                         	</f:facet>
+            				</p:toolbar>
+						
+						<p:panelGrid layout="grid" columns="1">
+						
+							<p:panelGrid layout="grid" columns="2">
+		        						
+		        		  				
+		        		  		<h:outputLabel id="photo">
+        							<p:graphicImage name="images/#{clientBean.photoId}.jpg" rendered="#{not empty clientBean.photoId}" style="width: 200px; height: 200px"/>
+        							&nbsp;&nbsp;&nbsp;<p:commandButton update="shotId" value="Capture" onclick="PF('multiDialogCamera').show()"/>
+        						</h:outputLabel>
+		        		  				
+		        						<p:fileUpload fileUploadListener="#{clientBean.fileUploadListener}"
+		                    			mode="advanced" auto="true" sizeLimit="502400" label="Upload Picture"
+		                    			update="photo"
+		                    			allowTypes="/(\.|\/)(gif|jpeg|jpg|png)$/" />
+		        			</p:panelGrid>
+							
+            				
+            			<p:panelGrid layout="grid" columns="2">
+                		
+            				
+                   		<p:outputLabel value="Registered Date: "/>
+						<p:inputText value="#{clientBean.registeredDate}" readonly="true"/>
+						
+						
+						<p:outputLabel value="Full Name: "/>
+						<p:inputTextarea value="#{clientBean.fullName}"  />
+						
+						<p:outputLabel value="Guarantor: "/>
+						<p:inputText value="#{clientBean.contactNumber}"  />
+						
+						<p:outputLabel value="Address: "/>
+						<p:inputTextarea value="#{clientBean.address}"  />
+                         
+                         </p:panelGrid>
+                        
+                         </p:panelGrid>
+                        
+						
+						
+						
+						</p:tab>
+						
+						<p:tab title="Documents" id="idDocs">
+						
+						<p:toolbar id="tbDocs">
+            				<f:facet name="left">
+            				</f:facet>
+            				<f:facet name="right">
+            					<p:commandButton  value="Clear" icon="fa fa-file-o" update="idDocs" actionListener="#{clientBean.clearDocs}"/>
+                            	<p:commandButton  value="Save" icon="fa fa-floppy-o" update="idDocs" actionListener="#{clientBean.saveDocs}">
+									<p:confirm header="Confirmation" message="Are you sure you want to save?." icon="ui-icon-alert" />
+								</p:commandButton>
+            				</f:facet>
+            			</p:toolbar>	
+						
+						<p:panelGrid id="docForm" columns="4" layout="grid">
+						
+							<p:outputLabel value="Date : "/>
+							<p:inputText value="#{clientBean.documentDate}" readonly="true"/>
+							
+							<p:outputLabel value="Document Name : "/>
+							<p:inputText value="#{clientBean.documentName}" />
+							
+							<p:outputLabel value="Description : "/>
+							<p:inputTextarea value="#{clientBean.documentDescription}" />
+							    			 	
+                         	
+                         	<p:outputLabel id="pathDoc" value="Path : " />
+                         	<p:commandLink value="#{clientBean.documentPath}" update=":formId:taClient" actionListener="#{clientBean.openDoc}"/>
+                         	
+								
+						<p:fileUpload fileUploadListener="#{clientBean.docUploadListener}" dragDropSupport="false"
+		                    			mode="advanced" auto="true" sizeLimit="10000000" label="Upload Document"
+		                    			update="pathDoc"
+		                    			allowTypes="/(\.|\/)(gif|jpeg|jpg|png|pdf|doc|docx)$/" />
+                         	
+                         		
+						</p:panelGrid>
+						
+													
+							<p:dataTable id="docformId" value="#{clientBean.docList}" var="rpts" 
+							rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15,20,50,100"
+                         scrollable="true" 
+                         > 
+                         
+                         <p:column headerText="[*]" width="50">
+                         
+            					<p:commandButton update=":taClient:docformId :taClient:docForm msg" icon="fa fa-trash"  actionListener="#{clientBean.deleteRowDocs(rpts)}">
+            						<p:confirm header="Confirmation" message="Are you sure you want to delete this data?" icon="ui-icon-alert" />
+            					</p:commandButton>
+            					
+            				</p:column>
+                         
+                         <p:column headerText="View" width="40" exportable="false">
+            					<p:commandButton icon="fa fa-search" update=":taClient:docForm" actionListener="#{clientBean.clickItemDoc(rpts)}"/>
+            				</p:column>
+                         
+                         <p:column headerText="Date" width="70">
+            						<p:outputLabel  value="#{rpts.documentDate}" />
+            			 </p:column>
+            			 
+            			 <p:column headerText="Document Name" width="100">
+            						<p:outputLabel  value="#{rpts.documentName}" />
+            			 </p:column>
+            			 
+            			 <p:column headerText="Description" width="100">
+            						<p:outputLabel  value="#{rpts.description}" />
+            			 </p:column>
+            			 
+            			 
+            			 
+            			 </p:dataTable>
+						
+						<br/><br/>
+						</p:tab>
+						
+						<p:tab title="Transactions" id="transTabId">
+							
+							<p:toolbar id="tbTrans">
+            				<f:facet name="left">
+            				</f:facet>
+            				<f:facet name="right">
+            					<p:commandButton  value="Clear" icon="fa fa-file-o" update=":formId:taClient:transForm" actionListener="#{clientBean.clearTrans}"/>
+                            	<p:commandButton  value="Save" icon="fa fa-floppy-o" update=":formId:taClient:transForm :formId:taClient:transId msg" actionListener="#{clientBean.saveTrans}">
+									<p:confirm header="Confirmation" message="Are you sure you want to save?." icon="ui-icon-alert" />
+								</p:commandButton>
+            				</f:facet>
+            			</p:toolbar>
+							
+							<p:panelGrid id="transForm"  columns="3" layout="grid">
+							
+							<p:outputLabel value="Transacation Date: ">
+								<p:inputText value="#{clientBean.transDate}" readonly="true"/>
+							</p:outputLabel>
+							
+							<p:outputLabel value="Transaction Type: ">
+								<p:selectOneMenu value="#{clientBean.transactTypeId}" style="width: 16em">
+									<f:selectItem itemLabel="Please select..."/>
+									<f:selectItems value="#{clientBean.transactTypeList}"/>
+								</p:selectOneMenu>
+							</p:outputLabel>
+							
+							<p:outputLabel value="Due Date: ">
+							<p:calendar value="#{clientBean.transDueDate}" pattern="yyyy-MM-dd" effect="slideDown"/>
+							</p:outputLabel>
+							
+							<p:outputLabel value="Status: ">
+								<p:selectOneMenu value="#{clientBean.statusId}" styleClass="form-control" style="width: 16em">
+									<f:selectItem itemLabel="Please select..."/>
+									<f:selectItems value="#{clientBean.statusList}"/>
+									<p:ajax event="change" listener="#{clientBean.calculatePaidAmnt}" update=":formId:taClient:transForm"/>
+								</p:selectOneMenu>
+							</p:outputLabel>
+							
+							<p:outputLabel value="Description: ">
+								<p:inputTextarea value="#{clientBean.description}" style="width: 16em"/>
+							</p:outputLabel>
+							
+							<p:outputLabel value="Amount: ">
+								<p:inputText value="#{clientBean.transamount}"  style="width: 16em">
+									<p:ajax event="change" listener="#{clientBean.calculateInterestAmnt}" update=":formId:taClient:intId"/>
+								</p:inputText>	
+							</p:outputLabel>
+							
+							<p:outputLabel value="Interest Rate(%): ">
+								<p:inputText value="#{clientBean.interestrate}" style="width: 16em">
+									<p:ajax event="change" listener="#{clientBean.calculateInterestAmnt}" update=":formId:taClient:intId :formId:taClient:paidId"/>
+								</p:inputText>
+							</p:outputLabel>
+							
+							<p:outputLabel value="Interest Rate Amount: ">
+								<p:inputText id="intId" value="#{clientBean.interestamount}" style="width: 16em" readonly="true"/>
+							</p:outputLabel>
+							
+							<p:outputLabel value="Paid Amount: ">
+								<p:inputText id="paidId" value="#{clientBean.paidamount}"  style="width: 16em" readonly="true"/>
+							</p:outputLabel>
+							
+							<p:outputLabel value="Paid Date: ">
+								<p:inputText value="#{clientBean.paidDate}" style="width: 16em" readonly="true"/>
+							</p:outputLabel>
+							
+							<p:outputLabel value="Client Rate: ">
+								<p:selectOneMenu value="#{clientBean.clientRateId}" style="width: 16em" disabled="#{clientBean.checkIsPaid}">
+									<f:selectItem itemLabel="Please select..."/>
+									<f:selectItems value="#{clientBean.clientRateList}"/>
+								</p:selectOneMenu>
+							</p:outputLabel>
+							
+							<p:outputLabel value="Notes: ">
+								<p:inputText value="#{clientBean.notes}" style="width: 16em" disabled="#{clientBean.checkIsPaid}"/>
+							</p:outputLabel>
+							                     
+							
+							</p:panelGrid>
+							
+							
+							
+							<p:dataTable id="transId" value="#{clientBean.transList}" var="rptz" 
+							rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15,20,50,100"
+                         scrollable="true"  paginatorPosition="top"                        > 
+                         
+                         <f:facet name="header">
+								<h:outputText value="Total Transactions: Php #{clientBean.totalTrans}" styleClass="form-control"/>
+						 </f:facet>
+                         
+                         <p:column headerText="[*]" width="50">
+            					<p:commandButton update=":taClient:transId :taClient:transForm msg" icon="fa fa-trash"  actionListener="#{clientBean.deleteRowTrans(rptz)}">
+            						<p:confirm header="Confirmation" message="Are you sure you want to delete this data?" icon="ui-icon-alert" />
+            					</p:commandButton>
+            				</p:column>
+                         
+                         <p:column headerText="View" width="40" exportable="false">
+            					<p:commandButton icon="fa fa-search" update=":formId:taClient:transForm" actionListener="#{clientBean.clickItemTransact(rptz)}"/>
+            			 </p:column>
+                         
+                         <p:column headerText="Date" width="70">
+            						<p:outputLabel  value="#{rptz.transDate}"/>
+            			 </p:column>
+                         
+                         <p:column headerText="Type" width="100">
+            						<p:outputLabel  value="#{rptz.transtype}"/>
+            			 </p:column>
+                         
+                         <p:column headerText="Status" width="70">
+            						<p:outputLabel value="#{rptz.status}" />
+            			 </p:column>
+            			 
+                         <p:column headerText="Amount" width="70">
+            						<p:outputLabel value="Php#{rptz.transamount}"/>
+            			 </p:column>
+                         
+                         <p:column headerText="Description" width="100">
+            						<p:outputLabel value="#{rptz.description}"/>
+            			 </p:column>
+                         
+                         <p:column headerText="%" width="50">
+            						<p:outputLabel value="#{rptz.interestrate}" />
+            			 </p:column>
+            			 
+            			 <p:column headerText="Amount %" width="70">
+            						<p:outputLabel value="Php#{rptz.interestamount}" />
+            			 </p:column>
+                         
+                         </p:dataTable>
+							
+					<br/><br/>
+						</p:tab>
+						
+						<p:tab title="History">
+						
+						<p:dataTable id="transhisId" value="#{clientBean.transhisList}" var="rptw" 
+							rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15,20,50,100"
+                         scrollable="true" paginatorPosition="top"
+                         > 
+                         
+                         <f:facet name="header">
+								<p:outputLabel value="Total : Php #{clientBean.totalTranshis}" />
+						 </f:facet>
+                         
+                         <p:column headerText="Date" width="70">
+            						<p:outputLabel value="#{rptw.transDate}" />
+            			 </p:column>
+                         
+                         <p:column headerText="Type" width="100">
+            						<p:outputLabel value="#{rptw.transtype}" />
+            			 </p:column>
+                         
+                         <p:column headerText="Status" width="70">
+            						<p:outputLabel value="#{rptw.status}" />
+            			 </p:column>
+            			 
+                         <p:column headerText="Amount" width="90">
+            						<p:outputLabel value="Php#{rptw.transamount}" />
+            			 </p:column>
+                         
+                         <p:column headerText="Description" width="100">
+            						<p:outputLabel  value="#{rptw.description}" />
+            			 </p:column>
+                         
+                         <p:column headerText="%" width="70">
+            						<p:outputLabel  value="#{rptw.interestrate}" />
+            			 </p:column>
+            			 
+            			 <p:column headerText="Amount" width="90">
+            						<p:outputLabel value="Php#{rptw.interestamount}" />
+            			 </p:column>
+            			 
+            			 <p:column headerText="Settled" width="90">
+            						<p:outputLabel value="#{rptw.paidDate}"/>
+            			 </p:column>
+            			 
+            			 <p:column headerText="Paid" width="90">
+            						<p:outputLabel  value="Php#{rptw.paidamount}"/>
+            			 </p:column>
+            			 
+            			 <p:column headerText="Rating" width="100">
+            						<p:outputLabel value="#{rptw.clientrate}" />
+            			 </p:column>
+            			 
+            			 <p:column headerText="Notes" width="100">
+            						<p:outputLabel value="#{rptw.notes}"/>
+            			 </p:column>
+                         
+                         </p:dataTable>
+						<br/><br/>
+						</p:tab>
+						
+			</p:tabView>	
+		
+		</p:layoutUnit>
+		
+		<p:layoutUnit position="east" size="0" visible="false"/>
+		
+		
+		
+		</p:layout>
+
+<p:dialog header="Camera" responsive="true" position="center center" style="#{skin.dialog}" showEffect="clip" hideEffect="clip" modal="false" widgetVar="multiDialogCamera" Height="300" width="700" closable="false">
+		<p:toolbar id="tbCam">
+    		<f:facet name="left">
+		       <p:commandButton type="button" value="Restart Camera" onclick="setup();" style="width: 15em;"/>
+    		</f:facet>
+    		<f:facet name="right">
+    			
+    			<p:commandButton type="button" value="Capture" onclick="PF('pc').capture()" style="width: 10em;"/>
+    			<p:commandButton  value="Close" icon="ui-icon-closethick" actionListener="#{clientBean.deleteTmpImages}"  style="width: 10em;" onclick="PF('multiDialogCamera').hide();"/>
+    		</f:facet>
+		</p:toolbar>
+		
+		<h:panelGrid columns="1" cellpadding="5">
+			<p:photoCam id="cameraId" 
+			widgetVar="pc" listener="#{clientBean.oncapture}" 
+			jpegQuality="100" width="250" height="240" photoWidth="560" photoHeight="640" update=":formId:taClient:photo shotId"  />
+		</h:panelGrid>
+		 
+		 <h:outputScript>
+		 
+		 function setup() {
+			Webcam.attach( '#cameraId' );
+		}
+		 
+		 </h:outputScript>            
+		
+		<p:dataGrid id="shotId" var="ph" value="#{clientBean.shots}" columns="3" layout="grid"
+                	rows="10" paginator="true" style="margin-top:20px;"  >
+                	
+                	<p:panel style="text-align:center">
+	            		<h:panelGrid columns="1" style="width:100%">
+	            			<p:graphicImage name="images/#{ph}.jpg" rendered="#{not empty ph}" style="width: 80px; height: 80px"/>
+	            			
+	            			<f:facet name="footer">
+	            				<p:commandButton value="Select" update=":formId:taClient:photo" actionListener="#{clientBean.selectedPhoto(ph)}" oncomplete="PF('multiDialogCamera').hide()"/>
+                			</f:facet>
+	            		</h:panelGrid>
+            		</p:panel>
+                	
+         </p:dataGrid>
+		
+</p:dialog>
+				
+				<p:commandButton id="showDueDateId" update="schedule" actionListener="#{schedBean.loadDueDate}" onclick="PF('sideBarDueDate').show();PF('sideBarSearch').hide()" icon="fa fa-calendar-plus-o" style="-moz-border-radius: 100px;-webkit-border-radius: 100px;border-radius: 100px;height: 50px;width: 50px;bottom: 30px;right: 70px;float:right; position: fixed;z-index: 1500;font-size: 70% ! important;font-weight: bold ! important;  text-transform: none ! important; background: linear-gradient(#0789b2, #086583, #044357);" title="Due date calendar" />
+				<p:sidebar widgetVar="sideBarDueDate" fullScreen="false" style="width: 60em; background: linear-gradient(#0789b2, #086583, #044357);" position="left">
+					<p:scrollPanel style="width:58em;height:500px" mode="native">
+						<p:schedule style="#{skin.calendarDueDate}" locale="en" id="schedule" leftHeaderTemplate="prev,next,today" centerHeaderTemplate="title" rightHeaderTemplate="month,agendaDay" value="#{schedBean.eventModel}" view="month" widgetVar="myschedule" timeZone="true" clientTimeZone="local">
+							<p:ajax event="eventSelect" listener="#{schedBean.onEventSelect}" update="eventDescId" oncomplete="PF('eventDlg').show();" />
+						</p:schedule>
+					</p:scrollPanel>
+				</p:sidebar>
+				<p:overlayPanel widgetVar="eventDlg" my="top right">
+						<p:outputLabel id="eventDescId" value="#{schedBean.event.title}" />
+				</p:overlayPanel>
+
+				<p:commandButton id="idMenuFilter" onclick="PF('sideBarSearch').show();PF('sideBarDueDate').hide();" update="cId"  actionListener="#{clientBean.clientLoadTrans}" icon="fa fa-list-alt" style="#{skin.searchButton}" title="Click this button to view Client Transactions" />
+				<p:sidebar widgetVar="sideBarSearch" fullScreen="false" style="width: 60em; background: linear-gradient(#0789b2, #086583, #044357);" position="left">
+				
+					<p:toolbar id="tb" style="#{skin.toolbar}">
+				    		<f:facet name="left">
+				        		
+								<p:selectOneMenu value="#{clientBean.transactTypeId2}" style="width: 16em" filter="true" filterMatchMode="contains">
+									<f:selectItem itemLabel="Please select..."/>
+									<f:selectItems value="#{clientBean.transactTypeList2}"/>
+								</p:selectOneMenu>
+							
+				        	</f:facet>
+				    		<f:facet name="right">
+				    			<p:selectBooleanButton id="value1" value="#{clientBean.summaryOnly}" onLabel="Detailed Only" 
+				    			offLabel="Summary Only" onIcon="ui-icon-check" offIcon="ui-icon-close" >
+				    				<p:ajax event="change" update="cId idTotal" listener="#{clientBean.clientLoadTransSummary}" />
+				    			</p:selectBooleanButton>
+				    			<p:selectBooleanButton id="value2" value="#{clientBean.paidOnly}" onLabel="UnPaid Only" 
+				    			offLabel="Paid Only" onIcon="ui-icon-check" offIcon="ui-icon-close" >
+				    				<p:ajax event="change" update="cId idTotal" listener="#{clientBean.clientLoadTrans}" />
+				    			</p:selectBooleanButton>
+				    			
+				    			<p:inputText value="#{clientBean.searchClientParam}" a:placeholder="Search..." >
+                         			<p:ajax event="keyup" listener="#{clientBean.clientLoadTrans}" update="cId idTotal"/>
+					            </p:inputText>
+					            <p:calendar value="#{clientBean.calendarFrom}" pattern="yyyy-MM-dd" effect="slideDown"/>
+					            <p:calendar value="#{clientBean.calendarTo}" pattern="yyyy-MM-dd" effect="slideDown"/>  
+								&nbsp;
+								<p:commandButton icon="fa fa-search" update="cId idTotal" actionListener="#{clientBean.clientLoadTrans}" />							
+							</f:facet>
+					</p:toolbar>
+					<h2><p:outputLabel id="idTotal" value="#{clientBean.totalNowTransactions}" /></h2>
+					<p:scrollPanel style="width:58em;height:500px" mode="native">
+					<p:dataTable id="cId" value="#{clientBean.clientTrans}" var="cd" 
+							rows="10" paginator="true" paginatorTemplate="{Exporters} {CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15,20,50,100,200,300,400,500,1000" paginatorPosition="top"
+                       scrollable="true" style="#{skin.table}" 
+                         >
+                         
+                         	<f:facet name="{Exporters}">
+							 	<h:commandLink title="Report in pdf format">
+                						    <p:graphicImage name="img/pdf.jpg" width="24" height="24"/>
+                						    <p:dataExporter type="pdf" target="cId" fileName="clientLoansDetails" encoding="UTF-8"/>
+            					</h:commandLink>
+            					<h:commandLink title="Export in excel format">
+                						    <p:graphicImage name="img/xls.jpg" width="24" height="24"/>
+                							<p:dataExporter type="xls" target="cId" fileName="clientLoansDetails" encoding="UTF-8"/>
+            						</h:commandLink>
+							 </f:facet>
+                         
+                          <p:column headerText="Date" width="70" exportable="true">
+            						<p:outputLabel value="#{cd.transDate}" />
+            			 </p:column>
+            			 
+            			 <p:column headerText="Type" width="70" exportable="true">
+            						<p:outputLabel value="#{cd.transtype}" />
+            			 </p:column>
+            			 
+            			 <p:column headerText="Name" width="100" exportable="true">
+            						<p:outputLabel value="#{cd.clientProfile.fullName}" />
+            			 </p:column>
+            			 
+            			 <p:column headerText="Description" width="100" exportable="true">
+            						<p:outputLabel value="#{cd.description}" />
+            			 </p:column>
+            			 
+            			 <p:column headerText="Paid" width="70" exportable="true">
+            						<p:outputLabel value="#{cd.paidDate}" />
+            			 </p:column>
+            			 
+            			 <p:column headerText="Due" width="70" exportable="true">
+            						<p:outputLabel value="#{cd.dueDate}" />
+            			 </p:column>
+            			 
+            			 <p:column headerText="Amount" width="70" exportable="true">
+            						<p:outputLabel value="#{cd.transamount}" />
+            			 </p:column>
+            			 
+            			 <p:column headerText="Date Time" width="70" exportable="true">
+            						<p:outputLabel value="#{cd.timeStamp}" />
+            			 </p:column>
+            			 
+                         
+                     </p:dataTable>    
+					</p:scrollPanel>
+				</p:sidebar>
+
+<ui:include src="loader.xhtml" />
+<ui:include src="footer.xhtml" />
+</h:form>
+<br/><br/><br/><br/>
+
+
+</h:body>
+</html>

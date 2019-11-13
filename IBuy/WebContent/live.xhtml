@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui = "http://java.sun.com/jsf/facelets"
+  xmlns:h = "http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+xmlns:p="http://primefaces.org/ui"
+xmlns:a="http://xmlns.jcp.org/jsf/passthrough"  
+  >
+<h:head>
+<link rel="shortcut icon" type="image/ico" href="#{request.contextPath}/resources/img/favicon.ico" />
+<f:facet name="first">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>Live View</title>
+	</f:facet>
+	
+	<f:facet name="middle">
+            <h:outputStylesheet name="bootstrap/css/bootstrap.min.css"/>
+            <h:outputStylesheet name="css/pageHeaderFooter.css"/>
+            <h:outputScript name="jquery/jquery.min.js" target="head"/>
+            <h:outputScript name="bootstrap/js/bootstrap.js" target="head"/>
+            
+            
+    </f:facet>
+        
+    <f:facet name="last">
+ 		<h:outputStylesheet name="css/font-awesome.css" />
+    </f:facet>
+    <title>Live View</title>
+
+<style>
+<!-- 
+
+.ui-growl{
+	top: 100px;
+	right: 500px; important!;
+}
+
+.ui-container{
+	top: 100px;
+	right: 500px; important!;
+}
+
+ -->
+ </style>
+ 
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>Live View</title>
+
+</h:head>
+
+<h:body>
+
+
+<h:form prependId="false" id="formId">
+		
+		<p:growl id="msg" showDetail="true" life="1000"/>
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" style="#{skin.msg}">
+       	<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+       	<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    	</p:confirmDialog>
+    	
+    	<div class="page-header">
+	 		<a><p:outputLabel value="Live View" style="#{skin.pageTitle};"/></a>
+	    </div>
+    	
+    	<p:layout fullPage="true" stateful="false">
+		
+		<p:layoutUnit position="north" size="50" visible="false"/>
+		<p:layoutUnit position="south" size="0" visible="false"/>
+		<p:layoutUnit position="east" size="0" visible="false"/>
+		<p:layoutUnit position="west" size="400" visible="false"/>
+		
+		<p:layoutUnit position="center">
+			
+			<p:toolbar id="tbCctv">
+    		<f:facet name="left">
+		       
+    		</f:facet>
+    		<f:facet name="right">
+    		<p:commandButton type="button" value="Restart Camera" onclick="setupCCTV();" style="width: 15em;"/>
+			<p:commandButton  value="Close" icon="ui-icon-closethick"  style="width: 10em;" onclick="PF('cctvCamera').hide();"/>
+    		</f:facet>
+		</p:toolbar>
+		
+		<p:panelGrid columns="1" layout="grid">
+		
+		<h:panelGrid columns="1" cellpadding="5">
+			<p:photoCam id="cctvId" 
+			widgetVar="cctv"  
+			jpegQuality="100" width="550" height="550" photoWidth="600" photoHeight="600"/>
+		</h:panelGrid>
+		 
+		 <h:outputScript>
+		 
+		 function setupCCTV() {
+			Webcam.attach( '#cctvId' );
+		}
+		 
+		 </h:outputScript>            
+		
+		</p:panelGrid>
+		
+		</p:layoutUnit>
+		
+		</p:layout>
+
+<ui:include src="loader.xhtml" />
+<ui:include src="footer.xhtml" />
+</h:form>
+<br/><br/><br/><br/>
+
+</h:body>
+</html>

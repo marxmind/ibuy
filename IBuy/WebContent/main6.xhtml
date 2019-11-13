@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui = "http://java.sun.com/jsf/facelets"
+  xmlns:h = "http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+xmlns:p="http://primefaces.org/ui"
+xmlns:my="http://java.sun.com/jsf/composite/my"  
+  >
+ <f:view contentType="text/html"> 
+<h:head>
+<link rel="shortcut icon" type="image/x-icon" href="#{resource['favicon.ico']}" />
+<f:facet name="first">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>Main</title>
+	</f:facet>
+	
+	<f:facet name="middle">
+			<h:outputStylesheet name="sb-admin/bootstrap/css/bootstrap.min.css"/>
+            <h:outputStylesheet name="sb-admin/font-awesome/css/all.min.css" />
+            <h:outputStylesheet name="sb-admin/css/sb-admin.min.css"/>
+            <h:outputStylesheet name="sb-admin/css/bg-sidebar.min.css"/>
+            <h:outputStylesheet name="css/font-awesome.min.css" />
+            
+     </f:facet>
+     <f:facet name="last">       
+            <h:outputScript name="jquery/jquery.min.js" target="head"/>
+            <h:outputScript name="bootstrap/js/bootstrap.min.js"/>
+            <h:outputScript name="sb-admin/bootstrap/js/bootstrap.bundle.min.js"/>
+            <h:outputScript name="sb-admin/jquery-easing/jquery.easing.min.js"/>
+            <h:outputScript name="sb-admin/js/sb-admin.min.js"/>
+    </f:facet>
+        
+    <title>Main</title>
+
+<style>
+<!-- 
+
+.ui-growl{
+	top: 100px;
+	right: 500px; important!;
+	z-index: 1500; important!;
+}
+
+.ui-container{
+	top: 100px;
+	right: 500px; important!;
+}
+    
+    -->
+ </style>
+ 
+<title>Main</title>
+
+</h:head>
+
+<h:body id="page-top">
+<h:form prependId="false" id="formId">
+
+<p:growl id="msg" life="8000" showDetail="true" />
+ <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" style="#{skin.msg}">
+       	<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+       	<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+ </p:confirmDialog>	
+ 
+ 
+ <nav class="navbar navbar-expand navbar-intel bg-intel static-top">
+
+      <a class="navbar-brand mr-1" href="main.xhtml">IBUY Avalon</a>
+
+      <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+        <i class="fas fa-bars"></i>
+      </button>
+      
+      <div class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+        	  <div class="input-group">
+	               <p:inputText id="searchId" value="#{main6Bean.searchString}" placeholder="Search..." styleClass="js-tilt">
+	               			<p:ajax event="keyup" listener="#{main6Bean.init}" delay="800" update="cusId idContent"/>
+	    			</p:inputText>
+	    			<div class="input-group-append js-tilt">
+		            <button class="btn btn-primary" type="button">
+		              <i class="fas fa-search"></i>
+		            </button>
+	          		</div>
+	          </div>
+     </div>
+
+      
+      <ui:include src="menutop.xhtml" />
+		
+	 	
+    </nav>
+    
+     
+      
+    <div id="wrapper">
+		 
+      <ui:include src="sidebarmenu.xhtml" />
+
+      <div id="content-wrapper">        
+		  <div class="container-fluid">
+		  
+		  <div id="dashboardId" style="display: block"> 
+		  <!-- Icon Cards-->
+          
+          <div class="row">
+          	
+          	<div class="col-xl-3 col-sm-6 mb-3 js-tilt">
+              <div class="card text-white bg-primary o-hidden h-100">
+	                <div class="card-body">	
+	                <p:commandLink  onclick="PF('dlgCorn').show()" update="idCorn" title="Click to Zoom the graph" >	
+	                  <div class="card-body-icon">
+	                    <i class="fas fa-fw fa-user-circle"></i>
+	                  </div>
+	                  	<div class="mr-5" style="color: white">Purchased Corn Today</div>
+	                 </p:commandLink> 	
+	                </div>
+              </div>
+            </div>
+          	<p:dialog closeOnEscape="true" widgetVar="dlgCorn" position="center center" responsive="true" showEffect="clip" hideEffect="clip" modal="false" header="Purchased Corn Today" resizable="false">
+            	<p:pieChart id="idCorn" model="#{chartJsView.pieModel}" style="width: 800px; height: 500px;"/>
+            </p:dialog>
+          	
+          	
+          	<div class="col-xl-3 col-sm-6 mb-3 js-tilt">
+              <div class="card text-white bg-warning o-hidden h-100">
+	                <div class="card-body">
+	                <p:commandLink  onclick="PF('dlgMonth').show()" update="idCornMonth" title="Click to Zoom the graph" >	
+	                  <div class="card-body-icon">
+	                    <i class="fas fa-fw fa-list"></i>
+	                  </div>
+	                  	<div class="mr-5" style="color: white">Corn Monthly Information</div>
+	                 </p:commandLink> 	
+	                </div>
+              </div>
+            </div>
+            <p:dialog closeOnEscape="true" widgetVar="dlgMonth" position="center center" responsive="true" showEffect="clip" hideEffect="clip" modal="false" header="Corn Monthly Information" resizable="false">
+            	<p:barChart id="idCornMonth" model="#{chartJsView.barModel2}" style="width: 800px; height: 500px;"/>
+            </p:dialog>
+          	
+          	
+          	<div class="col-xl-3 col-sm-6 mb-3 js-tilt">
+              <div class="card text-white bg-success o-hidden h-100">
+	                <div class="card-body">
+	                <p:commandLink  onclick="PF('dlgExp').show()" update="idExp" title="Click to Zoom the graph" >	
+	                  <div class="card-body-icon">
+	                    <i class="fas fa-fw fa-shopping-cart"></i>
+	                  </div>
+	                  	<div class="mr-5" style="color: white">Monthly Expenses</div>
+	                 </p:commandLink> 	
+	                </div>
+              </div>
+            </div>
+          </div>
+          <p:dialog closeOnEscape="true" widgetVar="dlgExp" position="center center" responsive="true" showEffect="clip" hideEffect="clip" modal="false" header="Monthly Expenses" resizable="false">
+            	<p:lineChart id="idExp" model="#{chartJsView.lineModel}" style="width: 800px; height: 500px;"/>
+            </p:dialog>
+		      
+		  </div><!-- End dashboard -->
+		  
+		  <div id="customerNameId" style="display: block"> 
+		  	
+		  	<p:dataGrid id="cusId" var="rpt" value="#{main6Bean.clientList}" styleClass="citizenBox"
+			rows="4" columns="4" paginator="true" layout="grid"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			paginatorPosition="top" paginatorAlwaysVisible="false" emptyMessage="BUY N SELL"
+			>
+			
+			<p:column>
+			
+			
+				<div class="profileCard citizenBox">
+				  <p:graphicImage name="images/#{rpt.picturePath}.jpg" rendered="#{not empty rpt.picturePath}" style="#{skin.homeDirImgaes}"/>
+				  <div class="topleftProfileName"><p:outputLabel value="#{rpt.fullName}"/></div>
+				  	 
+				  <p style="color: white;font-size: 12px;">#{rpt.address}</p>
+				  	
+					<div class="overlayInfo">
+				    	<div class="textInfo">
+						  	<p:commandButton styleClass="pbutton js-tilt" value="Transactions" actionListener="#{main6Bean.loadDatails(rpt)}" update="idContent" icon="fa fa-user"/>
+						    <p:button styleClass="pbutton js-tilt" outcome="client6" value="Update" icon="fa fa-pencil-square-o">
+								<f:param name="editProfile" value="#{rpt.fullName}"/>
+							</p:button>  	
+				    	</div>
+				  </div>
+				  
+				   
+				</div>
+				
+                
+            </p:column>
+            
+         	</p:dataGrid>
+		  	
+		  </div><!-- Customer end -->
+		  
+		  <div id="customerNoteId" style="display: block"> 
+		  <p:textEditor id="idContent" styleClass="citizenBox" toolbarVisible="false" widgetVar="msgComposeText" value="#{main6Bean.notes}" readonly="true"/>
+		   </div>
+		   
+		</div><!-- Fluid end -->
+	</div><!-- End content wrapper -->
+	
+	<!-- Sticky Footer -->
+        <footer class="sticky-footer citizenBox">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright 2019</span>
+            </div>
+          </div>
+        </footer>
+	
+	</div><!-- wrapper -->	   
+	
+	<!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+ 		
+ 	<script>
+	
+ 	
+ 	
+	 function addNew(){
+		 callTop();
+		 showDetails();
+		 showButton();
+		 hideOnlyPdf();
+	 }
+	 
+	 $(".input-group").click(function(){
+		 callTop();
+		 hideDashboard();
+	 });
+	 
+	 function hideDashboard(){
+	 		$("#dashboardId").hide(1000);
+	 }
+	 function showDashboard(){
+	 		$("#dashboardId").show(1000);
+	 }
+	 function hideCustomer(){
+	 		$("#customerNameId").hide(1000);
+	 }
+	 function showCustomer(){
+	 		$("#customerNameId").show(1000);
+	 }
+	 function hideNote(){
+	 		$("#customerNoteId").hide(1000);
+	 }
+	 function showNote(){
+	 		$("#customerNoteId").show(1000);
+	 }	
+	 
+	 
+	 function hideButton(){
+		 $('#clearButtonId').fadeOut();
+	     $('#saveButtonId').fadeOut();
+	     $('#hideButtonId').fadeOut();
+	 }
+	 
+	 function showButton(){
+		 $('#clearButtonId').fadeIn();
+	     $('#saveButtonId').fadeIn();
+	     $('#hideButtonId').fadeIn();
+	 }
+	 
+	 function callTop(){ 
+		        $('html').animate({ scrollTop: 0 }, 'slow'); return true; 
+			    $('body').animate({ scrollTop: 0 }, 'slow'); return true; 
+			    $('document').animate({ scrollTop: 0 }, 'slow'); return true; 
+			    $('window').animate({ scrollTop: 0 }, 'slow'); return true;
+	 }
+	 
+	//hiding wizard when scrolling down
+	  $(document).on('scroll',function() {
+	    var scrollDistance = $(this).scrollTop();
+	    if (scrollDistance > 120) {
+	    	hideButton();
+	    } else {
+	    	$('#addButtonId').fadeIn();
+	    	
+	    	if($('#panelHide').css('display') == 'none'){
+	    		hideButton();
+	    	}else{
+	    		showButton();
+	    	}
+	    	
+	    }
+	  });
+	 
+	</script>
+ 
+ 
+ 	
+ <ui:include src="loader.xhtml" />
+</h:form>
+</h:body>
+</f:view>
+</html>   

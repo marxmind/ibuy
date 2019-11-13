@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui = "http://java.sun.com/jsf/facelets"
+  xmlns:h = "http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+xmlns:p="http://primefaces.org/ui"
+xmlns:a="http://xmlns.jcp.org/jsf/passthrough"  
+  >
+<h:head>
+<link rel="shortcut icon" type="image/ico" href="#{request.contextPath}/resources/img/favicon.ico" />
+<f:facet name="first">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>Purchasing Corns</title>
+	</f:facet>
+	
+	<f:facet name="middle">
+            <h:outputStylesheet name="bootstrap/css/bootstrap.min.css"/>
+            <h:outputStylesheet name="css/pageHeaderFooter.css"/>
+            <h:outputScript name="jquery/jquery.min.js" target="head"/>
+            <h:outputScript name="bootstrap/js/bootstrap.min.js" target="head"/>
+            
+    </f:facet>
+        
+    <f:facet name="last">
+ 		<h:outputStylesheet name="css/font-awesome.css" />
+    </f:facet>
+    <title>Purchasing Corns - IBuy</title>
+
+<style>
+<!-- 
+
+
+.ui-growl{
+	top: 100px;
+	right: 500px; important!;
+}
+
+.ui-container{
+	top: 100px;
+	right: 500px; important!;
+}
+
+ -->
+ </style>
+ 
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>Purchasing Corn</title>
+
+</h:head>
+
+<h:body>
+	
+<h:form prependId="false" id="formId">
+		
+		<p:growl id="msg" showDetail="true" life="1000"/>
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" style="#{skin.msg}">
+       	<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+       	<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    	</p:confirmDialog>
+    	
+    	<div class="page-header">
+	 		<a><p:outputLabel value="Purchasing Corns" style="#{skin.pageTitle};"/></a>
+	    </div>
+    	
+    	<p:layout fullPage="true" stateful="false">
+		
+		<p:layoutUnit position="east" size="500" visible="true">
+			
+			<p:dataTable id="dataid2" value="#{whiteBean.summary}" var="rpt" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15,20,50,100"
+                         scrollable="true" style="#{skin.table}" paginatorPosition="top"
+                         >
+							
+							<f:facet name="header">
+								
+									<p:outputLabel value="WCP: Php#{whiteBean.cornPriceWhite}" style="font-weight: bold;"/>
+									&nbsp;	
+									<p:outputLabel value="YCP: Php#{whiteBean.cornPriceYellow}" style="font-weight: bold;"/>
+									&nbsp;
+									<p:outputLabel value="Total WYP: Php#{whiteBean.totalWYCorn}" style="font-weight: bold;"/>
+									
+							</f:facet>
+							
+            				<p:column headerText="Types" width="100">
+            					<p:outputLabel  value="#{rpt.conditions}"/>
+            				</p:column>
+            				
+            				<p:column headerText="KILO" width="70">
+            					<p:outputLabel  value="#{rpt.kilo}" />
+            				</p:column>
+            				
+            				<p:column headerText="TOTAL AMOUNT" width="70">
+            					<p:outputLabel value="Php#{rpt.totalAmount}" />
+            				</p:column>
+            				
+            				<p:column headerText="NET PRICE" width="120">
+            					<p:outputLabel  value="Php#{rpt.netPrice}"/>
+            				</p:column>
+            				
+							</p:dataTable>
+			
+		</p:layoutUnit>
+		
+		<p:layoutUnit position="west" size="0" visible="false">
+			
+		</p:layoutUnit>
+		
+		<p:layoutUnit position="north" size="0" visible="false">
+			
+		</p:layoutUnit>
+		
+		<p:layoutUnit position="south" size="0">
+			
+		</p:layoutUnit>
+		
+		<p:layoutUnit position="center">
+		
+			<p:dataTable id="dataid1" value="#{whiteBean.purchCorn}" var="rpt" rows="10" paginator="true" paginatorTemplate="{Exporters} {CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15,20,50,100"
+                         scrollable="true" style="#{skin.table}" paginatorPosition="top"
+                         >
+							 
+							 <f:facet name="{Exporters}">
+							 	<h:commandLink title="Report in pdf format" target="_blank" actionListener="#{whiteBean.printReport}">
+                						    <p:graphicImage name="img/pdf.jpg" width="24" height="24"/>
+            					</h:commandLink>
+            					<h:commandLink title="Export in excel format">
+                						    <p:graphicImage name="img/xls.jpg" width="24" height="24"/>
+                							<p:dataExporter type="xls" target="dataid1" fileName="DetailCorns"/>
+            						</h:commandLink>
+							 </f:facet>
+							 
+							<p:column headerText="[*]" width="50" exportable="false">
+            					<p:commandButton update="dataid1 dataid2 msg" icon="fa fa-trash"  actionListener="#{whiteBean.deleteRow(rpt)}">
+            						<p:confirm header="Confirmation" message="Are you sure you want to delete this data?" icon="ui-icon-alert" />
+            					</p:commandButton>
+            				</p:column>
+							
+							<p:column headerText="View" width="40" exportable="false">
+            					<p:commandButton icon="fa fa-search" update=":formId:idCorns" actionListener="#{whiteBean.clickItem(rpt)}" oncomplete="PF('addDialog').show()"/>
+            				</p:column>
+							
+							<p:column headerText="CUSTOMER NAME" width="120">
+            						<p:outputLabel value="#{rpt.clientProfile.fullName}"/>
+            				</p:column>
+					
+            				<p:column headerText="DATE IN" width="100">
+            						<p:outputLabel value="#{rpt.dateIn}" />
+            				</p:column>
+            				
+            				<p:column headerText="CONDITIONS" width="100">
+            						<p:outputLabel value="#{rpt.conditions}"/>
+            				</p:column>
+            				
+            				<p:column headerText="KILO" width="80">
+            						<p:outputLabel  value="#{rpt.kilo}"/>
+            				</p:column>
+            				
+            				<p:column headerText="DISCOUNT" width="80">
+            						<p:outputLabel  value="#{rpt.discount}" />
+            				</p:column>
+            				
+            				<p:column headerText="AMOUNT" width="120">
+            						<p:outputLabel value="Php#{rpt.amount}"/>
+            				</p:column>
+            				
+            				<p:column headerText="DRIVER" width="120">
+            						<p:outputLabel value="Php#{rpt.driver}" />
+            				</p:column>		
+            				
+            				<p:column headerText="TOTAL AMOUNT" width="120">
+            						<p:outputLabel value="Php#{rpt.totalAmount}" />
+            				</p:column>
+            				
+            				<p:column headerText="TIME" width="130">
+            						<p:outputLabel value="#{rpt.timeStamp}" />
+            				</p:column>
+            				
+							</p:dataTable>
+			
+		</p:layoutUnit>
+		
+		</p:layout>
+		
+
+<p:dialog  header="Add New Corn Transaction" position="center center" showHeader="false" draggable="true" widgetVar="addDialog"  modal="false" showEffect="clip" hideEffect="clip" resizable="false" width="1000" style="background: linear-gradient(#0789b2, #086583, #044357);">
+        
+        <p:toolbar id="tbCordn">
+    		<f:facet name="left">
+        		
+    		</f:facet>
+    		<f:facet name="right">
+    				<p:commandButton value="Clear" icon="fa fa-file-o" update="idCorns" actionListener="#{whiteBean.clearFields}" />
+					<p:commandButton value="Save" icon="fa fa-floppy-o" update="dataid1 dataid2 idCorns msg" actionListener="#{whiteBean.save}" onclick="PF('addDialog').hide()">
+						<p:confirm header="Confirmation" message="Are you sure you want to save?." icon="ui-icon-alert" />
+					</p:commandButton>
+					<p:commandButton value="Close" update="idCorns dataid1 dataid2" actionListener="#{whiteBean.clearFields}" onclick="PF('addDialog').hide()"/>
+    		</f:facet>
+		</p:toolbar>
+        
+        <p:outputPanel id="dialogAdd">
+        	
+        	<p:panelGrid id="idCorns" layout="grid" columns="4" border="0" cellpadding="5" cellspacing="0" style="#{skin.grid}">
+							
+							<p:outputLabel value="Customer Name: ">
+							<p:autoComplete id="clieId" value="#{whiteBean.clientName}" placeholder="Client Name"
+								completeMethod="#{whiteBean.autoClientSuggestion}" minQueryLength="4" queryDelay="300" maxResults="5" 
+								 dropdown="true" var="cl" itemLabel="#{cl.fullName}" itemValue="#{cl}" converter="converter">
+								 <p:ajax event="itemSelect" listener="#{whiteBean.clickClient}"/>
+									<p:column>
+									<p:graphicImage name="images/#{cl.picturePath}.jpg" rendered="#{not empty cl.picturePath}" width="40" height="50"/>
+									</p:column>
+									<p:column>
+									#{cl.fullName}
+									</p:column>
+							</p:autoComplete>
+							</p:outputLabel>
+							
+							<p:outputLabel/>
+							<p:outputLabel/>
+							<p:outputLabel/>
+							
+							<p:outputLabel value="Date: ">
+								<p:inputText value="#{whiteBean.date}" readonly="true"/>
+							</p:outputLabel>
+							<p:outputLabel value="Corn Color: "> 
+								<p:selectOneMenu value="#{whiteBean.cornColor}" style="width: 15em">
+									<f:selectItems value="#{whiteBean.cornColors}"/>
+									<p:ajax event="change" update="idCorns" listener="#{whiteBean.reloadConditions}"/>
+								</p:selectOneMenu>
+							</p:outputLabel>
+							<p:outputLabel value="Condition: "> 
+								<p:selectOneMenu value="#{whiteBean.condition}" style="width: 15em">
+									<f:selectItems value="#{whiteBean.conditions}"/>
+								</p:selectOneMenu>
+							</p:outputLabel>
+							
+							<p:outputLabel value="Kilo: ">
+								<p:inputText value="#{whiteBean.kilo}" style="width: 15em"/>
+							</p:outputLabel>
+							<p:outputLabel value="Discount: ">
+								<p:inputText value="#{whiteBean.discount}" style="width: 15em"/>
+							</p:outputLabel>
+							<p:outputLabel value="Amount: ">
+								<p:inputText value="#{whiteBean.amount}" style="width: 15em">
+									<f:convertNumber maxFractionDigits="2" pattern="##,##0.00"/>
+									<f:ajax render="totalid" event="change"/>
+								</p:inputText>
+							</p:outputLabel>
+							<p:outputLabel value="Driver: ">
+								<p:inputText value="#{whiteBean.driver}" style="width: 15em">
+									<f:convertNumber maxFractionDigits="2" pattern="##,##0.00"/>
+									<f:ajax render="totalid" event="change"/>
+								</p:inputText>
+							</p:outputLabel>
+							<p:outputLabel id="tolid" value="Total: ">
+								<p:inputText id="totalid" value="#{whiteBean.totalPrice}" style="width: 15em" readonly="true">
+									<!-- <f:convertNumber type="currency"/> -->
+								</p:inputText>
+							</p:outputLabel>
+							
+							<p:outputLabel value="Deduction details">
+							<p:inputTextarea value="#{whiteBean.deductedData}" rows="5" cols="30"
+							style="background-color:white; 
+					color: black;font-style: normal; 	
+					font-family: Times New Roman; 
+					font-size: 100%;
+					font-weight: bold;" autoResize="false" scrollHeight="50"/>
+					</p:outputLabel>
+					
+					<p:outputLabel value="Kilo Details">
+					<p:inputTextarea value="#{whiteBean.kiloDetails}" rows="5" cols="30"
+							style="background-color:white; 
+					color: black;font-style: normal; 	
+					font-family: Times New Roman; 
+					font-size: 100%;
+					font-weight: bold;" autoResize="false" scrollHeight="50"/>
+					</p:outputLabel>
+					<p:outputLabel/>
+					<p:outputLabel/>
+					
+					<p:outputLabel value="Total Deducted: ">
+						<p:inputNumber value="#{whiteBean.deductedTotal}" a:placeholder="0.00">
+							<p:ajax event="change" listener="#{whiteBean.calculateNet}" update="netId"/>
+						</p:inputNumber>
+					</p:outputLabel>		
+					
+					<p:outputLabel id="netId" value="Net: ">
+						<p:inputNumber value="#{whiteBean.finalAmount}" a:placeholder="0.00" />
+					</p:outputLabel>
+							
+							
+				</p:panelGrid>
+        </p:outputPanel>
+</p:dialog>
+				
+				<p:commandButton id="createCornId" onclick="PF('addDialog').show()" icon="fa fa-file-o" style="-moz-border-radius: 100px;-webkit-border-radius: 100px;border-radius: 100px;height: 50px;width: 50px;bottom: 30px;right: 70px;float:right; position: fixed;z-index: 1500;font-size: 70% ! important;font-weight: bold ! important;  text-transform: none ! important; background: linear-gradient(#0789b2, #086583, #044357);" title="Click this button to create corn transactions" />
+				<p:commandButton id="idMenuFilter" onclick="PF('sideBarSearch').show()" icon="fa fa-search" style="#{skin.searchButton}" title="Click this button to create filters for searching" />
+				<p:sidebar widgetVar="sideBarSearch" style="#{skin.sideBar}; height: 3em;" fullScreen="false" position="top">
+				
+					<div class="ui-inputgroup">
+							<p:calendar id="tb" value="#{whiteBean.calendarFrom}" pattern="yyyy-MM-dd" effect="slideDown"/>
+	    					<p:calendar value="#{whiteBean.calendarTo}" pattern="yyyy-MM-dd" effect="slideDown"/> 
+								<p:selectOneMenu value="#{whiteBean.cornColorSearch}">
+									<f:selectItems value="#{whiteBean.cornColorsSearch}"/>
+								</p:selectOneMenu> 
+								<p:selectOneMenu value="#{whiteBean.condSearch}">
+									<f:selectItems value="#{whiteBean.conditionsSearch}"/>
+								</p:selectOneMenu> 
+								<p:selectOneMenu value="#{whiteBean.filtered}">
+									<f:selectItems value="#{whiteBean.filteredSearch}"/>
+								</p:selectOneMenu>
+								
+								<p:commandButton update="dataid1 dataid2 idCorns" icon="fa fa-search" actionListener="#{whiteBean.search}" />
+								<h:commandLink title="Report in pdf format" target="_blank" actionListener="#{whiteBean.printReport}">
+										<p:outputLabel value="Download"/>
+			                			<p:graphicImage name="img/pdf.jpg" width="24" height="24"/>
+			            	   </h:commandLink>
+			          </div>  	   
+				</p:sidebar>
+
+<ui:include src="loader.xhtml" />
+<ui:include src="footer.xhtml" />	
+</h:form>
+<br/><br/><br/><br/>
+
+</h:body>
+</html>

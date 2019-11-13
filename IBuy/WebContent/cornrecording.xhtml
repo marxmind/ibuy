@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui = "http://java.sun.com/jsf/facelets"
+  xmlns:h = "http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+xmlns:p="http://primefaces.org/ui"
+xmlns:my="http://java.sun.com/jsf/composite/my"  
+  >
+ <f:view contentType="text/html"> 
+<h:head>
+<link rel="shortcut icon" type="image/x-icon" href="#{resource['favicon.ico']}" />
+<f:facet name="first">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>Purchasing Corn</title>
+	</f:facet>
+	
+	<f:facet name="middle">
+			<h:outputStylesheet name="sb-admin/bootstrap/css/bootstrap.min.css"/>
+            <h:outputStylesheet name="sb-admin/font-awesome/css/all.min.css" />
+            <h:outputStylesheet name="sb-admin/css/sb-admin.min.css"/>
+            <h:outputStylesheet name="sb-admin/css/bg-sidebar.min.css"/>
+            <h:outputStylesheet name="css/font-awesome.min.css" />
+            
+     </f:facet>
+     <f:facet name="last">       
+            <h:outputScript name="jquery/jquery.min.js" target="head"/>
+            <h:outputScript name="bootstrap/js/bootstrap.min.js"/>
+            <h:outputScript name="sb-admin/bootstrap/js/bootstrap.bundle.min.js"/>
+            <h:outputScript name="sb-admin/jquery-easing/jquery.easing.min.js"/>
+            <h:outputScript name="sb-admin/js/sb-admin.min.js"/>
+            
+            
+    </f:facet>
+        
+    <title>Purchasing Corn</title>
+
+<style>
+<!-- 
+
+.ui-growl{
+	top: 100px;
+	right: 500px; important!;
+	z-index: 1500; important!;
+}
+
+.ui-container{
+	top: 100px;
+	right: 500px; important!;
+}
+    
+    -->
+ </style>
+ 
+<title>Purchasing Corn</title>
+
+</h:head>
+
+<h:body id="page-top">
+<h:form prependId="false" id="formId">
+
+<p:growl id="msg" life="8000" showDetail="true" />
+ <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" style="#{skin.msg}">
+       	<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+       	<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+ </p:confirmDialog>	
+ 
+ 
+ <nav class="navbar navbar-expand navbar-intel bg-intel static-top">
+
+      <a class="navbar-brand mr-1" href="main.xhtml">IBUY Avalon</a>
+
+      <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+        <i class="fas fa-bars"></i>
+      </button>
+      
+      <div class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+        	  		<div class="input-group">
+	               				<p:calendar id="tb" value="#{cornBean.calendarFrom}" pattern="yyyy-MM-dd" effect="slideDown" styleClass="js-tilt"/>
+	    						<p:calendar value="#{cornBean.calendarTo}" pattern="yyyy-MM-dd" effect="slideDown" styleClass="js-tilt"/> 
+								<p:selectOneMenu value="#{cornBean.cornColorSearch}" styleClass="js-tilt">
+									<f:selectItems value="#{cornBean.cornColorsSearch}"/>
+								</p:selectOneMenu> 
+								<p:selectOneMenu value="#{cornBean.condSearch}" styleClass="js-tilt">
+									<f:selectItems value="#{cornBean.conditionsSearch}"/>
+								</p:selectOneMenu> 
+								<p:selectOneMenu value="#{cornBean.filtered}" styleClass="js-tilt">
+									<f:selectItems value="#{cornBean.filteredSearch}"/>
+								</p:selectOneMenu>
+								<div class="input-group-append js-tilt">
+									<p:commandButton update="dataid1 dataid2 idCorns" icon="fa fa-search" actionListener="#{cornBean.search}" />
+									<p:commandLink title="Report in pdf format" actionListener="#{cornBean.printPdf}" update="formId pdfid">
+			                			<p:graphicImage name="img/pdf.jpg" width="24" height="24"/>
+			            	   		</p:commandLink>
+								</div>
+								
+								
+	          		</div>
+     </div>
+
+      
+      <ui:include src="menutop.xhtml" />
+		
+	 	
+    </nav>
+    
+     <p:tooltip for="addButtonId" position="left" >
+		<p:outputLabel value="Click this button to create new case" />
+	</p:tooltip>
+	<p:tooltip for="clearButtonId" position="left" >
+		<p:outputLabel value="Click this button to clear the inputed information" />
+	</p:tooltip>
+	<p:tooltip for="saveButtonId" position="left" >
+		<p:outputLabel value="Click this button to save the inputed information" />
+	</p:tooltip>
+	<p:tooltip for="hideButtonId" position="left" >
+		<p:outputLabel value="Click this button to close the fill up form" />
+	</p:tooltip>
+    
+    <!-- Scroll Menu button-->
+    <p:commandLink id="addButtonId" styleClass="create-new rounded" oncomplete="addNew();" actionListener="#{cornBean.clearFields}" update="idCorns">
+      <i class="fa fa-file-o"></i>
+    </p:commandLink>
+    <p:commandLink id="clearButtonId" styleClass="create-clear rounded" actionListener="#{cornBean.clearFields}" update="idCorns">
+      <i class="fa fa-eraser"></i>
+    </p:commandLink>
+    <p:commandLink id="saveButtonId" styleClass="create-save rounded" update="dataid1 dataid2 idCorns msg" actionListener="#{cornBean.save}">
+	     <p:confirm header="Confirmation" message="Are you sure you want to save?." icon="ui-icon-alert" />
+	     <i class="fa fa-floppy-o"></i>
+	</p:commandLink>
+    <p:commandLink id="hideButtonId" styleClass="create-hide rounded" onclick="hideWizard();" update="idCorns" actionListener="#{cornBean.clearFields}">
+    	<i class="fa fa-eye-slash"></i>
+    </p:commandLink>
+      
+    <div id="wrapper">
+		 
+      <ui:include src="sidebarmenu.xhtml" />
+
+      <div id="content-wrapper">        
+		  <div class="container-fluid">
+		      
+		   <div id="panelHide" style="display: none">
+		   
+				<p:panelGrid id="idCorns" columns="6" layout="grid">
+        					
+        					<p:outputLabel value="Date:"/>
+							<p:inputText value="#{cornBean.date}" readonly="true"/>
+        					
+		        			<p:outputLabel value="Customer Name:"/>
+							<p:autoComplete id="clieId" value="#{cornBean.clientName}" placeholder="Client Name"
+								completeMethod="#{cornBean.autoClientSuggestion}" minQueryLength="4" queryDelay="300" maxResults="5" 
+								 dropdown="true" var="cl" itemLabel="#{cl.fullName}" itemValue="#{cl}" converter="converter">
+								 <p:ajax event="itemSelect" listener="#{cornBean.clickClient}" update="idCorns"/>
+									<p:column>
+									<p:graphicImage name="images/#{cl.picturePath}.jpg" rendered="#{not empty cl.picturePath}" width="40" height="50"/>
+									</p:column>
+									<p:column>
+									#{cl.fullName}
+									</p:column>
+							</p:autoComplete>
+							
+							<p:outputLabel value="Corn Color:"/> 
+								<p:selectOneMenu value="#{cornBean.cornColor}">
+									<f:selectItems value="#{cornBean.cornColors}"/>
+									<p:ajax event="change" update="idCorns" listener="#{cornBean.reloadConditions}"/>
+								</p:selectOneMenu>
+							
+							<p:outputLabel value="Condition:"/> 
+								<p:selectOneMenu value="#{cornBean.condition}">
+									<f:selectItems value="#{cornBean.conditions}"/>
+								</p:selectOneMenu>
+							
+							<p:outputLabel value="Kilo:"/>
+							<p:inputText value="#{cornBean.kilo}"/>
+							
+							<p:outputLabel value="Discount:"/>
+							<p:inputText value="#{cornBean.discount}"/>
+							
+							<p:outputLabel value="Amount:"/>
+								<p:inputText value="#{cornBean.amount}">
+									<f:convertNumber maxFractionDigits="2" pattern="##,##0.00"/>
+									<f:ajax render="totalid" event="change"/>
+								</p:inputText>
+							
+							
+							<p:outputLabel value="Driver:"/>
+								<p:inputText value="#{cornBean.driver}">
+									<f:convertNumber maxFractionDigits="2" pattern="##,##0.00"/>
+									<f:ajax render="totalid" event="change"/>
+								</p:inputText>
+							
+							<p:outputLabel id="tolid" value="Total:"/>
+								<p:inputText id="totalid" value="#{cornBean.totalPrice}" readonly="true">
+								</p:inputText>
+							
+							<p:outputLabel value="Deduction details"/>
+							<p:inputTextarea value="#{cornBean.deductedData}" rows="5" cols="20"
+							style="background-color:white; 
+					color: black;font-style: normal; 	
+					font-family: Times New Roman; 
+					font-size: 100%;
+					font-weight: bold;" autoResize="false" scrollHeight="50"/>
+					
+					<p:outputLabel value="Kilo Details"/>
+					<p:inputTextarea value="#{cornBean.kiloDetails}" rows="5" cols="20"
+							style="background-color:white; 
+					color: black;font-style: normal; 	
+					font-family: Times New Roman; 
+					font-size: 100%;
+					font-weight: bold;" autoResize="false" scrollHeight="50"/>
+					
+					<p:outputLabel/>
+					<p:outputLabel/>
+					
+					<p:outputLabel value="Total Deducted:"/>
+						<p:inputNumber value="#{cornBean.deductedTotal}" placeholder="0.00">
+							<p:ajax event="change" listener="#{cornBean.calculateNet}" update="netId"/>
+						</p:inputNumber>	
+					
+					<p:outputLabel id="netId" value="Net:"/>
+					<p:inputNumber value="#{cornBean.finalAmount}" placeholder="0.00" />
+		        	
+        		</p:panelGrid>
+		   
+		   </div>
+		   
+		   <div id="paneltable" style="display: block">
+		   <p:dataTable id="dataid1" value="#{cornBean.purchCorn}" var="rpt" rows="10" paginator="true" paginatorTemplate="{Exporters} {CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15,20,50,100"
+                          style="#{skin.table}" paginatorPosition="top" 
+                         >
+							 
+							 <f:facet name="{Exporters}">
+							 	<p:commandLink title="Report in pdf format" actionListener="#{cornBean.printPdf}" update="formId pdfid">
+                						    <p:graphicImage name="img/pdf.jpg" width="24" height="24"/>
+            					</p:commandLink>
+            					<h:commandLink title="Export in excel format">
+                						    <p:graphicImage name="img/xls.jpg" width="24" height="24"/>
+                							<p:dataExporter type="xls" target="dataid1" fileName="DetailCorns"/>
+            						</h:commandLink>
+							 </f:facet>
+							 
+							<p:column headerText="[*]" width="20" exportable="false">
+            					<p:commandButton update="dataid1 dataid2 msg" icon="fa fa-trash"  actionListener="#{cornBean.deleteRow(rpt)}">
+            						<p:confirm header="Confirmation" message="Are you sure you want to delete this data?" icon="ui-icon-alert" />
+            					</p:commandButton>
+            				</p:column>
+							
+							<p:column headerText="View" width="20" exportable="false">
+            					<p:commandButton icon="fa fa-search" update=":formId:idCorns" actionListener="#{cornBean.clickItem(rpt)}" oncomplete="addNew();"/>
+            				</p:column>
+							
+							<p:column headerText="CUSTOMER NAME" width="100">
+            						<p:outputLabel value="#{rpt.clientProfile.fullName}"/>
+            				</p:column>
+					
+            				<p:column headerText="DATE IN" width="70">
+            						<p:outputLabel value="#{rpt.dateIn}" />
+            				</p:column>
+            				
+            				<p:column headerText="CONDITIONS" width="70">
+            						<p:outputLabel value="#{rpt.conditions}"/>
+            				</p:column>
+            				
+            				<p:column headerText="KILO" width="30">
+            						<p:outputLabel  value="#{rpt.kilo}"/>
+            				</p:column>
+            				
+            				<p:column headerText="DISCOUNT" width="30">
+            						<p:outputLabel  value="#{rpt.discount}" />
+            				</p:column>
+            				
+            				<p:column headerText="AMOUNT" width="70">
+            						<p:outputLabel value="Php#{rpt.amount}"/>
+            				</p:column>
+            				
+            				<p:column headerText="DRIVER" width="70">
+            						<p:outputLabel value="Php#{rpt.driver}" />
+            				</p:column>		
+            				
+            				<p:column headerText="TOTAL AMOUNT" width="70">
+            						<p:outputLabel value="Php#{rpt.totalAmount}" />
+            				</p:column>
+            				
+            				<p:column headerText="TIME" width="100">
+            						<p:outputLabel value="#{rpt.timeStamp}" />
+            				</p:column>
+            				
+							</p:dataTable>
+            				
+            				<p:dataTable id="dataid2" value="#{cornBean.summary}" var="rpt" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15,20,50,100"
+                          style="#{skin.table}" paginatorPosition="top" paginatorAlwaysVisible="false"
+                         >
+							
+							<f:facet name="header">
+								
+									<p:outputLabel value="WCP: Php#{cornBean.cornPriceWhite}" style="font-weight: bold;"/>
+									&nbsp;	
+									<p:outputLabel value="YCP: Php#{cornBean.cornPriceYellow}" style="font-weight: bold;"/>
+									&nbsp;
+									<p:outputLabel value="Total WYP: Php#{cornBean.totalWYCorn}" style="font-weight: bold;"/>
+									
+							</f:facet>
+							
+            				<p:column headerText="Types" width="100">
+            					<p:outputLabel  value="#{rpt.conditions}"/>
+            				</p:column>
+            				
+            				<p:column headerText="KILO" width="70">
+            					<p:outputLabel  value="#{rpt.kilo}" />
+            				</p:column>
+            				
+            				<p:column headerText="TOTAL AMOUNT" width="70">
+            					<p:outputLabel value="Php#{rpt.totalAmount}" />
+            				</p:column>
+            				
+            				<p:column headerText="NET PRICE" width="120">
+            					<p:outputLabel  value="Php#{rpt.netPrice}"/>
+            				</p:column>
+            				
+							</p:dataTable>
+		        </div>
+		        <div id="panelHidePdf" style="display: none">	
+		        	
+		        	<p:toolbar id="tbPdf" style="#{skin.toolbar}">
+		    		<f:facet name="left">	
+						<p:commandButton value="Close" onclick="hidePdf()"/>    
+		    		</f:facet>
+		    		<f:facet name="right"/>
+					</p:toolbar> 
+				 	<p:media id="pdfid" value="#{cornBean.tempPdfFile}" cache="false" player="pdf" width="1000" height="700">
+				 		<f:param name="id" value="#{cornBean.generateRandomIdForNotCaching()}" />
+				 	</p:media>
+		        	
+		        </div>  
+		         
+		</div><!-- Fluid end -->
+	</div><!-- End content wrapper -->
+	
+	<!-- Sticky Footer -->
+        <footer class="sticky-footer citizenBox">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright 2019</span>
+            </div>
+          </div>
+        </footer>
+	
+	</div><!-- wrapper -->	   
+	
+	<!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+ 	
+ 	<script>
+	
+ 	function hideOnlyPdf(){
+		$("#panelHidePdf").hide(1000);
+		$("#panelHide").show(1000);
+	}	
+	
+	 function hidePdf(){
+		 $("#panelHidePdf").hide(1000);
+		 $("#panelHide").hide(1000);
+		 $("#paneltable").show(1000);
+	 }
+	 
+	 function showPdf(){
+		 $("#panelHidePdf").show(1000);
+		 $("#panelHide").hide(1000);
+		 $("#paneltable").hide(1000);
+	 }
+	
+ 	
+	 function addNew(){
+		 callTop();
+		 showDetails();
+		 showButton();
+	 }
+	 
+	 function showDetails(){
+	 		$("#panelHide").show(1000);
+	 }
+	 
+	 $(".input-group").click(function(){
+		 hideWizard();
+		 callTop();
+	 });
+	 
+	 function hideWizard(){
+	 		$("#panelHide").hide(1000);
+	 		hideButton();
+	 }		
+	 
+	
+	 function hideButton(){
+		 $('#clearButtonId').fadeOut();
+	     $('#saveButtonId').fadeOut();
+	     $('#hideButtonId').fadeOut();
+	 }
+	 
+	 function showButton(){
+		 $('#clearButtonId').fadeIn();
+	     $('#saveButtonId').fadeIn();
+	     $('#hideButtonId').fadeIn();
+	 }
+	 
+	 function callTop(){ 
+		        $('html').animate({ scrollTop: 0 }, 'slow'); return true; 
+			    $('body').animate({ scrollTop: 0 }, 'slow'); return true; 
+			    $('document').animate({ scrollTop: 0 }, 'slow'); return true; 
+			    $('window').animate({ scrollTop: 0 }, 'slow'); return true;
+	 }
+	 
+	//hiding wizard when scrolling down
+	  $(document).on('scroll',function() {
+	    var scrollDistance = $(this).scrollTop();
+	    if (scrollDistance > 120) {
+	    	hideButton();
+	    } else {
+	    	$('#addButtonId').fadeIn();
+	    	
+	    	if($('#panelHide').css('display') == 'none'){
+	    		hideButton();
+	    	}else{
+	    		showButton();
+	    	}
+	    	
+	    }
+	  });
+	 
+	</script>
+ 	
+ <ui:include src="loader.xhtml" />
+</h:form>
+</h:body>
+</f:view>
+</html>   

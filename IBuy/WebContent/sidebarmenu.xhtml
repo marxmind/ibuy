@@ -1,0 +1,99 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      >
+ 
+    <ui:composition>
+    	
+    	<h:outputStylesheet>
+    		.sidebarMenu {
+			  margin: 0;
+			  padding: 0;
+			  width: 120px;
+			  background-color: transparent;
+			  position: fixed;
+			  height: 100%;
+			  overflow: auto;
+			  z-index: 0;
+			}
+    		.sidebarMenu a {
+				display: block;
+				color: black;
+				padding: 4px;
+				text-decoration: none;
+			}
+				 
+			.sidebarMenu a.active {
+				background-color: transparent;
+				color: red;
+			}
+				
+			.sidebarMenu a:hover:not(.active) {
+			  background-color: #555;
+			  color: white;
+			}
+			
+			
+    	</h:outputStylesheet>
+    	
+    	<div class="sidebar bg-intel">
+    	
+          <!-- <input type="text" placeholder="Search..." id="mySearch"/> -->
+          <br/>	
+   		<div id="myMenu" class="sidebarMenu">
+   		  
+   		  		 <p:commandLink style="color: white" styleClass="nav-link js-tilt" action="main6" ajax="false" immediate="false" onclick="showLoading()">
+   		  		 		<i class="fas fa-fw fa-folder"></i>
+   		  		 		<span>Home</span>
+   		  		  </p:commandLink>
+   		  		  <p:commandLink style="color: white" styleClass="nav-link js-tilt" action="live6" ajax="false" immediate="false" onclick="showLoading()">		
+   		  		  		<i class="fas fa-fw fa-folder"></i>
+   		  		 		<span>Live View</span>
+				  </p:commandLink>
+				  <p:commandLink style="color: white" styleClass="nav-link js-tilt" action="client6" ajax="false" immediate="false" onclick="showLoading()">		
+   		  		  		<i class="fas fa-fw fa-folder"></i>
+   		  		 		<span>Client Profile</span>
+				  </p:commandLink>
+				  <p:commandLink style="color: white" styleClass="nav-link js-tilt" action="funds6" ajax="false" immediate="false" onclick="showLoading()">		
+   		  		  		<i class="fas fa-fw fa-folder"></i>
+   		  		 		<span>Funds</span>
+				  </p:commandLink>
+				  <p:commandLink style="color: white" styleClass="nav-link js-tilt" action="cornrecording" ajax="false" immediate="false" onclick="showLoading()">		
+   		  		  		<i class="fas fa-fw fa-folder"></i>
+   		  		 		<span>Purchasing Corn</span>
+				  </p:commandLink>
+				   <p:commandLink style="color: white" styleClass="nav-link js-tilt" action="sales6" ajax="false" immediate="false" onclick="showLoading()">		
+   		  		  		<i class="fas fa-fw fa-folder"></i>
+   		  		 		<span>Sales</span>
+				  </p:commandLink>
+				  <p:commandLink style="color: white" styleClass="nav-link js-tilt" action="purchased6" ajax="false" immediate="false" onclick="showLoading()">		
+   		  		  		<i class="fas fa-fw fa-folder"></i>
+   		  		 		<span>Purchasing Item</span>
+				  </p:commandLink>
+			      <p:commandLink style="color: white" styleClass="nav-link js-tilt" action="expenses6" ajax="false" immediate="false" onclick="showLoading()">		
+   		  		  		<i class="fas fa-fw fa-folder"></i>
+   		  		 		<span>Expenses</span>
+				  </p:commandLink>
+				  <p:commandLink style="color: white" styleClass="nav-link js-tilt" action="login" ajax="false" immediate="false" actionListener="#{loginBean.logout}" onclick="showLoading()">		
+   		  		  		<i class="fas fa-user-circle fa-fw"></i>
+   		  		 		<span>Exit</span>
+				  </p:commandLink>   
+          
+      </div>
+    </div>
+    	<script>
+    		$(document).ready(function(){
+    			$('#mySearch').on('keyup',function(){
+    				var value = $(this).val().toLowerCase();
+    				$("#myMenu a").filter(function(){
+    					$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    				});
+    			});
+    		});
+    		
+    	</script>
+    </ui:composition>
+</html>

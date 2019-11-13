@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui = "http://java.sun.com/jsf/facelets"
+  xmlns:h = "http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+xmlns:p="http://primefaces.org/ui" 
+xmlns:a="http://xmlns.jcp.org/jsf/passthrough"    
+  >
+<h:head>
+<link rel="shortcut icon" type="image/ico" href="#{request.contextPath}/resources/img/favicon.ico" />
+<f:facet name="first">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>Transaction Trail</title>
+	</f:facet>
+	
+	<f:facet name="middle">
+            <h:outputStylesheet name="bootstrap/css/bootstrap.min.css"/>
+            <h:outputStylesheet name="css/pageHeaderFooter.css"/>
+            <h:outputScript name="jquery/jquery.min.js" target="head"/>
+            <h:outputScript name="bootstrap/js/bootstrap.min.js" target="head"/>
+            
+            
+    </f:facet>
+        
+    <f:facet name="last">
+ 		<h:outputStylesheet name="css/font-awesome.css" />
+    </f:facet>
+    <title>Transaction Trail</title>
+
+
+<style>
+<!-- 
+
+ -->
+ </style>
+ 
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>Transaction Trail</title>
+
+</h:head>
+
+<h:body>
+
+<h:form prependId="false" id="formId">
+		
+		<div class="page-header">
+	 		<a><p:outputLabel value="Audit Trail" style="#{skin.pageTitle};"/></a>
+	    </div>
+		
+		<p:layout fullPage="true" stateful="false">
+		
+		<p:layoutUnit position="north" size="50" visible="false"/>
+		<p:layoutUnit position="south" size="0" visible="false"/>
+		<p:layoutUnit position="east" size="0" visible="false"/>
+		<p:layoutUnit position="west" size="0" visible="false"/>
+		
+		<p:layoutUnit position="center">
+			<p:dataTable id="dataId" value="#{searchBean.searchList}" var="rpt" 
+					rows="15" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15,20,50,100"
+                         scrollable="true" style="#{skin.table}" paginatorPosition="top"
+                         >
+							
+            				<p:column headerText="#" width="20">
+            					<h:outputText  value="#{rpt.f1}" style="color: black; text-align: center"/>
+            				</p:column>
+            				
+            				<p:column headerText="Module Name" width="100">
+            					<h:outputText  value="#{rpt.f2}" style="color: black; text-align: center"/>
+            				</p:column>
+            				
+            				<p:column headerText="Name" width="150">
+            					<h:outputText  value="#{rpt.f3}" style="color: black; text-align: center"/>
+            				</p:column>
+            				
+            				<p:column headerText="Descritpion" width="200">
+            					<h:outputText  value="#{rpt.f4}" style="color: black; text-align: center"/>
+            				</p:column>
+            				
+            				<p:column headerText="Status" width="80">
+            					<h:outputText  value="#{rpt.f5}" style="color: black; text-align: center"/>
+            				</p:column>
+            				
+            				<p:column headerText="Transaction Type" width="100">
+            					<h:outputText  value="#{rpt.f6}" style="color: black; text-align: center"/>
+            				</p:column>
+            				
+            				<p:column headerText="Date" width="80">
+            					<h:outputText  value="#{rpt.f7}" style="color: black; text-align: center"/>
+            				</p:column>
+            				
+            				<p:column headerText="Amount" width="80">
+            					<h:outputText  value="#{rpt.f8}" style="color: black; text-align: center"/>
+            				</p:column>
+            				
+            				<p:column headerText="Process By" width="80">
+            					<h:outputText  value="#{rpt.f9}" style="color: black; text-align: center"/>
+            				</p:column>
+            				
+            				</p:dataTable>
+		</p:layoutUnit>
+		
+		</p:layout>
+		
+			<p:commandButton id="idMenuFilter" onclick="PF('sideBarSearch').show()" icon="fa fa-search" style="#{skin.searchButton}" title="Click this button to create filters for searching" />
+				<p:sidebar widgetVar="sideBarSearch" style="#{skin.sideBar}; height: 3em;" fullScreen="false" position="top">
+				
+					<p:toolbar id="tb" style="#{skin.toolbar}">
+				    		<f:facet name="left">
+				        		
+				        	</f:facet>
+				    		<f:facet name="right">
+				    			<p:inputText value="#{searchBean.searchString}" a:placeholder="Search..." >
+			                         <p:ajax event="keyup" listener="#{searchBean.init}" update="dataId"/>
+					            </p:inputText>
+					            <p:calendar value="#{searchBean.calendarFrom}" pattern="yyyy-MM-dd" effect="slideDown"/>
+					            <p:calendar value="#{searchBean.calendarTo}" pattern="yyyy-MM-dd" effect="slideDown"/>  
+								&nbsp;
+								<p:commandButton icon="fa fa-search" update="dataId" actionListener="#{searchBean.init}" />						
+							</f:facet>
+					</p:toolbar>
+				</p:sidebar>
+<ui:include src="loader.xhtml" />
+<ui:include src="footer.xhtml" />
+</h:form>
+<br/><br/><br/><br/>
+
+
+</h:body>
+</html>

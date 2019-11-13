@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:c="http://java.sun.com/jsf/core"
+  xmlns:ui = "http://java.sun.com/jsf/facelets"
+  xmlns:h = "http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+xmlns:p="http://primefaces.org/ui" 
+xmlns:a="http://xmlns.jcp.org/jsf/passthrough"  
+  >
+<h:head>
+<link rel="shortcut icon" type="image/ico" href="#{request.contextPath}/resources/img/favicon.ico" />
+<f:facet name="first">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>Summary</title>
+	</f:facet>
+	
+	<f:facet name="middle">
+            <h:outputStylesheet name="bootstrap/css/bootstrap.css"/>
+            <h:outputStylesheet name="css/pageHeaderFooter.css"/>
+            <h:outputScript name="jquery/jquery.min.js" target="head"/>
+            <h:outputScript name="bootstrap/js/bootstrap.js" target="head"/>
+    </f:facet>
+        
+    <f:facet name="last">
+ 		<h:outputStylesheet name="css/font-awesome.css" />
+    </f:facet>
+    <title>Summary</title>
+
+<style>
+<!-- 
+
+
+
+ -->
+ </style>
+ <!-- 
+ <h:outputScript library="js" name="classie.js"/>
+<h:outputStylesheet library="css" name="normalize.css" />
+<h:outputStylesheet library="css" name="set2.css" /> -->
+ 
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>Summary</title>
+
+</h:head>
+
+<h:body>
+	
+
+<h:form prependId="false" id="formIdMain" >
+		
+		
+		<div class="page-header">
+	 		<a><p:outputLabel value="Summary" style="#{skin.pageTitle};"/></a>
+	    </div>
+		
+		<p:layout fullPage="true" stateful="false">
+		
+		<p:layoutUnit position="north" size="50" visible="false"/>
+		<p:layoutUnit position="south" size="50" visible="false"/>
+		<p:layoutUnit position="west" size="300" visible="false"/>
+		<p:layoutUnit position="east" size="450" visible="false"/>
+		
+		<p:layoutUnit position="center">
+			
+			<p:textEditor id="sumId" value="#{homeBean.summaryInfo}" toolbarVisible="false" readonly="true"/>
+			
+		</p:layoutUnit>
+		
+		
+		</p:layout> 
+
+		<p:dialog widgetVar="dlg" style="#{skin.dialog}" responsive="true" showEffect="clip" hideEffect="clip" modal="false" header="Chart View" resizable="false">
+    		<p:outputPanel id="outputId" layout="block"/>
+		</p:dialog>
+
+				<p:commandButton id="idMenuFilter" onclick="PF('sideBarSearch').show()" icon="fa fa-search" style="#{skin.searchButton}" title="Click this button to create filters for searching" />
+				<p:sidebar widgetVar="sideBarSearch" style="#{skin.sideBar}; height: 3em;" fullScreen="false" position="top">
+				
+				<div class="ui-inputgroup">
+							<p:calendar id="tb" value="#{homeBean.calendarFrom}" pattern="yyyy-MM-dd" effect="slideDown"/>
+					    	<p:calendar value="#{homeBean.calendarTo}" pattern="yyyy-MM-dd" effect="slideDown"/>
+							
+							<p:selectOneMenu value="#{homeBean.sumdetailed}">
+									<f:selectItems value="#{homeBean.sumdetailedList}"/>
+							</p:selectOneMenu>
+							
+							<p:commandButton icon="fa fa-search" update="sumId" actionListener="#{homeBean.runSearch}" />
+    						
+	    					<h:commandLink title="Report in pdf format" target="_blank" actionListener="#{homeBean.printRpt}">
+							<p:outputLabel value="Download Report"/>
+	                						    <p:graphicImage name="img/pdf.jpg" width="24" height="24"/>
+	            			</h:commandLink>
+	            </div>			
+				</p:sidebar>
+
+	<h:outputScript>
+
+	function exportChart(widgetName) {
+	    //export image
+	    $('#outputId').empty().append(PF(widgetName).exportAsImage());
+	 
+	    //show the dialog
+	    PF('dlg').show();
+	}
+
+</h:outputScript>
+
+<ui:include src="loader.xhtml" />
+<ui:include src="footer.xhtml" />
+</h:form>
+
+
+<br/><br/><br/><br/>
+
+<!-- </div> -->
+		
+</h:body>
+</html>

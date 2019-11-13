@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui = "http://java.sun.com/jsf/facelets"
+  xmlns:h = "http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+xmlns:p="http://primefaces.org/ui"
+xmlns:a="http://xmlns.jcp.org/jsf/passthrough"  
+  >
+<h:head>
+<link rel="shortcut icon" type="image/ico" href="#{request.contextPath}/resources/img/favicon.ico" />
+<f:facet name="first">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>Attendances</title>
+	</f:facet>
+	
+	<f:facet name="middle">
+            <h:outputStylesheet name="bootstrap/css/bootstrap.min.css"/>
+            <h:outputStylesheet name="css/pageHeaderFooter.css"/>
+            <h:outputScript name="jquery/jquery.min.js" target="head"/>
+            <h:outputScript name="bootstrap/js/bootstrap.min.js" target="head"/>
+            
+            
+    </f:facet>
+        
+    <f:facet name="last">
+ 		<h:outputStylesheet name="css/font-awesome.css" />
+    </f:facet>
+    <title>Attendances</title>
+
+<style>
+<!-- 
+
+.ui-growl{
+	top: 100px;
+	right: 500px; important!;
+}
+
+.ui-container{
+	top: 100px;
+	right: 500px; important!;
+}
+
+ -->
+ </style>
+ 
+ 
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>Attendances</title>
+
+</h:head>
+
+<h:body>
+
+<h:form prependId="false" id="formId">
+		
+		<p:growl id="msg" showDetail="true" life="1000"/>
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" style="#{skin.msg}">
+       	<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+       	<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    	</p:confirmDialog>
+    	
+    	<div class="page-header">
+	 		<a><p:outputLabel value="Attendances" style="#{skin.pageTitle};"/></a>
+	    </div>
+    	
+    	<p:layout fullPage="true" stateful="false">
+		
+		<p:layoutUnit position="north" size="50" visible="false"/>
+		
+		<p:layoutUnit position="south" size="0" visible="false"/>
+		<p:layoutUnit position="east" size="0" visible="false"/>
+		<p:layoutUnit position="west" size="0" visible="false"/>
+		
+		<p:layoutUnit position="center">
+		
+					<p:toolbar id="tbDocs">
+            				<f:facet name="left">
+            					
+            					<p:fileUpload fileUploadListener="#{attendBean.uploadData}"
+					                    			mode="advanced" auto="true" sizeLimit="50000000" label="Upload Data"
+					                    			update="msg attListId" dragDropSupport="true" style="#{skin.button}"
+					                    			allowTypes="/(\.|\/)(xls|xlsx|XLS|XLSX|txt|TXT)$/" />
+            					<p:inputText value="#{attendBean.searchName}" style="#{skin.textInput}" a:placeholder="Search..." >
+									<p:ajax event="keyup" listener="#{attendBean.init}" update="attListId" />
+								</p:inputText>
+            				</f:facet>
+            				<f:facet name="right">
+            						<p:commandButton  value="Reload" icon="fa fa-file-o" update="attListId" actionListener="#{payBean.init}"/>
+            						<p:commandButton value="Save" icon="fa fa-floppy-o" update="attListId msg" actionListener="#{attendBean.updateEmployeeTime}">
+										<p:confirm header="Confirmation" message="Are you sure you want to save?." icon="ui-icon-alert" />
+									</p:commandButton>
+									<p:commandButton value="Recalculate and Save" icon="fa fa-floppy-o" update="attListId msg" actionListener="#{attendBean.calculateTimeSheetAndSave}">
+										<p:confirm header="Confirmation" message="Are you sure you want to save?." icon="ui-icon-alert" />
+									</p:commandButton>	
+            				</f:facet>
+            			</p:toolbar>
+		
+			
+			<p:dataTable id="attListId" value="#{attendBean.attendances}" var="att" rows="50" paginator="true" paginatorTemplate="{Exporters} {CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="50,100"
+                         scrollable="true" style="#{skin.table}" paginatorPosition="top" editable="true" editMode="row" 
+                         selection="#{attendBean.timeSelected}" rowKey="#{att.index}" 
+                         >
+                         	 
+                         	<p:ajax event="cellEdit"  listener="#{attendBean.onCellEdit}" update="attListId" /> 
+                         	<p:column selectionMode="multiple" width="70" headerText="Update" style="width:16px;text-align:center" exportable="false" />
+                         	 
+                         	<p:column headerText="Options"  width="70">
+								<p:rowEditor/>
+							</p:column> 
+                         	 	
+            				<p:column headerText="Name" width="100">
+            						<p:outputLabel value="#{att.name}"/>
+            				</p:column>
+            				
+            				<p:column headerText="Date" width="70">
+            						<p:outputLabel value="#{att.dateWork}"/>
+            				</p:column>
+            				
+            				<p:column headerText="AM In" width="70">
+            						<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{att.timeInAM}" />
+										</f:facet>
+										<f:facet name="input">
+											<h:inputText value="#{att.timeInAM}"/>
+										</f:facet>
+									</p:cellEditor>
+            				</p:column>
+            				
+            				<p:column headerText="AM Out" width="70">
+            						<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{att.timeOutAM}" />
+										</f:facet>
+										<f:facet name="input">
+											<h:inputText value="#{att.timeOutAM}"/>
+										</f:facet>
+									</p:cellEditor>
+            				</p:column>
+            				
+            				<p:column headerText="PM In" width="70">
+            						<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{att.timeInPM}" />
+										</f:facet>
+										<f:facet name="input">
+											<h:inputText value="#{att.timeInPM}"/>
+										</f:facet>
+									</p:cellEditor>
+            				</p:column>
+            				
+            				<p:column headerText="PM Out" width="70">
+            						<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{att.timeOutPM}" />
+										</f:facet>
+										<f:facet name="input">
+											<h:inputText value="#{att.timeOutPM}"/>
+										</f:facet>
+									</p:cellEditor>
+            				</p:column>
+            				
+            				<p:column headerText="Hours" width="70">
+            						<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{att.totalTime}" />
+										</f:facet>
+										<f:facet name="input">
+											<h:inputText value="#{att.totalTime}"/>
+										</f:facet>
+									</p:cellEditor>
+            				</p:column>	
+            				
+            				<p:column headerText="Amount" width="70">
+            						<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{att.totalAmount}" />
+										</f:facet>
+										<f:facet name="input">
+											<h:inputText value="#{att.totalAmount}"/>
+										</f:facet>
+									</p:cellEditor>
+            				</p:column>
+            				
+            				<p:column headerText="Remarks" width="70">
+            						<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{att.remarks}" />
+										</f:facet>
+										<f:facet name="input">
+											<h:inputText value="#{att.remarks}"/>
+										</f:facet>
+									</p:cellEditor>
+            				</p:column>
+            				
+            				
+            				
+            			</p:dataTable>
+			
+			
+			
+		
+		</p:layoutUnit>
+		
+		</p:layout>
+
+		<p:commandButton id="showEmployeeId" update="emdataId" actionListener="#{attendBean.loadEmployee}" 
+		onclick="PF('sideEmployee').show();" icon="fa fa-calendar-plus-o" 
+		style="-moz-border-radius: 100px;-webkit-border-radius: 100px;border-radius: 100px;height: 50px;width: 50px;top: 500px;right: 70px;float:right; position: fixed;z-index: 1500;font-size: 70% ! important;font-weight: bold ! important;  text-transform: none ! important; background: linear-gradient(#0789b2, #086583, #044357);" title="Employee" />
+				<p:sidebar widgetVar="sideEmployee" fullScreen="false" style="width: 20em; background: linear-gradient(#0789b2, #086583, #044357);" position="left">
+					<p:inputText value="#{attendBean.searchEmployee}" style="#{skin.textInput}" a:placeholder="Search..." >
+									<p:ajax event="keyup" listener="#{attendBean.loadEmployee}" update="emdataId" />
+								</p:inputText>
+					<p:scrollPanel style="width:18em;height:500px" mode="native">
+					
+						<p:dataTable id="emdataId" value="#{attendBean.employees}" var="em" rows="10" paginator="true" paginatorTemplate="{Exporters} {CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15,20,50,100"
+                         scrollable="true" style="#{skin.table}" paginatorPosition="top" editable="true" editMode="cell" 
+                         >
+                         	<p:ajax event="cellEdit"  listener="#{attendBean.onCellEditEmployee}" update="emdataId msg" /> 
+                         	 	
+            				<p:column headerText="Name" width="100">
+            						<p:outputLabel value="#{em.fullName}"/>
+            				</p:column>
+            				
+            				<p:column headerText="Daily Rate" width="70">
+            						<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{em.dailySalary}" />
+										</f:facet>
+										<f:facet name="input">
+											<h:inputText value="#{em.dailySalary}"/>
+										</f:facet>
+									</p:cellEditor>
+            				</p:column>
+            					
+            				
+            			</p:dataTable>
+					</p:scrollPanel>
+				</p:sidebar>	
+				
+				<p:commandButton id="showEmployeeCaId" update="emdataCaId caemId" actionListener="#{attendBean.loadCAs}" 
+		onclick="PF('sideEmployeeCa').show();" icon="fa fa-calendar-plus-o" 
+		style="-moz-border-radius: 100px;-webkit-border-radius: 100px;border-radius: 100px;height: 50px;width: 50px;top: 500px;right: 20px;float:right; position: fixed;z-index: 1500;font-size: 70% ! important;font-weight: bold ! important;  text-transform: none ! important; background: linear-gradient(#0789b2, #086583, #044357);" title="Employee CA" />
+		
+				<p:sidebar widgetVar="sideEmployeeCa" fullScreen="false" style="width: 65em; background: linear-gradient(#0789b2, #086583, #044357);" position="left">
+					
+					<p:toolbar id="tbCashAd">
+            				<f:facet name="left">
+            					<p:inputText value="#{attendBean.searchEmployeeCa}" style="#{skin.textInput}" a:placeholder="Search..." >
+									<p:ajax event="keyup" listener="#{attendBean.loadCAs}" update="emdataCaId" />
+								</p:inputText>
+            				</f:facet>
+            				<f:facet name="right">
+            					<p:selectOneMenu id="caemId" value="#{attendBean.empCaId}" filter="true" filterMatchMode="contains">
+							<f:selectItem itemLabel="Please select..."/>
+							<f:selectItems value="#{attendBean.employeeCa}"/>
+					</p:selectOneMenu>
+					<p:calendar id="calId" value="#{attendBean.dateCa}" pattern="yyyy-MM-dd" effect="slideDown"/>
+					<p:inputNumber id="amCaId"  value="#{attendBean.amountCa}"/>
+					<p:commandButton  value="Save" icon="fa fa-floppy-o" update="emdataCaId caemId calId amCaId msg" actionListener="#{attendBean.saveCA}">
+								<p:confirm header="Confirmation" message="Are you sure you want to save?." icon="ui-icon-alert" />
+							</p:commandButton>
+					<p:commandButton  value="Clear" icon="fa fa-file-o" update="emdataCaId caemId calId amCaId" actionListener="#{attendBean.clearCA}"/>
+            				</f:facet>
+            			</p:toolbar>
+					
+					
+											
+					<p:scrollPanel style="width:62em;height:500px" mode="native">
+					
+						<p:dataTable id="emdataCaId" value="#{attendBean.cashAs}" var="emc" rows="10" paginator="true" paginatorTemplate="{Exporters} {CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15,20,50,100"
+                         scrollable="true" style="#{skin.table}" paginatorPosition="top" 
+                         >
+                         	 
+                         	<p:column headerText="View" width="40" exportable="false">
+            					<p:commandButton icon="ui-icon-search" update="caemId calId amCaId" actionListener="#{attendBean.clickCA(emc)}"/>
+            				</p:column> 
+                         	 
+                         	<p:column headerText="Date" width="70">
+            						<p:outputLabel value="#{emc.cashDate}"/>
+            				</p:column> 
+                         	 	
+            				<p:column headerText="Name" width="100">
+            						<p:outputLabel value="#{emc.employees.fullName}"/>
+            				</p:column>
+            				
+            				<p:column headerText="Cash Advance" width="70">
+            						<p:outputLabel value="#{emc.amount}"/>
+            				</p:column>
+            				
+            				<p:column headerText="Payable Amount" width="70">
+            						<p:outputLabel value="#{emc.payable}"/>
+            				</p:column>
+            				
+            				
+            					
+            				
+            			</p:dataTable>
+					</p:scrollPanel>
+				</p:sidebar>	
+
+
+<p:commandButton id="showId" actionListener="#{payBean.loadCAEmployees}" update="tbPay"
+		onclick="PF('showPayroll').show();" icon="fa fa-calendar-plus-o" 
+		style="-moz-border-radius: 100px;-webkit-border-radius: 100px;border-radius: 100px;height: 50px;width: 50px;top: 500px;right: 120px;float:right; position: fixed;z-index: 1500;font-size: 70% ! important;font-weight: bold ! important;  text-transform: none ! important; background: linear-gradient(#0789b2, #086583, #044357);" title="Payroll" />
+		
+				<p:sidebar widgetVar="showPayroll" fullScreen="false" style="width: 65em; background: linear-gradient(#0789b2, #086583, #044357);" position="left">
+					
+					<p:toolbar id="tbPay">
+            				<f:facet name="left">
+            						<p:selectOneMenu value="#{payBean.empCaId}" filter="true" filterMatchMode="contains">
+										<f:selectItem itemLabel="Please select..."/>
+										<f:selectItems value="#{payBean.employeeCa}"/>
+										<p:ajax event="change" listener="#{payBean.calculatePayroll}" update="payNotesId caOnlyId"/>
+									</p:selectOneMenu>
+									<p:commandButton  value="Clear" icon="fa fa-file-o" update="tbPay payNotesId caOnlyId" actionListener="#{payBean.clearAll}"/>
+            				</f:facet>
+            				<f:facet name="right">
+            				</f:facet>
+            			</p:toolbar>
+											
+					<p:scrollPanel style="width:62em;height:500px" mode="native">
+						<p:textEditor id="payNotesId" value="#{payBean.paymentNotes}" toolbarVisible="false" readonly="true"/>
+						<br/>
+						<br/>
+						<p:outputLabel value="Payable CA Only"/><p:inputNumber id="caOnlyId" value="#{payBean.payableCA}" a:placeholder="Please provide payable CA"/>
+						<p:commandButton value="Recalculate" actionListener="#{payBean.calculatePayroll}" update="payNotesId"/>
+						<p:commandButton value="Process" icon="fa fa-floppy-o" update="payNotesId caOnlyId msg" actionListener="#{payBean.processPayroll}">
+								<p:confirm header="Confirmation" message="Are you sure you want to process the payroll?." icon="ui-icon-alert" />
+						</p:commandButton>
+						<br/>
+						<br/>
+						<br/>
+					</p:scrollPanel>
+				</p:sidebar>	
+
+<ui:include src="loader.xhtml" />
+<ui:include src="footer.xhtml" />
+</h:form>
+<br/><br/><br/><br/>
+
+</h:body>
+</html>

@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui = "http://java.sun.com/jsf/facelets"
+  xmlns:h = "http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+xmlns:p="http://primefaces.org/ui"
+xmlns:a="http://xmlns.jcp.org/jsf/passthrough"  
+  >
+<h:head>
+<link rel="shortcut icon" type="image/ico" href="#{request.contextPath}/resources/img/favicon.ico" />
+<f:facet name="first">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>EI Transactions</title>
+	</f:facet>
+	
+	<f:facet name="middle">
+            <h:outputStylesheet name="bootstrap/css/bootstrap.min.css"/>
+            <h:outputStylesheet name="css/pageHeaderFooter.css"/>
+            <h:outputScript name="jquery/jquery.min.js" target="head"/>
+            <h:outputScript name="bootstrap/js/bootstrap.min.js" target="head"/>
+            
+            
+    </f:facet>
+        
+    <f:facet name="last">
+ 		<h:outputStylesheet name="css/font-awesome.css" />
+    </f:facet>
+    <title>EI Transactions</title>
+
+<style>
+<!-- 
+
+ -->
+ </style>
+ 
+ 
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>EI Transactions</title>
+
+</h:head>
+
+<h:body>
+	
+	
+<h:form prependId="false" id="formId">
+
+		<div class="page-header">
+	 		<a><p:outputLabel value="EI Transactions" style="#{skin.pageTitle};"/></a>
+	    </div>
+
+		<p:growl id="messages" />
+		
+		<h:panelGrid id="panel1" class="centerPage1" columns="1" border="0" cellpadding="1" cellspacing="0" 
+				>
+				 
+				<f:facet name="header">
+					
+					<p:tabView dynamic="true" cache="true" id="tabOut" style="#{skin.tabs}">
+						
+						<p:tab title="CASH OUT">
+							<h:panelGrid id="idOut" columns="4" cellpadding="0" style="width: 100%;">
+							
+							<p:outputLabel value="Date: "/>
+							<p:inputText label="Date: " value="#{eiBean.dateOut}" disabled="true" styleClass="form-control"/>
+							
+							<p:outputLabel value="Status: "/>
+							<p:inputText value="#{eiBean.statusOut}" disabled="true" styleClass="form-control"/>
+							
+							<p:outputLabel value="Description: "/>
+							<p:inputTextarea value="#{eiBean.descriptionOut}" styleClass="form-control"></p:inputTextarea>
+							
+							<p:outputLabel value="Amount: "/>
+							<p:inputText value="#{eiBean.amountOut}" styleClass="form-control"></p:inputText>
+							
+							</h:panelGrid>
+							
+							<br/><br/>
+							<p:splitButton value="Action Buttons" icon="ui-icon-disk">
+								<p:menuitem value="Save" actionListener="#{eiBean.saveOut}" update="formId" icon="ui-icon-disk" />
+								<p:menuitem value="Clear" actionListener="#{eiBean.clearOut}" update="formId" icon="ui-icon-arrowrefresh-1-w" />	
+        						<!-- <p:menuitem value="Update" actionListener="#{eiBean.updateOut}" update="messages" icon="ui-icon-arrowrefresh-1-w" /> -->
+        						<!-- <p:menuitem value="Delete" actionListener="#{eiBean.deleteOut}" ajax="false" icon="ui-icon-close" /> -->
+        						<p:menuitem value="Load All" actionListener="#{eiBean.loadAllOut}" update="formId" icon="ui-icon-arrowrefresh-1-w" />
+        						<p:menuitem value="Load New" actionListener="#{eiBean.loadNewOut}" update="formId" icon="ui-icon-arrowrefresh-1-w" />
+        						<p:menuitem value="Load Paid" actionListener="#{eiBean.loadPaidOut}" update="formId" icon="ui-icon-arrowrefresh-1-w" />
+        						<p:menuitem value="Load Deleted" actionListener="#{eiBean.loadDeletedOut}" update="formId" icon="ui-icon-arrowrefresh-1-w" />
+        						
+        					<p:separator />
+        						<p:menuitem value="Homepage" url="http://localhost:8080/IBuy/faces/main.xhtml" icon="ui-icon-extlink" />
+    						</p:splitButton>
+    						
+    						<br/><br/><br/>
+    						<p:outputLabel value="Total Amount: "/>
+							<p:inputText value="Php#{eiBean.totalAmount}" disabled="true" id="idTotal" styleClass="form-control"/>
+							<br/>
+    						
+    						<h:panelGrid style="width: 100%; height:10%; text-align:left;font-weight: bold;">
+								<p:dataTable id="dataOut" value="#{eiBean.cashoutList}" var="rpt" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         			rowsPerPageTemplate="5,10,15,20,50,100"
+                         			scrollable="true" styleClass="dataDesignTable"
+                         			>
+					
+									<p:column headerText="[*]" width="50">
+            							<p:commandLink onclick="if( ! confirm('Are you sure you want to delete this data?')) return false" update="dataOut" actionListener="#{eiBean.deleteRowOut(rpt,true)}">
+            								<h:graphicImage library="img/" name="del.jpg"  style="width: 30px; height: 30px;"/>
+            							</p:commandLink>
+            						</p:column>
+            						
+            						<p:column headerText="DATE" width="150">
+            							<p:commandLink update="formId" actionListener="#{eiBean.clickItemOut(rpt)}" style="color: transparent;">	
+            								<h:outputText  value="#{rpt.dateOut}" style="color: black; text-align: center"/>
+            							</p:commandLink>	
+            						</p:column>
+            						
+            						<p:column headerText="STATUS" width="150">
+            							<p:commandLink update="formId" actionListener="#{eiBean.clickItemOut(rpt)}" style="color: transparent;">
+            								<h:outputText  value="#{rpt.status}" style="color: black; text-align: center"/>
+            							</p:commandLink>	
+            						</p:column>
+            						
+            						<p:column headerText="DESCRIPTION" width="200">
+            							<p:commandLink update="formId" actionListener="#{eiBean.clickItemOut(rpt)}" style="color: transparent;">
+            								<h:outputText  value="#{rpt.description}" style="color: black; text-align: center"/>
+            							</p:commandLink>	
+            						</p:column>
+            						
+            						<p:column headerText="AMOUNT" width="150">
+            							<p:commandLink update="formId" actionListener="#{eiBean.clickItemOut(rpt)}" style="color: transparent;">
+            								<h:outputText  value="Php#{rpt.amountOut}" style="color: black; text-align: center"/>
+            							</p:commandLink>	
+            						</p:column>
+            				
+            					</p:dataTable>
+							</h:panelGrid>
+							</p:tab>
+						
+						<p:tab title="CASH RETURN">
+						
+							<h:panelGrid id="idReturn" columns="4" cellpadding="0" style="width: 100%;">
+							
+							<p:outputLabel value="Date: "/>
+							<p:inputText label="Date: " value="#{eiBean.dateRet}" disabled="true" styleClass="form-control"/>
+							
+							<p:outputLabel value="Status: "/>
+							<p:inputText value="#{eiBean.statusRet}" disabled="true" styleClass="form-control"/>
+							
+							<p:outputLabel value="Description: "/>
+							<p:inputTextarea value="#{eiBean.descriptionRet}" styleClass="form-control"></p:inputTextarea>
+							
+							<p:outputLabel value="Amount: "/>
+							<p:inputText value="#{eiBean.amountRet}" styleClass="form-control"></p:inputText>
+							
+							</h:panelGrid>
+							
+							<br/><br/>
+							<p:splitButton value="Action Buttons" icon="ui-icon-disk">
+								<p:menuitem value="Save" actionListener="#{eiBean.saveRet}" update="formId" icon="ui-icon-disk" />
+								<p:menuitem value="Clear" actionListener="#{eiBean.clearRet}" update="formId" icon="ui-icon-arrowrefresh-1-w" />	
+        						<!-- <p:menuitem value="Update" actionListener="#{eiBean.updateRet}" update="messages" icon="ui-icon-arrowrefresh-1-w" /> -->
+        						<!-- <p:menuitem value="Delete" actionListener="#{eiBean.deleteOut}" ajax="false" icon="ui-icon-close" /> -->
+        						<p:menuitem value="Load All" actionListener="#{eiBean.loadAllRet}" update="formId" icon="ui-icon-arrowrefresh-1-w" />
+        						<p:menuitem value="Load Received" actionListener="#{eiBean.loadReceivedRet}" update="formId" icon="ui-icon-arrowrefresh-1-w" />
+        						<p:menuitem value="Load Deleted" actionListener="#{eiBean.loadDeletedRet}" update="formId" icon="ui-icon-arrowrefresh-1-w" />
+        					<p:separator />
+        						<p:menuitem value="Homepage" url="http://localhost:8080/IBuy/faces/main.xhtml" icon="ui-icon-extlink" />
+    						</p:splitButton>
+    						
+    						<br/><br/><br/>
+    						<p:outputLabel value="Total Amount: "/>
+							<p:inputText value="Php#{eiBean.totalAmountRet}" disabled="true" id="idTotalRet" styleClass="form-control"/>
+							<br/>
+    						
+    						<h:panelGrid style="width: 100%; height:10%; text-align:left;font-weight: bold;">
+								<p:dataTable id="dataRet" value="#{eiBean.cashretList}" var="rpt" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         			rowsPerPageTemplate="5,10,15,20,50,100"
+                         			scrollable="true" styleClass="dataDesignTable"
+                         			>
+					
+									<p:column headerText="[*]" width="50">
+            							<p:commandLink onclick="if( ! confirm('Are you sure you want to delete this data?')) return false" update="dataRet" actionListener="#{eiBean.deleteRowRet(rpt,true)}">
+            								<h:graphicImage library="img/" name="del.jpg"  style="width: 30px; height: 30px;"/>
+            							</p:commandLink>
+            						</p:column>
+            						
+            						<p:column headerText="DATE" width="150">
+            							<p:commandLink update="formId" actionListener="#{eiBean.clickItemRet(rpt)}" style="color: transparent;">
+            								<h:outputText  value="#{rpt.dateReturn}" style="color: black; text-align: center"/>
+            							</p:commandLink>	
+            						</p:column>
+            						
+            						<p:column headerText="STATUS" width="150">
+            							<p:commandLink update="formId" actionListener="#{eiBean.clickItemRet(rpt)}" style="color: transparent;">
+            								<h:outputText  value="#{rpt.status}" style="color: black; text-align: center"/>
+            							</p:commandLink>	
+            						</p:column>
+            						
+            						<p:column headerText="DESCRIPTION" width="200">
+            							<p:commandLink update="formId" actionListener="#{eiBean.clickItemRet(rpt)}" style="color: transparent;">
+            								<h:outputText  value="#{rpt.description}" style="color: black; text-align: center"/>
+            							</p:commandLink>	
+            						</p:column>
+            						
+            						<p:column headerText="AMOUNT" width="150">
+            							<p:commandLink update="formId" actionListener="#{eiBean.clickItemRet(rpt)}" style="color: transparent;">
+            								<h:outputText  value="Php#{rpt.amountReturn}" style="color: black; text-align: center"/>
+            							</p:commandLink>	
+            						</p:column>
+            				
+            					</p:dataTable>
+							</h:panelGrid>
+						
+						</p:tab>
+					
+						<p:tab title="CASH PAY">
+						
+							<h:panelGrid style="width: 100%; height:10%; text-align:left;font-weight: bold;">
+								<br/>
+								<p:commandButton update=":formId:dialogPay" icon="ui-icon-search" value="CALCULATE PAYMENT" oncomplete="PF('multiPayDialog').show()" />
+								<br/><br/><br/>
+								
+								<p:dataTable id="datapay1" value="#{eiBean.outListpay}" var="rpt" 
+								rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         			rowsPerPageTemplate="5,10,15,20,50,100"
+                         			scrollable="true" 
+                         			selection="#{eiBean.selectedout}" rowKey="#{rpt.idOut}" style="margin-bottom:0" styleClass="dataDesignTable"
+                         			>
+					
+									<f:facet name="header">CASH OUT</f:facet>
+									<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+									
+            						<p:column headerText="DATE" width="150">
+            							<p:commandLink update="formId" actionListener="#{eiBean.clickItemRet(rpt)}" style="color: transparent;">
+            								<h:outputText  value="#{rpt.dateOut}" style="color: black; text-align: center"/>
+            							</p:commandLink>	
+            						</p:column>
+            						
+            						<p:column headerText="DESCRIPTION" width="200">
+            							<p:commandLink update="formId" actionListener="#{eiBean.clickItemRet(rpt)}" style="color: transparent;">
+            								<h:outputText  value="#{rpt.description}" style="color: black; text-align: center"/>
+            							</p:commandLink>	
+            						</p:column>
+            						
+            						<p:column headerText="AMOUNT" width="150">
+            							<p:commandLink update="formId" actionListener="#{eiBean.clickItemRet(rpt)}" style="color: transparent;">
+            								<h:outputText  value="Php#{rpt.amountOut}" style="color: black; text-align: center"/>
+            							</p:commandLink>	
+            						</p:column>
+            						
+            						<f:facet name="footer">
+            							<p:commandButton process="datapay1" update=":formId:dialogOut" icon="ui-icon-search" value="View" oncomplete="PF('multiOutDialog').show()" />
+       								</f:facet>
+            						
+            					</p:dataTable>
+            					</h:panelGrid>
+            					
+            					<h:panelGrid style="width: 100%; height:10%; text-align:left;font-weight: bold;">
+            					<p:dataTable id="datapay2" value="#{eiBean.returnListpay}" var="rpt" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         			rowsPerPageTemplate="5,10,15,20,50,100"
+                         			scrollable="true"
+                         			selection="#{eiBean.selectedreturn}" rowKey="#{rpt.idRet}" style="margin-bottom:0" styleClass="dataDesignTable"
+                         			>
+					
+									<f:facet name="header">CASH RETURN</f:facet>
+            						<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+            						
+            						<p:column headerText="DATE" width="150">
+            							<p:commandLink update="formId" actionListener="#{eiBean.clickItemRet(rpt)}" style="color: transparent;">
+            								<h:outputText  value="#{rpt.dateReturn}" style="color: black; text-align: center"/>
+            							</p:commandLink>	
+            						</p:column>
+            						
+            						<p:column headerText="DESCRIPTION" width="200">
+            							<p:commandLink update="formId" actionListener="#{eiBean.clickItemRet(rpt)}" style="color: transparent;">
+            								<h:outputText  value="#{rpt.description}" style="color: black; text-align: center"/>
+            							</p:commandLink>	
+            						</p:column>
+            						
+            						<p:column headerText="AMOUNT" width="150">
+            							<p:commandLink update="formId" actionListener="#{eiBean.clickItemRet(rpt)}" style="color: transparent;">
+            								<h:outputText  value="Php#{rpt.amountReturn}" style="color: black; text-align: center"/>
+            							</p:commandLink>	
+            						</p:column>
+            						
+            						<f:facet name="footer">
+            							<p:commandButton process="datapay2" update=":formId:dialogRet" icon="ui-icon-search" value="View" oncomplete="PF('multiRetDialog').show()" />
+       								</f:facet>
+            						
+            					</p:dataTable>
+            					
+            					
+            					
+							</h:panelGrid>
+						
+						</p:tab>
+						
+						<p:tab title="PAYMENT HISTORY">
+						
+							<h:panelGrid style="width: 100%; height:10%; text-align:left;font-weight: bold;">
+							
+								<p:dataTable id="datahis" value="#{eiBean.hispayList}" var="rpt" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         			rowsPerPageTemplate="5,10,15,20,50,100"
+                         			scrollable="true" styleClass="dataDesignTable"
+                         			>
+					
+									
+            						<p:column headerText="DATE" width="150">
+            								<h:outputText  value="#{rpt.datePay}" style="color: black; text-align: center"/>
+            						</p:column>
+            						
+            						<p:column headerText="DESCRIPTION" width="200">
+            								<h:outputText  value="#{rpt.description}" style="color: black; text-align: center"/>
+            						</p:column>
+            						
+            						<p:column headerText="AMOUNT" width="150">
+            								<h:outputText  value="Php#{rpt.amountPay}" style="color: black; text-align: center"/>
+            						</p:column>
+            						
+            						<p:column headerText="PROCESSED BY" width="150">
+            								<h:outputText  value="#{rpt.addedBy}" style="color: black; text-align: center"/>
+            						</p:column>
+            						
+            						
+            					</p:dataTable>
+							
+							</h:panelGrid>
+							
+						</p:tab>
+						
+					</p:tabView>
+					
+				</f:facet>	
+				
+		</h:panelGrid>		
+
+	<p:dialog header="SELECTED CASH-OUT" widgetVar="multiOutDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="600">
+        <p:outputPanel id="dialogOut" style="text-align:center;">
+        
+        		<p:dataTable id="dataselectedOut" value="#{eiBean.selectedout}" var="rpt" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         			rowsPerPageTemplate="5,10,15,20,50,100"
+                         			scrollable="true" 
+                         			>
+                     				<p:column headerText="DATE" width="150">
+            							<h:outputText  value="#{rpt.dateOut}" style="color: black; text-align: center"/>
+            						</p:column>
+            						
+            						<p:column headerText="DESCRIPTION" width="200">
+            								<h:outputText  value="#{rpt.description}" style="color: black; text-align: center"/>
+            						</p:column>
+            						
+            						<p:column headerText="AMOUNT" width="150">
+            								<h:outputText  value="Php#{rpt.amountOut}" style="color: black; text-align: center"/>
+            						</p:column>    			
+                         			<f:facet name="footer">Total Amount: <h:outputText  value="Php#{eiBean.totalamountselectedOut}" style="color: black; text-align: center"/></f:facet>
+        		</p:dataTable>
+        
+            
+        </p:outputPanel>
+    </p:dialog>
+    
+    <p:dialog header="SELECTED CASH RETURN" widgetVar="multiRetDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="600">
+        <p:outputPanel id="dialogRet" style="text-align:center;">
+        
+        		<p:dataTable id="dataselectedRet" value="#{eiBean.selectedreturn}" var="rpt" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         			rowsPerPageTemplate="5,10,15,20,50,100"
+                         			scrollable="true" 
+                         			>
+                     				<p:column headerText="DATE" width="150">
+            							<h:outputText  value="#{rpt.dateReturn}" style="color: black; text-align: center"/>
+            						</p:column>
+            						
+            						<p:column headerText="DESCRIPTION" width="200">
+            								<h:outputText  value="#{rpt.description}" style="color: black; text-align: center"/>
+            						</p:column>
+            						
+            						<p:column headerText="AMOUNT" width="150">
+            								<h:outputText  value="Php#{rpt.amountReturn}" style="color: black; text-align: center"/>
+            						</p:column>    			
+                         			<f:facet name="footer">Total Amount: <h:outputText  value="Php#{eiBean.totalamountselectedRet}" style="color: black; text-align: center"/></f:facet>
+        		</p:dataTable>
+        
+            
+        </p:outputPanel>
+    </p:dialog>
+
+
+	<p:dialog header="CALCULATE PAYMENT" widgetVar="multiPayDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="800">
+        <p:outputPanel id="dialogPay" style="text-align:center;">
+        		
+        		<p:dataTable id="payCalc" value="#{eiBean.amountList}" var="rpt" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         			rowsPerPageTemplate="5,10,15,20,50,100"
+                         			scrollable="true" 
+                         			>
+            						<p:column headerText="CASH OUT AMOUNT" width="150">
+            								<h:outputText  value="Php#{rpt.f1}" style="color: black; text-align: left"/>
+            								<f:facet name="footer">Total: <h:outputText  value="Php#{eiBean.totalamountselectedOut}" style="color: black; text-align: center"/></f:facet>
+            						</p:column>
+            						
+            						
+            						<p:column headerText="CASH RETURN AMOUNT" width="150">
+            								<h:outputText  value="Php#{rpt.f2}" style="color: black; text-align: left"/>
+            								<f:facet name="footer">Total: <h:outputText  value="Php#{eiBean.totalamountselectedRet}" style="color: black; text-align: center"/></f:facet>
+            						</p:column>    			
+                         			<f:facet name="footer">Grand Total: <h:outputText  value="Php#{eiBean.totalamountpayment}" style="color: black; text-align: center"/></f:facet>
+        		</p:dataTable>
+        		
+        		<br/><br/>
+        					<p:outputLabel value="Description: ">
+        					<p:inputText  value="#{eiBean.descriptionPay}" style="color: black; text-align: left" />
+        					</p:outputLabel>
+							<p:splitButton value="Action Buttons" icon="ui-icon-disk">
+								<p:menuitem value="Save" onclick="if( ! confirm('Are you sure you want to proceed to pay this amount?')) return false" actionListener="#{eiBean.savePay(true)}" update="formId" icon="ui-icon-disk" />
+        					<p:separator />
+        						<p:menuitem value="Homepage" url="http://localhost:8080/IBuy/faces/main.xhtml" icon="ui-icon-extlink" />
+    						</p:splitButton>
+    						
+    						
+            
+        </p:outputPanel>
+        
+    </p:dialog>
+<ui:include src="loader.xhtml" />
+<ui:include src="footer.xhtml" />
+</h:form>
+<br/><br/><br/><br/>
+
+</h:body>
+</html>

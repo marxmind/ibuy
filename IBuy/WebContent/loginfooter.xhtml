@@ -1,0 +1,72 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      >
+ 
+    <ui:composition>
+        <div class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menuId">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <p:commandButton update="dialogbuy" value="IBuy V2.0" oncomplete="PF('ibuyDialog').show()" 
+                    style="width: 10px;
+    height: 50px;
+    background: red;
+    -moz-border-radius: 100px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+    width: 50px;
+    top: 1px;
+    right: 9px;"/>
+                </div>
+                <div class="navbar-collapse collapse" id="menuId">
+                    <ul class="nav navbar-nav navbar-right">
+                    		<li><a href="#">About Us</a></li>
+				        	<li><a href="#">Contact Us</a></li>
+				        	
+        			</ul>
+                </div>
+            </div>
+        </div>
+        
+        <p:dialog header="Software Information"  widgetVar="ibuyDialog" modal="true" showEffect="explode" hideEffect="explode" resizable="false" width="400">
+        <p:outputPanel id="dialogbuy" style="text-align:left;">
+        	<p:commandButton  value="IBuy V2.0" 
+                    style="width: 10px;
+    height: 50px;
+    background: red;
+    -moz-border-radius: 100px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+    width: 50px;
+    top: 1px;
+    right: 9px;"/>
+    
+    <br/>
+    
+        	<h:outputLabel value="Software name: "/><h:outputText value=" IBuy Management System" /><br/>
+        	<h:outputLabel value="Developed by: "/><h:outputText value=" Mark R. Italia" /><br/>
+        	<h:outputLabel value="Email: "/><h:outputText value=" markritalia@gmail.com" /><br/>
+        	<h:outputLabel value="Software version: "/><h:outputText value=" 2.0"/><br/>
+        	<h:outputLabel value="Date updated: "/><h:outputText value=" August 22, 2016"/><br/>
+        	<h:outputLabel value="Software update details: "/><br/>	
+        	<ul>
+        		<li>Application User Interface Redesign</li>
+        		<li>Added EI Transaction Module</li>
+        		<li>Change the name of Home to Summary</li>
+        		<li>Change the name of Cash In to Funds</li>
+        		<li>Change the name of Purchased to Purchasing Items</li>
+        		<li>Change the name of Credit to Sales</li>
+        		<li>Change the name of Debit to Cash Advance</li>
+        	</ul>
+		</p:outputPanel>
+		</p:dialog>
+        
+    </ui:composition>
+</html>

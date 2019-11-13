@@ -1,0 +1,47 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      >
+ 
+    <ui:composition>
+        
+        <p:dialog header="Client Profile"  widgetVar="clientDialog" modal="true" showEffect="explode" hideEffect="explode" resizable="false" width="600">
+        <p:outputPanel id="dialogClient" style="text-align:left;">
+        	
+        	<h:panelGrid id="clinetForm" style="width: 100%; height:100%; text-align:left;font-weight: bold;" columns="2" border="0" cellpadding="0" cellspacing="0">
+        		
+        		<h:outputLabel value="Registered Date: ">
+								<h:inputText value="#{clientBean.registeredDate}" styleClass="form-control" disabled="true" style="width: 16em"/>
+				</h:outputLabel>
+				<h:outputLabel value="Contact Number: ">
+								<h:inputText value="#{clientBean.contactNumber}" styleClass="form-control" style="width: 16em">
+									<f:ajax event="change" listener="#{clientBean.collectData}" />
+								</h:inputText>
+				</h:outputLabel>
+        		<h:outputLabel value="Full Name: ">
+								<h:inputTextarea value="#{clientBean.fullName}" styleClass="form-control" style="width: 16em">
+									<f:ajax event="change" listener="#{clientBean.collectData}"/>
+								</h:inputTextarea>
+				</h:outputLabel>
+				<h:outputLabel value="Address: ">
+								<h:inputTextarea value="#{clientBean.address}" styleClass="form-control"  style="width: 16em">
+									<f:ajax event="change" listener="#{clientBean.collectData}"/>
+								</h:inputTextarea>
+				</h:outputLabel>
+        		
+        	</h:panelGrid>
+        	<h:commandButton  value="Save" styleClass="btn btn-primary" style="width: 10em;" action="#{clientBean.save}">
+								<f:ajax execute="@form" render="clinetForm"/>
+							</h:commandButton>
+							<h:commandButton value="Search" styleClass="btn btn-primary" style="width: 10em;" action="#{clientBean.search}">
+								<f:ajax execute="@form" render="clinetForm"/>
+							</h:commandButton>
+							<h:commandButton value="Print" styleClass="btn btn-primary" style="width: 10em;" action="#{clientBean.print}"/>
+        	
+		</p:outputPanel>
+		</p:dialog>
+        
+    </ui:composition>
+</html>

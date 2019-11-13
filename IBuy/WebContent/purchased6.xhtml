@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui = "http://java.sun.com/jsf/facelets"
+  xmlns:h = "http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+xmlns:p="http://primefaces.org/ui"
+xmlns:my="http://java.sun.com/jsf/composite/my"  
+  >
+ <f:view contentType="text/html"> 
+<h:head>
+<link rel="shortcut icon" type="image/x-icon" href="#{resource['favicon.ico']}" />
+<f:facet name="first">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>Purchased Item</title>
+	</f:facet>
+	
+	<f:facet name="middle">
+			<h:outputStylesheet name="sb-admin/bootstrap/css/bootstrap.min.css"/>
+            <h:outputStylesheet name="sb-admin/font-awesome/css/all.min.css" />
+            <h:outputStylesheet name="sb-admin/css/sb-admin.min.css"/>
+            <h:outputStylesheet name="sb-admin/css/bg-sidebar.min.css"/>
+            <h:outputStylesheet name="css/font-awesome.min.css" />
+            
+     </f:facet>
+     <f:facet name="last">       
+            <h:outputScript name="jquery/jquery.min.js" target="head"/>
+            <h:outputScript name="bootstrap/js/bootstrap.min.js"/>
+            <h:outputScript name="sb-admin/bootstrap/js/bootstrap.bundle.min.js"/>
+            <h:outputScript name="sb-admin/jquery-easing/jquery.easing.min.js"/>
+            <h:outputScript name="sb-admin/js/sb-admin.min.js"/>
+            
+            
+    </f:facet>
+        
+    <title>Purchased Item</title>
+
+<style>
+<!-- 
+
+.ui-growl{
+	top: 100px;
+	right: 500px; important!;
+	z-index: 1500; important!;
+}
+
+.ui-container{
+	top: 100px;
+	right: 500px; important!;
+}
+    
+    -->
+ </style>
+ 
+<title>Purchased Item</title>
+
+</h:head>
+
+<h:body id="page-top">
+<h:form prependId="false" id="formId">
+
+<p:growl id="msg" life="8000" showDetail="true" />
+ <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" style="#{skin.msg}">
+       	<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+       	<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+ </p:confirmDialog>	
+ 
+ 
+ <nav class="navbar navbar-expand navbar-intel bg-intel static-top">
+
+      <a class="navbar-brand mr-1" href="main.xhtml">IBUY Avalon</a>
+
+      <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+        <i class="fas fa-bars"></i>
+      </button>
+      
+      <div class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+        	  		<div class="input-group">
+	               				<p:inputText id="tb" value="#{pureBean.searchParam}" placeholder="Search..." styleClass="js-tilt">
+		                         	<p:ajax event="keyup" listener="#{pureBean.loadSearch}" update="dataId docForm"/>
+					            </p:inputText>
+					            <p:calendar value="#{pureBean.calendarFrom}" pattern="yyyy-MM-dd" effect="slideDown"/>
+					            <p:calendar value="#{pureBean.calendarTo}" pattern="yyyy-MM-dd" effect="slideDown"/>
+				    			<div class="input-group-append js-tilt">
+								           <p:commandButton icon="fa fa-search" update="dataId docForm" actionListener="#{pureBean.loadSearch}" />		
+				          		</div>
+	          		</div>
+     </div>
+
+      
+      <ui:include src="menutop.xhtml" />
+		
+	 	
+    </nav>
+    
+     <p:tooltip for="addButtonId" position="left" >
+		<p:outputLabel value="Click this button to create new case" />
+	</p:tooltip>
+	<p:tooltip for="clearButtonId" position="left" >
+		<p:outputLabel value="Click this button to clear the inputed information" />
+	</p:tooltip>
+	<p:tooltip for="saveButtonId" position="left" >
+		<p:outputLabel value="Click this button to save the inputed information" />
+	</p:tooltip>
+	<p:tooltip for="hideButtonId" position="left" >
+		<p:outputLabel value="Click this button to close the fill up form" />
+	</p:tooltip>
+    
+    <!-- Scroll Menu button-->
+    <p:commandLink id="addButtonId" styleClass="create-new rounded" oncomplete="addNew();" actionListener="#{pureBean.clearFields}" update="docForm">
+      <i class="fa fa-file-o"></i>
+    </p:commandLink>
+    <p:commandLink id="clearButtonId" styleClass="create-clear rounded" actionListener="#{pureBean.clearFields}" update="docForm">
+      <i class="fa fa-eraser"></i>
+    </p:commandLink>
+    <p:commandLink id="saveButtonId" styleClass="create-save rounded" update="dataId docForm msg" actionListener="#{pureBean.save}">
+	     <p:confirm header="Confirmation" message="Are you sure you want to save?." icon="ui-icon-alert" />
+	     <i class="fa fa-floppy-o"></i>
+	</p:commandLink>
+    <p:commandLink id="hideButtonId" styleClass="create-hide rounded" onclick="hideWizard();" update="docForm" actionListener="#{pureBean.clearFields}">
+    	<i class="fa fa-eye-slash"></i>
+    </p:commandLink>
+      
+    <div id="wrapper">
+		 
+      <ui:include src="sidebarmenu.xhtml" />
+
+      <div id="content-wrapper">        
+		  <div class="container-fluid">
+		      
+		   <div id="panelHide" style="display: none">
+		   
+				<p:panelGrid id="docForm" columns="4" layout="grid">
+        	
+		        	<p:outputLabel value="Date: "/>
+					<p:inputText value="#{pureBean.currentDate}"/>
+					
+					<p:outputLabel/>
+					<p:outputLabel/>
+					
+					<h:outputLabel value="Description: "/>
+					<p:inputTextarea value="#{pureBean.description}" placeholder="Provide description"/>
+					
+					<p:outputLabel value="Amount: "/>
+					<p:inputText value="#{pureBean.amount}" placeholder="0.00"/>
+		        	
+        		</p:panelGrid>
+		   
+		   </div>
+		   
+		   <div id="paneltable" style="display: block">
+		   <p:dataTable id="dataId" value="#{pureBean.data}" var="rpt" rows="10" paginator="true" paginatorTemplate="{Exporters} {CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15,20,50,100"
+                         scrollable="true" style="#{skin.table}" paginatorPosition="top"
+                         >
+                         
+                         <f:facet name="{Exporters}">
+							 	<h:commandLink title="Report in pdf format" target="_blank" actionListener="#{pureBean.printReport}">
+                						    <p:graphicImage name="img/pdf.jpg" width="24" height="24"/>
+            					</h:commandLink>
+            					<h:commandLink title="Export in excel format">
+                						    <p:graphicImage name="img/xls.jpg" width="24" height="24"/>
+                							<p:dataExporter type="xls" target="dataId" fileName="Purchased"/>
+            						</h:commandLink>
+							 </f:facet>
+                         
+                         	<p:column headerText="[*]" width="50">
+            					<p:commandButton update="dataId docForm msg" icon="fa fa-trash"  actionListener="#{pureBean.deleteRow(rpt)}">
+            						<p:confirm header="Confirmation" message="Are you sure you want to delete this data?" icon="ui-icon-alert" />
+            					</p:commandButton>
+            				</p:column>
+					
+            				<p:column headerText="#" width="50">
+            					<p:outputLabel value="#{rpt.cnt}" style="color: black; text-align: center"/>
+            				</p:column>
+            				
+            				<p:column headerText="View" width="50" exportable="false">
+            					<p:commandButton icon="fa fa-search" update="docForm" actionListener="#{pureBean.clickItem(rpt)}" oncomplete="addNew();"/>
+            				</p:column>
+            					
+            				<p:column headerText="DESCRIPTION" width="250">
+            						<p:outputLabel value="#{rpt.description}"/>
+            				</p:column>	
+            				<p:column headerText="AMOUNT" width="150">	
+            						<p:outputLabel value="Php#{rpt.amountIn}"/>
+            				</p:column>
+            				<p:column headerText="PURCHASED DATE" width="150">
+            						<p:outputLabel value="#{rpt.dateIn}"/>
+            				</p:column>		
+            				<p:column headerText="ADDED BY" width="150">
+            						<p:outputLabel value="#{rpt.addedBy}"/>
+            				</p:column>
+            				
+            				<f:facet name="header">
+                         		<p:outputLabel value="Total Purchased: Php #{pureBean.totalCashIn}" styleClass="form-control"/>
+                         	</f:facet>
+            				
+            				</p:dataTable>
+		        </div>
+		         
+		</div><!-- Fluid end -->
+	</div><!-- End content wrapper -->
+	
+	<!-- Sticky Footer -->
+        <footer class="sticky-footer citizenBox">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright 2019</span>
+            </div>
+          </div>
+        </footer>
+	
+	</div><!-- wrapper -->	   
+	
+	<!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+ 	
+ 	<script>
+	
+	 function addNew(){
+		 callTop();
+		 showDetails();
+		 showButton();
+	 }
+	 
+	 function showDetails(){
+	 		$("#panelHide").show(1000);
+	 }
+	 
+	 $(".input-group").click(function(){
+		 hideWizard();
+		 callTop();
+	 });
+	 
+	 function hideWizard(){
+	 		$("#panelHide").hide(1000);
+	 		hideButton();
+	 }		
+	 
+	
+	 function hideButton(){
+		 $('#clearButtonId').fadeOut();
+	     $('#saveButtonId').fadeOut();
+	     $('#hideButtonId').fadeOut();
+	 }
+	 
+	 function showButton(){
+		 $('#clearButtonId').fadeIn();
+	     $('#saveButtonId').fadeIn();
+	     $('#hideButtonId').fadeIn();
+	 }
+	 
+	 function callTop(){ 
+		        $('html').animate({ scrollTop: 0 }, 'slow'); return true; 
+			    $('body').animate({ scrollTop: 0 }, 'slow'); return true; 
+			    $('document').animate({ scrollTop: 0 }, 'slow'); return true; 
+			    $('window').animate({ scrollTop: 0 }, 'slow'); return true;
+	 }
+	 
+	//hiding wizard when scrolling down
+	  $(document).on('scroll',function() {
+	    var scrollDistance = $(this).scrollTop();
+	    if (scrollDistance > 120) {
+	    	hideButton();
+	    } else {
+	    	$('#addButtonId').fadeIn();
+	    	
+	    	if($('#panelHide').css('display') == 'none'){
+	    		hideButton();
+	    	}else{
+	    		showButton();
+	    	}
+	    	
+	    }
+	  });
+	 
+	</script>
+ 	
+ <ui:include src="loader.xhtml" />
+</h:form>
+</h:body>
+</f:view>
+</html>   

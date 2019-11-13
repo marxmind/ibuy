@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:c="http://java.sun.com/jsf/core"
+  xmlns:ui = "http://java.sun.com/jsf/facelets"
+  xmlns:h = "http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+xmlns:p="http://primefaces.org/ui" 
+xmlns:a="http://xmlns.jcp.org/jsf/passthrough"  
+  >
+<h:head>
+<link rel="shortcut icon" type="image/ico" href="#{request.contextPath}/resources/img/favicon.ico" />
+<f:facet name="first">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>Summary</title>
+	</f:facet>
+	
+	<f:facet name="middle">
+            <h:outputStylesheet name="bootstrap/css/bootstrap.css"/>
+            <h:outputStylesheet name="css/pageHeaderFooter.css"/>
+            <h:outputScript name="jquery/jquery.min.js" target="head"/>
+            <h:outputScript name="bootstrap/js/bootstrap.js" target="head"/>
+    </f:facet>
+        
+    <f:facet name="last">
+ 		<h:outputStylesheet name="css/font-awesome.css" />
+    </f:facet>
+    <title>Summary</title>
+
+<style>
+<!-- 
+
+
+
+ -->
+ </style>
+ <!-- 
+ <h:outputScript library="js" name="classie.js"/>
+<h:outputStylesheet library="css" name="normalize.css" />
+<h:outputStylesheet library="css" name="set2.css" /> -->
+ 
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>Summary</title>
+
+</h:head>
+
+<h:body>
+	
+
+<h:form prependId="false" id="formIdMain" >
+		<p:growl id="msgs" showDetail="true" />
+		
+		<div class="page-header">
+	 		<a><p:outputLabel value="Dashboard" style="#{skin.pageTitle};"/></a>
+	    </div>
+		
+		<p:layout fullPage="true" stateful="false">
+		
+		<p:layoutUnit position="north" size="50" visible="false"/>
+		<p:layoutUnit position="south" size="50" visible="false"/>
+		<p:layoutUnit position="west" size="300" visible="false"/>
+		<p:layoutUnit position="east" size="450" visible="false"/>
+		
+		<p:layoutUnit position="center">
+		
+		<div style="height:10px">
+			<p:dashboard id="board" model="#{dashboardBean.model}" >
+            
+            <p:panel id="mainId" header="Purchasing Corn" >
+                <h:outputText value="Below are the details of today's corn purchasing... " /><p:commandLink style="color: red" value="learn more" action="whitecorn"/>
+                <p:pieChart model="#{chartJsView.pieModel}" style="width: 50px; height: 50px;" widgetVar="pieCorn"/>
+                <p:commandLink  onclick="exportChart('pieCorn')" title="Click to zoom">
+			    	<i class="fa fa-eye-slash"></i>
+    			</p:commandLink>
+            </p:panel>
+            
+            <p:panel id="cornMonthsId" header="Monthly Corn Information" >
+                <h:outputText value="This data is based on the current year buying " /><p:commandLink style="color: red" value="learn more" action="whitecorn"/>
+                <p:barChart model="#{chartJsView.barModel2}" style="width: 50px; height: 50px;" widgetVar="buyingCornChart"/>
+                <p:commandLink  onclick="exportChart('buyingCornChart')" title="Click to zoom">
+			    	<i class="fa fa-eye-slash"></i>
+    			</p:commandLink>
+            </p:panel>
+            
+            <p:panel id="expensesId" header="Monthly Expenses" >
+                <h:outputText value="Below are the details of your monthly expenses " /><p:commandLink style="color: red" value="learn more" action="expenses"/>
+                <p:lineChart model="#{chartJsView.lineModel}" style="width: 50px; height: 50px;" widgetVar="expensesChart"/>
+                <p:commandLink  onclick="exportChart('expensesChart')" title="Click to zoom">
+			    	<i class="fa fa-eye-slash"></i>
+    			</p:commandLink>
+            </p:panel>
+            
+        </p:dashboard>    
+		</div>
+		
+		</p:layoutUnit>
+		</p:layout>
+		
+		<p:dialog widgetVar="dlg" style="#{skin.dialog}" position="center center" responsive="true" showEffect="clip" hideEffect="clip" modal="false" header="Chart View" resizable="false">
+    		<p:outputPanel id="outputId" layout="block"/>
+		</p:dialog>
+
+	<h:outputScript>
+
+	function exportChart(widgetName) {
+	    //export image
+	    $('#outputId').empty().append(PF(widgetName).exportAsImage());
+	 
+	    //show the dialog
+	    PF('dlg').show();
+	}
+
+</h:outputScript>
+
+<ui:include src="loader.xhtml" />
+<ui:include src="footer.xhtml" />
+</h:form>
+
+
+<br/><br/><br/><br/>
+
+<!-- </div> -->
+		
+</h:body>
+</html>

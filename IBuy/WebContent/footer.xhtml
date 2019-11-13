@@ -1,0 +1,140 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      >
+ 
+    <ui:composition>
+    <p:tooltip position="top"/>
+   
+   		<div 
+	   					style="width: 100%;
+						  padding-right: 15px;
+						  padding-left: 15px;
+						  margin-right: auto;
+						  margin-left: auto;
+	   					  padding: 0 !important; 
+	   					  position: fixed;
+						  right: 0;
+						  bottom: 0;
+						  left: 0;
+						  z-index: 1030;
+						  background: linear-gradient(#0789b2, #086583, #044357);
+						  ">
+							
+						 <p:commandButton icon="fa fa-list-ul" action="attendance" value="Attendance" style="#{skin.menu}"/>
+						 <p:commandButton icon="fa fa-camera-retro" action="live" value="Live View" style="#{skin.menu}"/>
+						 <p:commandButton icon="fa fa-male" action="client" value="Client Profile" style="#{skin.menu}"/>	
+			             <p:commandButton icon="fa fa-list-ul" action="main" value="Summary" style="#{skin.menu}"/>
+			             <p:commandButton icon="fa fa-money" action="cashin" value="Funds" style="#{skin.menu}"/>
+			             <p:commandButton icon="fa fa-truck" action="whitecorn" value="Purchasing Corn" style="#{skin.menu}"/>
+			             <p:commandButton icon="fa fa-file-o" action="credit" value="Sales" style="#{skin.menu}"/>
+			             <p:commandButton icon="fa fa-file-text" action="purchased" value="Purchasing Item" style="#{skin.menu}"/>
+			             <p:commandButton icon="fa fa-caret-square-o-down" action="expenses" value="Expenses" style="#{skin.menu}"/>
+			             <p:commandButton icon="fa  fa-power-off" action="login" value="Logout" style="#{skin.menu}" actionListener="#{loginBean.logout}"/>
+			           
+			              
+			</div>
+   
+    
+        
+        
+        
+        <p:dialog responsive="true" position="right center" header="Chat"  widgetVar="chatDlg" modal="false" showEffect="fade" hideEffect="fade" resizable="true" closeOnEscape="true" closable="true">
+       		 <p:toolbar id="tbChat">
+            				<f:facet name="left">
+            					<p:inputText id="chatId" value="#{chatBean.chatMe}" />
+        						<p:commandButton update="msgId chatId" value="Send" actionListener="#{chatBean.sendMsg}" />
+            				</f:facet>
+            				<f:facet name="right">
+            					<p:commandButton update="msgId"  value="Clear"  actionListener="#{chatBean.clear}"/>
+                         		<p:commandButton update="msgId"  value="Refresh"  actionListener="#{chatBean.init}"/>
+                         	</f:facet>
+             </p:toolbar>
+        	<p:inputTextarea id="msgId" value="#{chatBean.chatMsg}" cols="50" rows="10" readonly="true" scrollHeight="2"/>
+        	
+        	
+        </p:dialog>
+        
+        <h:outputStylesheet>
+        
+        	/* Snackbar settings */
+			
+			 /* The snackbar - position it at the bottom and in the middle of the screen */
+			#snackbar {
+			    visibility: hidden; /* Hidden by default. Visible on click */
+			    min-width: 250px; /* Set a default minimum width */
+			    margin-left: -125px; /* Divide value of min-width by 2 */
+			    background-color: #333; /* Black background color */
+			    color: #fff; /* White text color */
+			    text-align: center; /* Centered text */
+			    border-radius: 2px; /* Rounded borders */
+			    padding: 16px; /* Padding */
+			    position: fixed; /* Sit on top of the screen */
+			    z-index: 2000; /* Add a z-index if needed */
+			    left: 50%; /* Center the snackbar */
+			    bottom: 30px; /* 30px from the bottom */
+			}
+			
+			/* Show the snackbar when clicking on a button (class added with JavaScript) */
+			#snackbar.show {
+			    visibility: visible; /* Show the snackbar */
+			    /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+			   However, delay the fade out process for 2.5 seconds */
+			   -webkit-animation: fadein 0.5s;
+			   animation: fadein 0.5s;
+			}
+        
+        
+        </h:outputStylesheet>
+        
+        <h:outputScript>
+		
+		$(document).ready(function(){
+			$('body').keydown(function (event){	
+				if(event.which == 113){ //f2 open password
+					viewVer();
+				}
+				if(event.which == 27){ //esc close all
+					closeVer();
+				}
+			});	
+		});
+		
+		
+		function viewVer() {
+	    // Get the snackbar DIV
+	    var x = document.getElementById("snackbar");
+
+	    // Add the "show" class to DIV
+	    x.className = "show";
+
+	    // After 3 seconds, remove the show class from DIV
+	    //setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+		}
+		
+		function closeVer(){
+			document.getElementById('snackbar').className ='';
+		} 
+		
+	   </h:outputScript>
+	   
+        <div id="snackbar">
+        	<span class="pbutton" onclick="document.getElementById('snackbar').className =''">Close</span>
+        	
+        		<div class="ui-inputgroup">
+        			<span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+					<p:inputText value="#{hotkeyBean.uname}" placeholder="Username" />
+        		</div>
+        		<div class="ui-inputgroup">
+        			<span class="ui-inputgroup-addon"><i class="fa fa-lock"></i></span>
+					<p:password value="#{hotkeyBean.secret}"/>
+        		</div>
+        		<p:commandButton value="Open Drawer" oncomplete="closeVer()" actionListener="#{hotkeyBean.validateUserNamePassword}"/>
+        </div>
+        
+        <!-- <ui:include src="clientprofile.xhtml" /> -->
+    	</ui:composition>
+    
+</html>

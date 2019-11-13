@@ -1,0 +1,13 @@
+/*
+* custom growl
+*/
+
+.ui-growl{
+	top: 100px;
+	right: 500px; important!;
+}
+
+.ui-container{
+	top: 100px;
+	right: 500px; important!;
+}

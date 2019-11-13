@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui = "http://java.sun.com/jsf/facelets"
+  xmlns:h = "http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+xmlns:p="http://primefaces.org/ui" 
+xmlns:a="http://xmlns.jcp.org/jsf/passthrough"    
+  >
+<h:head>
+<link rel="shortcut icon" type="image/ico" href="#{request.contextPath}/resources/img/favicon.ico" />
+<f:facet name="first">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>Funds</title>
+	</f:facet>
+	
+	<f:facet name="middle">
+            <h:outputStylesheet name="bootstrap/css/bootstrap.min.css"/>
+           <h:outputStylesheet name="css/pageHeaderFooter.css"/>
+            <h:outputScript name="jquery/jquery.min.js" target="head"/>
+            <h:outputScript name="bootstrap/js/bootstrap.min.js" target="head"/>
+            
+            
+    </f:facet>
+        
+    <f:facet name="last">
+ 		<h:outputStylesheet name="css/font-awesome.css" />
+    </f:facet>
+    <title>Funds</title>
+
+
+<style>
+<!-- 
+
+
+ -->
+ </style>
+ 
+ 
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>Funds</title>
+
+</h:head>
+
+<h:body>
+
+<h:form prependId="false" id="formId">
+		
+		<p:growl id="msg" showDetail="true" life="1000"/>
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" style="#{skin.msg}">
+       	<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+       	<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    	</p:confirmDialog>
+		
+		<div class="page-header">
+	 		<a><p:outputLabel value="Funds" style="#{skin.pageTitle};"/></a>
+	    </div>
+		
+		<p:layout fullPage="true" stateful="false">
+		
+		<p:layoutUnit position="north" size="50" visible="false"/>
+		
+		<p:layoutUnit position="south" size="0" visible="false"/>
+		<p:layoutUnit position="east" size="0" visible="false"/>
+		
+		<p:layoutUnit position="west" size="400" visible="true">
+			
+			<p:toolbar id="tbDocs">
+            				<f:facet name="left">
+            				</f:facet>
+            				<f:facet name="right">
+            					<p:commandButton  value="New" icon="fa fa-file-o" update="docForm" actionListener="#{cashInBean.clearFields}"/>
+								<p:commandButton value="Save" icon="fa fa-floppy-o" update="dataId docForm msg" actionListener="#{cashInBean.save}">
+									<p:confirm header="Confirmation" message="Are you sure you want to save?." icon="ui-icon-alert" />
+								</p:commandButton>	
+            				</f:facet>
+            			</p:toolbar>
+			
+			<p:panelGrid id="docForm" columns="2" layout="grid" style="#{skin.grid}">
+					
+					<p:outputLabel value="Date: "/>
+					<p:calendar value="#{cashInBean.currentDate}" pattern="yyyy-MM-dd" effect="slideDown"/>  		
+							
+					<p:outputLabel value="Category: "/>
+					<p:selectOneMenu value="#{cashInBean.category}">
+							<f:selectItems value="#{cashInBean.categoryList}"/>
+					</p:selectOneMenu>
+							
+					<p:outputLabel value="Description: "/>
+					<p:inputTextarea value="#{cashInBean.description}"/>
+					
+					<p:outputLabel value="Amount In: "/>
+					<p:inputNumber value="#{cashInBean.amount}"/>
+					
+			</p:panelGrid>
+				
+		</p:layoutUnit>
+		
+		<p:layoutUnit position="center">
+			
+			<p:dataTable id="dataId" value="#{cashInBean.data}" var="rpt" 
+					rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15,20,50,100"
+                         scrollable="true" style="#{skin.table}" paginatorPosition="top"
+                         >
+							
+							<f:facet name="header">
+								<h:outputText value="Total Funds: Php #{cashInBean.totalCashIn}" styleClass="form-control"/>
+							</f:facet>
+							<p:column headerText="[*]" width="50">
+            					<p:commandButton update="dataId docForm msg" icon="fa fa-trash"  actionListener="#{cashInBean.deleteRow(rpt)}">
+            						<p:confirm header="Confirmation" message="Are you sure you want to delete this data?" icon="ui-icon-alert" />
+            					</p:commandButton>
+            					
+            				</p:column>
+							
+            				<p:column headerText="View" width="50" exportable="false">
+            					<p:commandButton icon="fa fa-search" update="docForm" actionListener="#{cashInBean.clickItem(rpt)}"/>
+            				</p:column>
+            				
+            				<p:column headerText="Date" width="70">
+            						<p:outputLabel  value="#{rpt.dateIn}"/>
+            				</p:column>
+            				
+            				<p:column headerText="Category" width="70">	
+            						<p:outputLabel  value="#{rpt.categoryName}"/>
+            				</p:column>
+            					
+            				<p:column headerText="Description" width="150">
+            						<p:outputLabel  value="#{rpt.description}"/>
+            				</p:column>	
+            				
+            				<p:column headerText="Amount" width="70">
+            						<p:outputLabel value="Php#{rpt.amountIn}"/>
+            				</p:column>
+            						
+            				<p:column headerText="Added By" width="50">
+            						<p:outputLabel value="#{rpt.addedBy}"/>
+            				</p:column>
+            				
+            				<p:column headerText="Time" width="100">
+            						<p:outputLabel value="#{rpt.timestamp}"/>
+            				</p:column>
+            				
+            				</p:dataTable>
+			
+		</p:layoutUnit>
+		
+		</p:layout>
+
+
+				<p:commandButton id="idMenuFilter" onclick="PF('sideBarSearch').show()" icon="fa fa-search" style="#{skin.searchButton}" title="Click this button to create filters for searching" />
+				<p:sidebar widgetVar="sideBarSearch" style="#{skin.sideBar}; height: 3em;" fullScreen="false" position="top">
+				
+					<div class="ui-inputgroup">
+				    			<p:inputText id="tb" value="#{cashInBean.searchParam}" a:placeholder="Search..." >
+	                         	<p:ajax event="keyup" listener="#{cashInBean.loadSearch}" update="dataId docForm"/>
+					            </p:inputText>
+					            <p:calendar value="#{cashInBean.calendarFrom}" pattern="yyyy-MM-dd" effect="slideDown"/>
+					            <p:calendar value="#{cashInBean.calendarTo}" pattern="yyyy-MM-dd" effect="slideDown"/>
+								<p:commandButton icon="fa fa-search" update="dataId docForm" actionListener="#{cashInBean.loadSearch}" />	
+					</div>		
+				</p:sidebar>
+
+<ui:include src="loader.xhtml" />
+<ui:include src="footer.xhtml" />
+</h:form>
+<br/><br/><br/><br/>
+
+</h:body>
+</html>

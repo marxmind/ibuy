@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:c="http://java.sun.com/jsf/core"
+  xmlns:ui = "http://java.sun.com/jsf/facelets"
+  xmlns:h = "http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:dt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"
+xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+xmlns:p="http://primefaces.org/ui"  
+  >
+<h:head>
+<link rel="shortcut icon" type="image/ico" href="#{request.contextPath}/resources/img/favicon.ico" />
+<f:facet name="first">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>Pricelist</title>
+	</f:facet>
+	
+	<f:facet name="middle">
+            <h:outputStylesheet name="bootstrap/css/bootstrap.css"/>
+            <h:outputStylesheet name="css/dashboard.css"/>
+            <h:outputStylesheet name="css/panel.css"/>
+            <h:outputStylesheet name="css/dataTables.bootstrap.mini.css"/>
+            <h:outputScript name="jquery/jquery.min.js" target="head"/>
+            <h:outputScript name="bootstrap/js/bootstrap.js" target="head"/>
+            
+            
+    </f:facet>
+        
+    <f:facet name="last">
+ 		<h:outputStylesheet name="css/font-awesome.css" />
+    </f:facet>
+    <title>Pricelist - IBuy</title>
+
+<style>
+<!-- 
+.dataDesignTable{
+	font-style: normal; 	
+	font-family: Times New Roman; 
+	font-size: 80%;
+	font-weight: bold;
+}
+.centerPage{
+	position: fixed;
+	margin-left: auto;
+    margin-right: auto;
+	width: 23%;
+	height: 100%;
+	border: 3px solid #73AD21;
+	padding: 1px;
+}
+.centerPage1{
+	position: relative;
+	margin-left: 5px;
+	margin-bottom: 5px;
+	width: 100%;
+	height: 100%;
+	border: 3px solid black;
+	padding: 1px;
+}
+*,
+*:before,
+*:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; 
+  }
+ .css-input {
+ 	width: 12em; 
+ 	font-size:23px; 
+ 	text-align:left; 
+ 	border-width:7px;
+ 	-webkit-border-width:4px;
+ 	border-style:inset; 
+ 	padding:5px;
+ 	-moz-border-radius: 9px; 
+ 	-webkit-border-radius: 9px; 
+ 	border-radius:9px;
+ 	background-color:#98f24e; 
+ 	border-color:#26759E; 
+ 	text-shadow:0px 0px 12px rgba(42,42,42,.75);  
+} 
+.css-input:focus { 
+	outline:none; 
+} 
+
+.button{
+ position: inherit;
+ border:4px solid #26759E;
+ -webkit-box-shadow: #878787 0px 2px 2px ;
+ -moz-box-shadow: #878787 0px 2px 2px ; 
+ box-shadow: #878787 0px 2px 2px ; 
+ -webkit-border-radius: 23px; 
+ -moz-border-radius: 23px;
+ border-radius: 23px;
+ font-size:13px;
+ font-family:arial, helvetica, sans-serif; 
+ padding: 10px 20px 10px 20px; 
+ text-decoration:none; 
+ display:inline-block;
+ text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+ font-weight:bold; 
+ color: #FFFFFF;
+ background-color: #4ba614; 
+ background-image: -webkit-gradient(linear, left top, left bottom, from(#4ba614), to(#008c00));
+ background-image: -webkit-linear-gradient(top, #4ba614, #008c00);
+ background-image: -moz-linear-gradient(top, #4ba614, #008c00);
+ background-image: -ms-linear-gradient(top, #4ba614, #008c00);
+ background-image: -o-linear-gradient(top, #4ba614, #008c00);
+ background-image: linear-gradient(to bottom, #4ba614, #008c00);
+ filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#4ba614, endColorstr=#008c00);
+}
+
+.button:hover{
+ border:4px solid #26759E;
+ background-color: #36780f; 
+ background-image: -webkit-gradient(linear, left top, left bottom, from(#36780f), to(#005900));
+ background-image: -webkit-linear-gradient(top, #36780f, #005900);
+ background-image: -moz-linear-gradient(top, #36780f, #005900);
+ background-image: -ms-linear-gradient(top, #36780f, #005900);
+ background-image: -o-linear-gradient(top, #36780f, #005900);
+ background-image: linear-gradient(to bottom, #36780f, #005900);
+ filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#36780f, endColorstr=#005900);
+}
+
+.currentPage{
+ position: inherit;
+ border:4px solid #26759E;
+ -webkit-box-shadow: #878787 0px 2px 2px ;
+ -moz-box-shadow: #878787 0px 2px 2px ; 
+ box-shadow: #878787 0px 2px 2px ; 
+ -webkit-border-radius: 23px; 
+ -moz-border-radius: 23px;
+ border-radius: 23px;
+ font-size:13px;
+ font-family:arial, helvetica, sans-serif; 
+ padding: 10px 20px 10px 20px; 
+ text-decoration:none; 
+ display:inline-block;
+ text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+ font-weight:bold; 
+ color: #FFFFFF;
+ background-color: #36780f; 
+ background-image: -webkit-gradient(linear, left top, left bottom, from(#36780f), to(#005900));
+ background-image: -webkit-linear-gradient(top, #36780f, #005900);
+ background-image: -moz-linear-gradient(top, #36780f, #005900);
+ background-image: -ms-linear-gradient(top, #36780f, #005900);
+ background-image: -o-linear-gradient(top, #36780f, #005900);
+ background-image: linear-gradient(to bottom, #36780f, #005900);
+ filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#36780f, endColorstr=#005900);
+}
+
+.currentPage:hover{
+ border:4px solid #26759E;
+ background-color: #36780f; 
+ background-image: -webkit-gradient(linear, left top, left bottom, from(#36780f), to(#005900));
+ background-image: -webkit-linear-gradient(top, #36780f, #005900);
+ background-image: -moz-linear-gradient(top, #36780f, #005900);
+ background-image: -ms-linear-gradient(top, #36780f, #005900);
+ background-image: -o-linear-gradient(top, #36780f, #005900);
+ background-image: linear-gradient(to bottom, #36780f, #005900);
+ filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#36780f, endColorstr=#005900);
+}
+
+.inputs {
+	color: #ed7f00;
+    background: #f5f5f5;
+    font-size: 0.8rem;
+    font-weight: bold;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    border: none;
+    padding: 1px 1px;
+    width: 200px;
+    margin-bottom: 5px;
+    box-shadow: inset 0 2px 3px rgba( 0, 0, 0, 0.1 );
+    clear: both;
+}
+
+.inputs:focus {
+    background: #fff;
+    box-shadow: 0 0 0 3px #fff38e, inset 0 2px 3px rgba( 0, 0, 0, 0.2 ), 0px 5px 5px rgba( 0, 0, 0, 0.15 );
+    outline: none;
+}
+ -->
+ </style>
+ <!-- 
+ <h:outputScript library="js" name="classie.js"/>
+<h:outputStylesheet library="css" name="normalize.css" />
+<h:outputStylesheet library="css" name="set2.css" /> -->
+ 
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>Pricelist - BuyNSell</title>
+
+</h:head>
+
+<h:body>
+
+	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container-fluid" style="background-color: #196006">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#headId">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    
+                    <a class="navbar-brand" href="#">Matt-Agri BUY N SELL <h3 style="text-align:center;font-style: italic;font-size: 15px;">IBuy Management System</h3></a>
+                    
+                </div>
+                <div class="navbar-collapse collapse" id="headId">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><p:commandLink update=":formId:dialogaction" icon="ui-icon-search" value="+ShowDialog" oncomplete="PF('multiDialog').show()"/></li>
+                         <li><p:commandLink actionListener="#{loginBean.logout}" value="Logout" action="login.xhtml"/> </li>
+                        <!-- <li><a href="login.xhtml">Logout</a></li> -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+	<div class="panel panel-default">
+		<div class="panel-body"></div>
+	</div>
+<h:form prependId="false" id="formId">
+		
+		<h:panelGrid id="panel1" class="centerPage1" columns="1" border="0" cellpadding="1" cellspacing="0" 
+				>
+				
+					
+				
+				<f:facet name="footer">
+				
+				<h:panelGrid  style="width: 100%; height:100%; text-align:left;font-weight: bold;" columns="4" border="0" cellpadding="5" cellspacing="0">
+				
+				<h:panelGroup layout="block">
+				<p:dataTable id="dataid1" value="#{priceBean.nativeOnly}" var="rpt" 
+					rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15,20,50,100"
+                         scrollable="true" styleClass="dataDesignTable"
+				>
+							<f:facet name="header">
+								<h:outputText value="WCD (NATIVE ONLY)" styleClass="form-control"/>
+							</f:facet>
+					
+							<p:column headerText="[*]" width="10">
+            					
+            					<p:commandLink update="dataid1" actionListener="#{priceBean.deleteRow(rpt)}">
+            						<h:graphicImage library="img/" name="del.jpg"  style="width: 30px; height: 30px;"/>
+            					</p:commandLink>		
+            					
+            				</p:column>
+					
+            				<p:column headerText="VOLUME" width="50">
+            					
+            					<p:commandLink update=" :formId:priceId" actionListener="#{priceBean.clickItem(rpt)}" style="color: transparent;" oncomplete="PF('multiDialog').show()">
+            						<h:outputText  value="#{rpt.volume}" style="color: black; text-align: center"/>
+            					</p:commandLink>
+            					
+            				</p:column>
+            				
+            				<p:column headerText="PRICE" width="50">
+            					<p:commandLink update=" :formId:priceId" actionListener="#{priceBean.clickItem(rpt)}" style="color: transparent;" oncomplete="PF('multiDialog').show()">
+            						<h:outputText  value="#{rpt.price}" style="color: black; text-align: center"/>
+            					</p:commandLink>
+            					
+            				</p:column>		
+            				
+				</p:dataTable>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block">
+				<p:dataTable id="dataid2" value="#{priceBean.whitewet}" var="rpt" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15,20,50,100"
+                         scrollable="true" styleClass="dataDesignTable">
+						
+							<f:facet name="header">
+								<h:outputText value="WHITE WET" styleClass="form-control"/>
+							</f:facet>
+						
+							<p:column headerText="[*]" width="10">
+            					
+            					<p:commandLink update="dataid1" actionListener="#{priceBean.deleteRow(rpt)}">
+            						<h:graphicImage library="img/" name="del.jpg"  style="width: 30px; height: 30px;"/>
+            					</p:commandLink>		
+            					
+            				</p:column>
+					
+            				<p:column headerText="VOLUME" width="50">
+            					
+            					<p:commandLink update=" :formId:priceId" actionListener="#{priceBean.clickItem(rpt)}" style="color: transparent;" oncomplete="PF('multiDialog').show()">
+            						<h:outputText  value="#{rpt.volume}" style="color: black; text-align: center"/>
+            					</p:commandLink>
+            					
+            				</p:column>
+            				
+            				<p:column headerText="PRICE" width="50">
+            					<p:commandLink update=" :formId:priceId" actionListener="#{priceBean.clickItem(rpt)}" style="color: transparent;" oncomplete="PF('multiDialog').show()">
+            						<h:outputText  value="#{rpt.price}" style="color: black; text-align: center"/>
+            					</p:commandLink>
+            					
+            				</p:column>		
+            				
+				</p:dataTable>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block">
+				<p:dataTable id="dataid3" value="#{priceBean.whitebilog}" var="rpt" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15,20,50,100"
+                         scrollable="true" styleClass="dataDesignTable">
+					
+							<f:facet name="header">
+								<h:outputText value="WHITE BILOG" styleClass="form-control"/>
+							</f:facet>
+						
+							<p:column headerText="[*]" width="10">
+            					
+            					<p:commandLink update="dataid1" actionListener="#{priceBean.deleteRow(rpt)}">
+            						<h:graphicImage library="img/" name="del.jpg"  style="width: 30px; height: 30px;"/>
+            					</p:commandLink>		
+            					
+            				</p:column>
+					
+            				<p:column headerText="VOLUME" width="50">
+            					
+            					<p:commandLink update=" :formId:priceId" actionListener="#{priceBean.clickItem(rpt)}" style="color: transparent;" oncomplete="PF('multiDialog').show()">
+            						<h:outputText  value="#{rpt.volume}" style="color: black; text-align: center"/>
+            					</p:commandLink>
+            					
+            				</p:column>
+            				
+            				<p:column headerText="PRICE" width="50">
+            					<p:commandLink update=" :formId:priceId" actionListener="#{priceBean.clickItem(rpt)}" style="color: transparent;" oncomplete="PF('multiDialog').show()">
+            						<h:outputText  value="#{rpt.price}" style="color: black; text-align: center"/>
+            					</p:commandLink>
+            					
+            				</p:column>		
+            				
+				</p:dataTable>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block">
+				<p:dataTable id="dataid4" value="#{priceBean.whiteslightwet}" var="rpt" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15,20,50,100"
+                         scrollable="true" styleClass="dataDesignTable">
+					
+							<f:facet name="header">
+								<h:outputText value="WHITE SW/SLIGHT WET" styleClass="form-control"/>
+							</f:facet>
+						
+							<p:column headerText="[*]" width="10">
+            					
+            					<p:commandLink update="dataid1" actionListener="#{priceBean.deleteRow(rpt)}">
+            						<h:graphicImage library="img/" name="del.jpg"  style="width: 30px; height: 30px;"/>
+            					</p:commandLink>		
+            					
+            				</p:column>
+					
+            				<p:column headerText="VOLUME" width="50">
+            					
+            					<p:commandLink update=" :formId:priceId" actionListener="#{priceBean.clickItem(rpt)}" style="color: transparent;" oncomplete="PF('multiDialog').show()">
+            						<h:outputText  value="#{rpt.volume}" style="color: black; text-align: center"/>
+            					</p:commandLink>
+            					
+            				</p:column>
+            				
+            				<p:column headerText="PRICE" width="50">
+            					<p:commandLink update=" :formId:priceId" actionListener="#{priceBean.clickItem(rpt)}" style="color: transparent;" oncomplete="PF('multiDialog').show()">
+            						<h:outputText  value="#{rpt.price}" style="color: black; text-align: center"/>
+            					</p:commandLink>
+            					
+            				</p:column>	
+            				
+				</p:dataTable>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block">
+				<p:dataTable id="dataid5" value="#{priceBean.yellowdry}" var="rpt" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15,20,50,100"
+                         scrollable="true" styleClass="dataDesignTable">
+					
+							<f:facet name="header">
+								<h:outputText value="YELLOW DRY" styleClass="form-control"/>
+							</f:facet>
+						
+							<p:column headerText="[*]" width="10">
+            					
+            					<p:commandLink update="dataid1" actionListener="#{priceBean.deleteRow(rpt)}">
+            						<h:graphicImage library="img/" name="del.jpg"  style="width: 30px; height: 30px;"/>
+            					</p:commandLink>		
+            					
+            				</p:column>
+					
+            				<p:column headerText="VOLUME" width="50">
+            					
+            					<p:commandLink update=" :formId:priceId" actionListener="#{priceBean.clickItem(rpt)}" style="color: transparent;" oncomplete="PF('multiDialog').show()">
+            						<h:outputText  value="#{rpt.volume}" style="color: black; text-align: center"/>
+            					</p:commandLink>
+            					
+            				</p:column>
+            				
+            				<p:column headerText="PRICE" width="50">
+            					<p:commandLink update=" :formId:priceId" actionListener="#{priceBean.clickItem(rpt)}" style="color: transparent;" oncomplete="PF('multiDialog').show()">
+            						<h:outputText  value="#{rpt.price}" style="color: black; text-align: center"/>
+            					</p:commandLink>
+            					
+            				</p:column>		
+            				
+				</p:dataTable>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block">
+				<p:dataTable id="dataid6" value="#{priceBean.yellowwet}" var="rpt" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15,20,50,100"
+                         scrollable="true" styleClass="dataDesignTable">
+					
+							<f:facet name="header">
+								<h:outputText value="YELLOW WET" styleClass="form-control"/>
+							</f:facet>
+						
+							<p:column headerText="[*]" width="10">
+            					
+            					<p:commandLink update="dataid1" actionListener="#{priceBean.deleteRow(rpt)}">
+            						<h:graphicImage library="img/" name="del.jpg"  style="width: 30px; height: 30px;"/>
+            					</p:commandLink>		
+            					
+            				</p:column>
+					
+            				<p:column headerText="VOLUME" width="50">
+            					
+            					<p:commandLink update=" :formId:priceId" actionListener="#{priceBean.clickItem(rpt)}" style="color: transparent;" oncomplete="PF('multiDialog').show()">
+            						<h:outputText  value="#{rpt.volume}" style="color: black; text-align: center"/>
+            					</p:commandLink>
+            					
+            				</p:column>
+            				
+            				<p:column headerText="PRICE" width="50">
+            					<p:commandLink update=" :formId:priceId" actionListener="#{priceBean.clickItem(rpt)}" style="color: transparent;" oncomplete="PF('multiDialog').show()">
+            						<h:outputText  value="#{rpt.price}" style="color: black; text-align: center"/>
+            					</p:commandLink>
+            					
+            				</p:column>	
+            				
+				</p:dataTable>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block">
+				<p:dataTable id="dataid7" value="#{priceBean.yellowbilog}" var="rpt" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15,20,50,100"
+                         scrollable="true" styleClass="dataDesignTable">
+					
+							<f:facet name="header">
+								<h:outputText value="YELLOW BILOG" styleClass="form-control"/>
+							</f:facet>
+						
+							<p:column headerText="[*]" width="10">
+            					
+            					<p:commandLink update="dataid1" actionListener="#{priceBean.deleteRow(rpt)}">
+            						<h:graphicImage library="img/" name="del.jpg"  style="width: 30px; height: 30px;"/>
+            					</p:commandLink>		
+            					
+            				</p:column>
+					
+            				<p:column headerText="VOLUME" width="50">
+            					
+            					<p:commandLink update=" :formId:priceId" actionListener="#{priceBean.clickItem(rpt)}" style="color: transparent;" oncomplete="PF('multiDialog').show()">
+            						<h:outputText  value="#{rpt.volume}" style="color: black; text-align: center"/>
+            					</p:commandLink>
+            					
+            				</p:column>
+            				
+            				<p:column headerText="PRICE" width="50">
+            					<p:commandLink update=" :formId:priceId" actionListener="#{priceBean.clickItem(rpt)}" style="color: transparent;" oncomplete="PF('multiDialog').show()">
+            						<h:outputText  value="#{rpt.price}" style="color: black; text-align: center"/>
+            					</p:commandLink>
+            					
+            				</p:column>		
+            				
+				</p:dataTable>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block">
+				<p:dataTable id="dataid8" value="#{priceBean.yellowslightwet}" var="rpt" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15,20,50,100"
+                         scrollable="true" styleClass="dataDesignTable">
+					
+							<f:facet name="header">
+								<h:outputText value="YELLOW SW/SLIGHT WET" styleClass="form-control"/>
+							</f:facet>
+						
+							<p:column headerText="[*]" width="10">
+            					
+            					<p:commandLink update="dataid1" actionListener="#{priceBean.deleteRow(rpt)}">
+            						<h:graphicImage library="img/" name="del.jpg"  style="width: 30px; height: 30px;"/>
+            					</p:commandLink>		
+            					
+            				</p:column>
+					
+            				<p:column headerText="VOLUME" width="50">
+            					
+            					<p:commandLink update=" :formId:priceId" actionListener="#{priceBean.clickItem(rpt)}" style="color: transparent;" oncomplete="PF('multiDialog').show()">
+            						<h:outputText  value="#{rpt.volume}" style="color: black; text-align: center"/>
+            					</p:commandLink>
+            					
+            				</p:column>
+            				
+            				<p:column headerText="PRICE" width="50">
+            					<p:commandLink update=" :formId:priceId" actionListener="#{priceBean.clickItem(rpt)}" style="color: transparent;" oncomplete="PF('multiDialog').show()">
+            						<h:outputText  value="#{rpt.price}" style="color: black; text-align: center"/>
+            					</p:commandLink>
+            					
+            				</p:column>		
+            				
+				</p:dataTable>
+				</h:panelGroup>
+				
+				</h:panelGrid>
+					
+				</f:facet>	
+				
+		</h:panelGrid>		
+
+<p:dialog  header="PERFORM ACTIONS" widgetVar="multiDialog" modal="true" showEffect="explode" hideEffect="explode" resizable="false" width="900">
+        <p:outputPanel id="dialogaction" style="text-align:center;">
+			<h:panelGrid id="priceId" style="width: 100%; height:100%; text-align:left;font-weight: bold;" columns="3" border="0" cellpadding="5" cellspacing="0">
+							
+							<h:outputLabel value="Volume: "> 
+								<h:inputText value="#{priceBean.volume}" styleClass="form-control"/>
+							</h:outputLabel>
+							
+							<h:outputLabel value="Price: "> 
+								<h:inputText value="#{priceBean.price}" styleClass="form-control"/>
+							</h:outputLabel>
+							
+							<h:outputLabel value="Corn Name: "> 
+								<h:inputText value="#{priceBean.cornName}" styleClass="form-control"/>
+							</h:outputLabel>
+							
+							<h:outputLabel value="Corn Color: "> 
+								<h:selectOneMenu value="#{priceBean.cornColor}" styleClass="form-control">
+									<f:selectItem itemLabel="#{priceBean.colorLabel}"/>
+									<f:selectItems value="#{priceBean.colors}"/>
+								</h:selectOneMenu>
+							</h:outputLabel>
+							
+							<h:outputLabel value="Variant: "> 
+								<h:selectOneMenu value="#{priceBean.variant}" styleClass="form-control">
+									<f:selectItem itemLabel="#{priceBean.variantLabel}"/>
+									<f:selectItems value="#{priceBean.variants}"/>
+								</h:selectOneMenu>
+							</h:outputLabel>
+							
+							<h:outputLabel value="Condition: "> 
+								<h:selectOneMenu value="#{priceBean.condition}" styleClass="form-control">
+									<f:selectItem itemLabel="#{priceBean.conditionLabel}"/>
+									<f:selectItems value="#{priceBean.conditions}"/>
+								</h:selectOneMenu>
+							</h:outputLabel>
+									
+					</h:panelGrid>
+					<h:commandButton value="Save" styleClass="btn btn-primary" style="width: 10em;" action="#{priceBean.save}">
+							<f:ajax execute="@form" render=":formId"/>
+						</h:commandButton>
+						<h:commandButton value="Print" styleClass="btn btn-primary" style="width: 10em;" action="#{priceBean.printReport}"/>
+		</p:outputPanel>
+</p:dialog>
+<ui:include src="loader.xhtml" />
+<ui:include src="footer.xhtml" />
+</h:form>
+<br/><br/><br/><br/>
+
+</h:body>
+</html>

@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:c="http://java.sun.com/jsf/core"
+  xmlns:ui = "http://java.sun.com/jsf/facelets"
+  xmlns:h = "http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+xmlns:p="http://primefaces.org/ui"
+xmlns:a="http://xmlns.jcp.org/jsf/passthrough"  
+  >
+<h:head>
+<link rel="shortcut icon" type="image/ico" href="#{request.contextPath}/resources/img/favicon.ico" />
+<f:facet name="first">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>Cash Advances</title>
+	</f:facet>
+	
+	<f:facet name="middle">
+            <h:outputStylesheet name="bootstrap/css/bootstrap.css"/>
+            <h:outputStylesheet name="css/dashboard.css"/>
+            <h:outputStylesheet name="css/panel.css"/>
+            <h:outputStylesheet name="css/dataTables.bootstrap.mini.css"/>
+            <h:outputScript name="jquery/jquery.min.js" target="head"/>
+            <h:outputScript name="bootstrap/js/bootstrap.js" target="head"/>
+            
+            
+    </f:facet>
+        
+    <f:facet name="last">
+ 		<h:outputStylesheet name="css/font-awesome.css" />
+    </f:facet>
+    <title>Cash Advances - IBuy</title>
+
+
+<style>
+<!-- 
+.dataDesignTable{
+	font-style: normal; 	
+	font-family: Times New Roman; 
+	font-size: 80%;
+	font-weight: bold;
+}
+
+.centerPage1{
+	position: relative;
+	margin-left: 5px;
+	margin-bottom: 5px;
+	width: 100%;
+	height: 100%;
+	border: 3px solid black;
+	padding: 1px;
+}
+
+
+
+ -->
+ </style>
+ <!-- 
+ <h:outputScript library="js" name="classie.js"/>
+<h:outputStylesheet library="css" name="normalize.css" />
+<h:outputStylesheet library="css" name="set2.css" /> -->
+ 
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>Cash Advances - BuyNSell</title>
+
+</h:head>
+
+<h:body>
+	
+	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#headId">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    
+                    <a class="navbar-brand" href="#">Matt-Agri BUY N SELL <h3 style="text-align:center;font-style: italic;font-size: 15px;">IBuy Management System</h3></a>
+                    
+                </div>
+                <div class="navbar-collapse collapse" id="headId">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><p:commandLink update=":formId:dialogaction" icon="ui-icon-search" value="+ShowDialog" oncomplete="PF('multiDialog').show()"/></li>
+                         <li><p:commandLink actionListener="#{loginBean.logout}" value="Logout" action="login.xhtml" form="formId"/> </li>
+                        <!-- <li><a href="login.xhtml">Logout</a></li> -->
+                    </ul>
+                    <form class="navbar-form navbar-right">
+                        <h:inputText id="search" class="form-control" a:placeholder="Search..."/>
+                    </form>
+                </div>
+            </div>
+        </div>
+	
+	<div class="panel panel-default">
+		<div class="panel-body"></div>
+	</div>
+<div class="container-fluid">	
+<div class="row">	
+<h:form prependId="false" id="formId">
+		<p:growl id="messages" />
+		<h:panelGrid id="panel1" class="centerPage1" columns="1" border="0" cellpadding="1" cellspacing="0" 
+				>
+				         			
+				<f:facet name="footer">
+					<h:panelGrid style="width: 100%; height:10%; text-align:left;font-weight: bold;">
+					
+					<p:dataTable id="dataId" value="#{debitBean.data}" var="rpt" 
+						rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15,20,50,100"
+                         scrollable="true" scrollWidth="100%"
+                         	styleClass="dataDesignTable"
+                         >
+                         		
+                         		<f:facet name="header">
+                         			<h:outputText value="Total Cash Advance: Php #{debitBean.totalCashIn}" styleClass="form-control"/>
+                         		</f:facet>
+                         		
+	            				<p:column headerText="[*]" width="50">
+	            					<p:commandLink update="dataId" actionListener="#{debitBean.deleteRow(rpt)}">
+            							<h:graphicImage library="img/" name="del.jpg"  style="width: 30px; height: 30px;"/>
+            						</p:commandLink>
+	            				</p:column>
+	            				
+	            				<p:column headerText="#" width="50">
+	            					<h:outputText value="#{rpt.cnt}"/>
+	            				</p:column>
+	            				
+	            				<p:column headerText="DEBIT TYPE" width="200">
+	            					<p:commandLink update="debitForm" actionListener="#{debitBean.clickItem(rpt)}" style="color: transparent;" oncomplete="PF('multiDialog').show()">
+	            						<h:outputText value="#{rpt.debitTypeName}" style="color: black;"/>
+	            					</p:commandLink>
+	            				</p:column>
+	            				
+	            				<p:column headerText="BARROWER'S NAME" width="200">
+	            					<p:commandLink update="debitForm" actionListener="#{debitBean.clickItem(rpt)}" style="color: transparent;" oncomplete="PF('multiDialog').show()">
+            							<h:outputText  value="#{rpt.lendName}" style="color: black; text-align: center"/>
+            						</p:commandLink>
+	            				</p:column>
+	            				
+	            				<p:column headerText="DESCRIPTION" width="200">
+	            					<p:commandLink update="debitForm" actionListener="#{debitBean.clickItem(rpt)}" style="color: transparent;" oncomplete="PF('multiDialog').show()">
+            							<h:outputText  value="#{rpt.description}" style="color: black; text-align: center"/>
+            						</p:commandLink>
+	            				</p:column>
+	            				
+	            				<p:column headerText="AMOUNT" width="120">
+	            					<p:commandLink update="debitForm" actionListener="#{debitBean.clickItem(rpt)}" style="color: transparent;" oncomplete="PF('multiDialog').show()">
+            							<h:outputText  value="Php#{rpt.amountIn}" style="color: black;"/>
+            						</p:commandLink>
+	            				</p:column>	
+	            				
+	            				<p:column headerText="LOAN DATE" width="100">
+	            					<p:commandLink update="debitForm" actionListener="#{debitBean.clickItem(rpt)}" style="color: transparent;" oncomplete="PF('multiDialog').show()">
+            							<h:outputText  value="#{rpt.dateIn}" style="color: black;"/>
+            						</p:commandLink>
+	            				</p:column>		
+	            						
+	            				<p:column headerText="PAYMENT DATE" width="100">
+	            					<p:commandLink update="debitForm" actionListener="#{debitBean.clickItem(rpt)}" style="color: transparent;" oncomplete="PF('multiDialog').show()">
+            							<h:outputText  value="#{rpt.datepaying}" style="color: black;"/>
+            						</p:commandLink>
+	            				</p:column>
+	            				
+	            				<p:column headerText="IS PAID" width="80">
+	            					<p:commandLink update="debitForm" actionListener="#{debitBean.clickItem(rpt)}" style="color: transparent;" oncomplete="PF('multiDialog').show()">
+            							<h:outputText  value="#{rpt.isPaid}" style="color: black;"/>
+            						</p:commandLink>
+	            				</p:column>	
+	            				
+	            				<p:column headerText="WITH INTEREST" width="80">
+	            					<p:commandLink update="debitForm" actionListener="#{debitBean.clickItem(rpt)}" style="color: transparent;" oncomplete="PF('multiDialog').show()">
+            							<h:outputText  value="#{rpt.withInterest}" style="color: black;"/>
+            						</p:commandLink>
+	            				</p:column>	
+	            				
+	            				<p:column headerText="AMNT PENALTY" width="150">
+	            					<p:commandLink update="debitForm" actionListener="#{debitBean.clickItem(rpt)}" style="color: transparent;" oncomplete="PF('multiDialog').show()">
+            							<h:outputText  value="Php#{rpt.amntPenalty}" style="color: black;"/>
+            						</p:commandLink>
+	            				</p:column>	
+	            				
+	            				<p:column headerText="ADDED BY" width="100">
+	            					<p:commandLink update="debitForm" actionListener="#{debitBean.clickItem(rpt)}" style="color: transparent;" oncomplete="PF('multiDialog').show()">
+            							<h:outputText  value="#{rpt.addedBy}" style="color: black;"/>
+            						</p:commandLink>
+	            				</p:column>			
+	            				
+	            				
+	            						
+					</p:dataTable>
+							
+					</h:panelGrid>
+				</f:facet>	
+				
+		</h:panelGrid>	
+				
+<p:dialog  header="PERFORM ACTIONS" widgetVar="multiDialog" modal="true" showEffect="explode" hideEffect="explode" resizable="false" width="600">
+        <p:outputPanel id="dialogaction" style="text-align:center;">
+        
+        <h:outputLabel id="noteId" value="#{debitBean.userNotification}" style="color: red; font-size: 0.8rem; font-weight: bold;"/>
+        
+					<h:panelGrid id="debitForm" style="width: 100%; height:100%; text-align:left;font-weight: bold;" columns="2" border="0" cellpadding="0" cellspacing="0">
+							
+							
+							<h:outputLabel value="Loan Date: ">
+								<h:inputText value="#{debitBean.currentDate}" styleClass="form-control" disabled="true" style="width: 16em"/>
+							</h:outputLabel>
+							<h:outputLabel value="Debit Type: "> 
+								<h:selectOneMenu value="#{debitBean.debitType}" styleClass="form-control">
+									<f:selectItem itemLabel="Please select..."/>
+									<f:selectItems value="#{debitBean.debitTypes}"/>
+									<f:ajax event="change" listener="#{debitBean.filDescription}" render="iddesc"/>
+								</h:selectOneMenu>
+							</h:outputLabel>
+							
+							
+								<h:outputLabel value="Employee Name: "> 
+								<h:selectOneMenu  value="#{debitBean.employeeId}" styleClass="form-control" style="width: 16em">
+									<f:selectItem itemLabel="Please select..."/>
+									<f:selectItems value="#{debitBean.employeeList}"/>
+									<f:ajax event="change" listener="#{debitBean.filDescription}" render="iddesc"/>
+								</h:selectOneMenu>
+								</h:outputLabel>
+								<h:outputLabel value="Others: (If not Employee)"> 
+								<p:autoComplete value="#{debitBean.employeeOther}"  completeMethod="#{debitBean.autoClientName}" effect="fade"  style="width: 20em">
+									<f:ajax event="click" listener="#{debitBean.filDescription}" render="iddesc"/>
+								</p:autoComplete>
+								</h:outputLabel>
+							
+							<h:outputLabel value="Description: ">
+								<h:inputTextarea id="iddesc" value="#{debitBean.description}" styleClass="form-control" style="width: 16em"/>
+							</h:outputLabel>
+							<h:outputLabel value="Amount In: ">
+								<h:inputText value="#{debitBean.amount}" styleClass="form-control" style="width: 16em">
+									<f:ajax event="change" listener="#{debitBean.filDescription}" render="iddesc"/>
+								</h:inputText>
+							</h:outputLabel>
+							
+							
+							
+							<h:outputLabel value="Paying Date: (mm-dd-yyyy)">
+								<h:inputText value="#{debitBean.datepaying}" styleClass="form-control" style="width: 16em">
+									<f:ajax event="change" listener="#{debitBean.filDescription}" render="debitForm"/>
+								</h:inputText>
+							</h:outputLabel>
+							<h:outputLabel value="Is Paid: "> 
+								<h:selectOneMenu value="#{debitBean.isPaid}" styleClass="form-control" style="width: 16em">
+									<f:selectItem itemLabel="Please select..."/>
+									<f:selectItems value="#{debitBean.isPaidDate}"/>
+									<f:ajax event="change" listener="#{debitBean.filDescription}" render="debitForm"/>
+								</h:selectOneMenu>
+							</h:outputLabel>
+							
+							
+							
+							<h:outputLabel value="With Interest: "> 
+								<h:selectOneMenu value="#{debitBean.withInterest}" styleClass="form-control" style="width: 16em">
+									<f:selectItem itemLabel="Please select..."/>
+									<f:selectItems value="#{debitBean.withInterestList}"/>
+								</h:selectOneMenu>
+							</h:outputLabel>
+							<h:outputLabel value="Amnt Penalty: ">
+								<h:inputText value="#{debitBean.amntPenalty}" styleClass="form-control" style="width: 16em"/>
+							</h:outputLabel>
+							
+							
+							
+					</h:panelGrid>
+					
+							<h:commandButton  value="Save" styleClass="btn btn-primary" style="width: 10em;" action="#{debitBean.save}">
+								<f:ajax execute="@form" render=":formId"/>
+							</h:commandButton>
+							<h:commandButton value="Search" styleClass="btn btn-primary" style="width: 10em;" action="#{debitBean.search}">
+								<f:ajax execute="@form" render=":formId"/>
+							</h:commandButton>
+							<h:commandButton value="Print" styleClass="btn btn-primary" style="width: 10em;" action="#{debitBean.printReport}"/>
+							
+		</p:outputPanel>
+			  
+</p:dialog>
+
+<!-- <p:ajaxStatus style="display:block;margin-bottom:2em;height:24px;">
+    <f:facet name="default">
+        <h:outputText value="Status: StandBy" />
+    </f:facet>
+ 
+    <f:facet name="start">
+        <p:graphicImage name="/gif/loading.gif" />
+    </f:facet>
+ 
+    <f:facet name="complete">
+        <h:outputText value="Status: Completed" />
+    </f:facet>
+</p:ajaxStatus> -->
+ 
+
+<ui:include src="loader.xhtml" />
+</h:form>
+</div></div>
+<br/><br/><br/><br/>
+<ui:include src="footer.xhtml" />
+</h:body>
+</html>

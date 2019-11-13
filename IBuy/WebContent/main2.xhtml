@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:c="http://java.sun.com/jsf/core"
+  xmlns:ui = "http://java.sun.com/jsf/facelets"
+  xmlns:h = "http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+xmlns:p="http://primefaces.org/ui" 
+xmlns:a="http://xmlns.jcp.org/jsf/passthrough"  
+  >
+<h:head>
+<link rel="shortcut icon" type="image/ico" href="#{request.contextPath}/resources/img/favicon.ico" />
+<f:facet name="first">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>Summary</title>
+	</f:facet>
+	
+	<f:facet name="middle">
+            <h:outputStylesheet name="bootstrap/css/bootstrap.css"/>
+            <h:outputStylesheet name="css/pageHeaderFooter.css"/>
+            <h:outputScript name="jquery/jquery.min.js" target="head"/>
+            <h:outputScript name="bootstrap/js/bootstrap.js" target="head"/>
+    </f:facet>
+        
+    <f:facet name="last">
+ 		<h:outputStylesheet name="css/font-awesome.css" />
+    </f:facet>
+    <title>Summary</title>
+
+<style>
+<!-- 
+
+
+
+ -->
+ </style>
+ <!-- 
+ <h:outputScript library="js" name="classie.js"/>
+<h:outputStylesheet library="css" name="normalize.css" />
+<h:outputStylesheet library="css" name="set2.css" /> -->
+ 
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>Summary</title>
+
+</h:head>
+
+<h:body>
+	
+
+<h:form prependId="false" id="formIdMain" >
+		
+		
+		<div class="page-header">
+	 					<a><p:outputLabel value="Summary" style="#{skin.pageTitle};"/></a>
+	    </div>
+		
+		<p:layout fullPage="true" stateful="false">
+		
+		<p:layoutUnit position="north" size="50" visible="false"/>
+		
+		<p:layoutUnit position="south" size="50" visible="false"/>
+		
+		<p:layoutUnit position="west" size="300" >
+			
+			<p:accordionPanel id="idCord" value="Transactions" style="#{skin.accordionPanelMain}">
+        						<p:tab title="Funds">
+        						
+        						<p:dataList id="IdFunds" value="#{homeBean.funds}" var="rpt" type="ordered" style="font-size: 70% ! important;font-weight: bold ! important;">
+        							<f:facet name="header">
+                         				<p:outputLabel value="Total: Php #{homeBean.todaysFundDis}"/>
+                         			</f:facet>
+        								#{rpt.f2} - Php#{rpt.f3}
+        						</p:dataList>
+        						
+        						</p:tab>
+								
+								
+								<p:tab title="Corns">
+								
+								<p:dataList id="dataid2" value="#{homeBean.summary}" var="rpt" type="ordered" style="font-size: 70% ! important;font-weight: bold ! important;">
+        							<f:facet name="header">
+        							<p:panelGrid columns="1" layout="grid" >
+                         				<p:outputLabel value="WCP: Php#{homeBean.cornPriceWhite}"/>
+										<p:outputLabel value="YCP: Php#{homeBean.cornPriceYellow}"/>
+										<p:outputLabel value="Total WYP: Php#{homeBean.totalWYCorn}"/>
+									</p:panelGrid>
+                         			</f:facet>
+        								#{rpt.conditions} ( #{rpt.kilo} ) = #{rpt.totalAmount}
+        						</p:dataList>
+								
+								</p:tab>
+								
+			</p:accordionPanel>
+			
+		</p:layoutUnit>
+		
+		<p:layoutUnit position="east" size="450" >
+			
+			<p:outputPanel id="dialogsum" style="text-align:left;">
+        					
+        					<p:accordionPanel value="Sumamry Transactions" style="#{skin.accordionPanelMain}">
+        						<p:tab title="Summary Transactions">
+        						<ul>
+        							<li><h:outputText value="Cash on Hand: Php "/><h:outputLabel value="#{homeBean.cashOnHand}"/></li>
+        							<li><h:outputText value="Amount Receivable: Php "/><h:outputLabel value="#{homeBean.amountReceivable}"/></li>
+        							<li><h:outputText value="Base Money Transacations"/>
+										<ul>
+											<li><h:outputText value="Debit: Php "/><h:outputLabel value="#{homeBean.credit}"/></li>
+											<li><h:outputText value="Credit: Php "/><h:outputLabel value="#{homeBean.debit}"/></li>
+										</ul>
+									</li>
+									<li><h:outputText value="Money Rotation Transactions"/>
+										<ul>
+											<li><h:outputText value="Investment: Php "/><h:outputLabel value="#{homeBean.basedInvestment}"/></li>
+											<li><h:outputText value="Expenses: Php "/><h:outputLabel value="#{homeBean.expensesAmnt}"/></li>
+											<li><h:outputText value="Incomes: Php "/><h:outputLabel value="#{homeBean.incomes}"/></li>
+											<li><h:outputText value="Acquired Cost: Php "/><h:outputLabel value="#{homeBean.boughtItems}"/></li>
+											<li><h:outputText value="ABPSD*: Php "/><h:outputLabel value="#{homeBean.totalclientcashpaidthesamedate}"/></li>
+										</ul>
+									</li>
+        						</ul>
+        						</p:tab>
+        					</p:accordionPanel>	
+        					<p:accordionPanel value="Detailed Transacations" style="#{skin.accordionPanelMain}">
+        						<p:tab title="Detailed Transactions">
+        					
+        					<ul>
+        					
+							<li><h:outputText value="Funds: Php "/><h:outputLabel value="#{homeBean.todaysFundDis}"/></li>
+							<li><h:outputText value="White and Yellow Corn: Php "/><h:outputLabel value="#{homeBean.totalWYCorn}"/>
+								<ul>
+									<li><h:outputText value="White: Php "/><h:outputLabel value="#{homeBean.cornPriceWhite}"/></li>
+									<li><h:outputText value="Yellow: Php "/><h:outputLabel value="#{homeBean.cornPriceYellow}"/></li>
+								</ul>
+							</li>
+							<li><h:outputText value="Purchased Items: Php "/><h:outputLabel value="#{homeBean.purchased}"/></li>
+							<li><h:outputText value="Expenses: Php "/><h:outputLabel value="#{homeBean.expenses}"/></li>
+							<li><h:outputText value="Sales: Php "/><h:outputLabel value="#{homeBean.sales}"/></li>
+							<li><p:accordionPanel value="Client">
+        						<p:tab title="Client Transactions">
+							<ul>
+							<li><h:outputText value="Cash Advances: Php "/><h:outputLabel value="#{homeBean.totalCashadvance}"/></li>
+							<li><h:outputText value="Rented Items: Php "/><h:outputLabel value="#{homeBean.rentedAmounts}"/></li>
+							<li><h:outputText value="Loan: Php "/><h:outputLabel value="#{homeBean.loanAmounts}"/></li>
+							<li><h:outputText value="Mortgage: Php "/><h:outputLabel value="#{homeBean.mortgageAmounts}"/></li>
+							<li><h:outputText value="Tracking: Php "/><h:outputLabel value="#{homeBean.trackingAmounts}"/></li>
+							<li><h:outputText value="Sheller: Php "/><h:outputLabel value="#{homeBean.shellerAmounts}"/></li>
+							<li><h:outputText value="Hauling: Php "/><h:outputLabel value="#{homeBean.haulingAmounts}"/></li>
+							<li><p:accordionPanel value="Deposit">
+        						<p:tab title="Deposit Transactions">
+									<ul>
+										<li><h:outputText value="Unpaid: Php "/><h:outputLabel value="#{homeBean.depositUnpaid}"/></li>
+										<li><h:outputText value="Paid: Php "/><h:outputLabel value="#{homeBean.depositPaid}"/></li>
+										<li><h:outputText value="Return: Php "/><h:outputLabel value="#{homeBean.depositReturn}"/></li>
+									</ul>
+								</p:tab>
+								</p:accordionPanel>
+							</li>
+							</ul>
+							</p:tab>
+							</p:accordionPanel>
+							</li>
+							
+							
+							
+							</ul>
+							</p:tab>
+							</p:accordionPanel>
+							
+			<p:outputLabel style="#{skin.label}">*ABPSD - Amount Borrowed and Paid on the Same Date</p:outputLabel>
+		</p:outputPanel>
+			
+		</p:layoutUnit>
+		
+		<p:layoutUnit position="center">
+			
+			<p:dataTable id="dataId" value="#{homeBean.data}" var="rpt"
+								rows="10" paginator="true" paginatorTemplate="{Exporters} {CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15,20,50,100"
+                        style="#{skin.table}" paginatorPosition="top"
+                         >
+	            				
+	            				<f:facet name="{Exporters}">
+            					<h:commandLink title="Export in excel format">
+                						    <p:graphicImage name="img/xls.jpg" width="24" height="24"/>
+                							<p:dataExporter type="xls" target="dataId" fileName="CashAdvances"/>
+            						</h:commandLink>
+							 </f:facet>
+	            				
+	            				<f:facet name="header">
+	            				<p:outputLabel value="ANNOUNCEMENT"/><br/>
+								<p:outputLabel value="The following person(s) is/are near to their payment date. Kindly inform them for their debts/loans."/><br/>
+	            				<p:outputLabel value="Total Amount Receivable: Php#{homeBean.amountReceivable}" styleClass="form-control"/>
+	            				</f:facet>
+	            				<p:column headerText="#" width="40">
+	            					<p:outputLabel value="#{rpt.cnt}"/>
+	            				</p:column>
+	            				
+	            				<p:column headerText="DESCRIPTION" width="300">
+	            					<p:outputLabel value="#{rpt.description}"/>
+	            				</p:column>
+	            				
+	            				<p:column headerText="AMOUNT" width="150">
+	            					<p:outputLabel value="#{rpt.amountIn}">
+	            						<f:convertNumber type="currency" currencySymbol="Php"/>
+	            					</p:outputLabel>
+	            				</p:column>
+	            				
+	            				<p:column headerText="LOAN DATE" width="150">
+	            					<p:outputLabel value="#{rpt.dateIn}"/>
+	            				</p:column>
+	            				
+	            				<p:column headerText="PAYMENT DATE" width="150">
+	            					 <p:outputLabel value="#{rpt.datepaying}"/>
+	            				</p:column>
+	            				
+            				</p:dataTable>
+			
+		</p:layoutUnit>
+		
+		
+		</p:layout>
+
+
+
+				<p:commandButton id="idMenuFilter" onclick="PF('sideBarSearch').show()" icon="fa fa-search" style="#{skin.searchButton}" title="Click this button to create filters for searching" />
+				<p:sidebar widgetVar="sideBarSearch" style="#{skin.sideBar}; height: 3em;" fullScreen="false" position="top">
+				
+				<p:toolbar id="tb" style="#{skin.toolbar}">
+			    		<f:facet name="left">
+			        		
+			        	</f:facet>
+			    		<f:facet name="right">
+			    			<p:outputLabel value="Date"/>
+							<p:calendar value="#{homeBean.calendarFrom}" pattern="yyyy-MM-dd" effect="slideDown"/>
+					    	<p:calendar value="#{homeBean.calendarTo}" pattern="yyyy-MM-dd" effect="slideDown"/>
+							
+							<p:outputLabel value="Filter By: "/>
+							<p:selectOneMenu value="#{homeBean.sumdetailed}" style="width: 15em">
+									<f:selectItems value="#{homeBean.sumdetailedList}"/>
+							</p:selectOneMenu>
+							
+							<p:commandButton icon="fa fa-search" update="dataId :idCord:dataid2 :idCord:IdFunds dialogsum" actionListener="#{homeBean.runSearch}" />
+    						&nbsp;
+	    					<h:commandLink title="Report in pdf format" target="_blank" actionListener="#{homeBean.printRpt}">
+							<p:outputLabel value="Download Report"/>
+							
+	                						    <p:graphicImage name="img/pdf.jpg" width="24" height="24"/>
+	            			</h:commandLink>		
+						</f:facet>
+				</p:toolbar>
+				</p:sidebar>
+
+
+<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" /> 
+<p:dialog widgetVar="statusDialog" modal="false" draggable="false" closable="false" resizable="false" showHeader="false">
+    <p:graphicImage name="/gif/loading.gif" style="width: 3em;height: 3em"/>
+</p:dialog>
+<ui:include src="footer.xhtml" />
+</h:form>
+
+
+<br/><br/><br/><br/>
+
+<!-- </div> -->
+		
+</h:body>
+</html>
