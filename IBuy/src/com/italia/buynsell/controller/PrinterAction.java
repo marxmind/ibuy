@@ -15,8 +15,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 
-import jdk.nashorn.internal.runtime.Source;
-
 public class PrinterAction implements Printable, ActionListener {
 
 	public static void main(String args[]) {

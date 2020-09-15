@@ -47,6 +47,9 @@ public class Main6Bean implements Serializable{
 	private String notes;
 	@PostConstruct
 	public void init() {
+		
+		System.out.println("running on Main6Bean....");
+		
 		if(getTotalCollectible()==null) setTotalCollectible("0.00");
 		if(getTotalCollectible().isEmpty()) setTotalCollectible("0.00");
 		String sql = "SELECT * FROM clientprofile WHERE isactiveclient=1 ";
@@ -65,7 +68,7 @@ public class Main6Bean implements Serializable{
 		
 		if(pList.size()==1){
 			collamnt = collectibleAmnt(pList.get(0));
-			amnt += Double.valueOf(collamnt.replace(",", ""));
+			amnt += Double.valueOf(Currency.removeCurrencySymbol(collamnt, "")); //collamnt.replace(",", ""));
 			pList.get(0).setAmntCollectible(collamnt);
 			clientList.add(pList.get(0));
 			writeImageToFile(pList.get(0).getPicturePath());
@@ -73,7 +76,7 @@ public class Main6Bean implements Serializable{
 		}else{
 			for(ClientProfile p : pList){
 				collamnt = collectibleAmnt(p);
-				amnt += Double.valueOf(collamnt.replace(",", ""));
+				amnt += Double.valueOf(Currency.removeCurrencySymbol(collamnt, ""));// collamnt.replace(",", ""));
 				p.setAmntCollectible(collamnt);
 				clientList.add(p);
 			}
