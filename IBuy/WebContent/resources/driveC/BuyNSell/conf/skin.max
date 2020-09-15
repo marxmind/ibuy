@@ -1,0 +1,38 @@
+Configuration for page design
+Author: Mark Italia
+Date: November 14, 2017
+
+label=
+header=
+title=
+placeholder=
+textInput=
+table=
+panel=
+tabs=
+button=
+link=
+dialog=
+pagelayout = 
+copyrightLabel=font-size: 70% ! important;font-weight: bold ! important;  text-transform: none ! important;
+calendarSched=
+homeDirImgaes=border-radius: 0%;cursor: default; width:100%;height:200px;image-rendering: auto;image-rendering: crisp-edges;image-rendering: pixelated;
+homeImgaeProfile=width: 255px; height: 255px; -moz-border-radius: 20px; -webkit-border-radius: 20px; border-radius: 20px; border: 1px solid #3e2b14; padding 2px; box-shadow: 8px 8px 10px #aaa;
+msg=
+toolbar=
+pageTitle=float: left;display: block;color: #f2f2f2;text-align: left;padding: 5px;text-decoration: none;
+menu=
+grid=
+select=
+calendar=
+chart=
+checkbox=
+searchButton=-moz-border-radius: 100px;-webkit-border-radius: 100px;border-radius: 100px;height: 50px;width: 50px;bottom: 30px;right: 9px;float:right; position: fixed;z-index: 1500;font-size: 70% ! important;font-weight: bold ! important;  text-transform: none ! important; background: linear-gradient(#0789b2, #086583, #044357);
+sideBar=
+emailButton=-moz-border-radius: 100px;-webkit-border-radius: 100px;border-radius: 100px;height: 50px;width: 50px;bottom: 30px;right: 70px;float:right; position: fixed;z-index: 1500;font-size: 70% ! important;font-weight: bold ! important;  text-transform: none ! important; 
+sendToLabel=font-size: 70% ! important;font-weight: bold ! important;  text-transform: none ! important;
+emailMenu=font-size: 70% ! important;font-weight: bold ! important;  text-transform: none ! important;
+accordionPanelMain=
+calendarDueDate=
+
+

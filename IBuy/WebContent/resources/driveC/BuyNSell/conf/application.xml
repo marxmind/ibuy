@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<databaseDetails>
+	<databaseName>ibuy</databaseName>
+	<driver>com.mysql.jdbc.Driver</driver>
+	<addressPort>jdbc:mysql://localhost:3306/</addressPort>
+	<SSL>useSSL=false</SSL>
+	<username>root</username>
+	<password>october181986*</password>
+	<applicationExp>01-01-2018</applicationExp>
+	<applicationVersion>Version 1.0</applicationVersion>
+	<copyright>Copyright 2016</copyright>
+	<author>Mark Italia</author>
+	<supportEamil>markritalia@gamil.com</supportEamil>
+	<supportNo>09175121252</supportNo>
+	<includeIPay>no</includeIPay>
+	<documentsPath>C:\BuyNSell\documents</documentsPath>
+	<imagesPath>C:\BuyNSell\images\</imagesPath>
+	<includeLog>yes</includeLog>
+	<logPath>C:\BuyNSell\log\</logPath>
+	<salesreceipt>C:\BuyNSell\sales\</salesreceipt>
+	<cornrpt>C:\BuyNSell\cornrpt\</cornrpt>
+	<expenses>C:\BuyNSell\expenses\</expenses>
+	<purchased>C:\BuyNSell\purchased\</purchased>
+	<printername>EPSON TM-U220 Receipt</printername>
+	<themeStyle>luna-blue</themeStyle>
+	<clientReceipt>C:\BuyNSell\clientReceipt\</clientReceipt>
+	<chat>C:\BuyNSell\chatlog\</chat>
+</databaseDetails>
