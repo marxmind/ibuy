@@ -4,7 +4,6 @@ import java.awt.Desktop;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,14 +24,13 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.FacesException;
-import javax.faces.bean.ApplicationScoped;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.faces.view.ViewScoped;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageOutputStream;
+import javax.inject.Named;
 import javax.print.Doc;
 import javax.print.DocFlavor;
 import javax.print.DocPrintJob;
@@ -47,8 +45,6 @@ import javax.print.attribute.PrintServiceAttributeSet;
 import javax.print.attribute.standard.Copies;
 import javax.print.attribute.standard.PrinterName;
 import javax.servlet.http.HttpSession;
-
-//import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.FilenameUtils;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.CaptureEvent;
@@ -63,7 +59,7 @@ import com.italia.buynsell.controller.CashIn;
 import com.italia.buynsell.controller.ClientDocs;
 import com.italia.buynsell.controller.ClientProfile;
 import com.italia.buynsell.controller.ClientTransactions;
-import com.italia.buynsell.controller.Employee;
+import com.italia.buynsell.controller.Employees;
 import com.italia.buynsell.controller.Expenses;
 import com.italia.buynsell.controller.PurchasingCorn;
 import com.italia.buynsell.controller.ReadApplicationDetails;
@@ -75,7 +71,7 @@ import com.italia.buynsell.utils.DateUtils;
 import com.italia.buynsell.utils.LogUserActions;
 import com.italia.buynsell.utils.StringUtils;
 
-@ManagedBean(name="clientBean", eager=true)
+@Named("clientBean")
 @ViewScoped
 public class ClientProfileBean implements Serializable{
 
@@ -132,7 +128,7 @@ public class ClientProfileBean implements Serializable{
 	private String paidDate;
 	private String notes;
 	private ClientProfile profile;
-	private Employee employee;
+	private Employees employee;
 	private boolean checkIsPaid;
 	private File tmpFileLoad;
 	private String totalTrans;
@@ -854,15 +850,18 @@ public class ClientProfileBean implements Serializable{
 		if(printservice.length!=1){
 		System.out.println("Printer not found");
 		}
+		try {
 		PrintService pservice = printservice[0];
 		DocPrintJob job = pservice.createPrintJob();
 		DocFlavor flavor = DocFlavor.BYTE_ARRAY.AUTOSENSE;
 		Doc doc = new SimpleDoc(cutter,flavor,null);
 		PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
-		try {
+		
 		job.print(doc, aset);
+		}catch(ArrayIndexOutOfBoundsException aio) {
+			System.out.println(aio.getMessage());
 		} catch (PrintException ex) {
-		System.out.println(ex.getMessage());
+			System.out.println(ex.getMessage());
 		}
 	}
 	
@@ -877,15 +876,18 @@ public class ClientProfileBean implements Serializable{
 		if(printservice.length!=1){
 		System.out.println("Printer not found");
 		}
+		try {
 		PrintService pservice = printservice[0];
 		DocPrintJob job = pservice.createPrintJob();
 		DocFlavor flavor = DocFlavor.BYTE_ARRAY.AUTOSENSE;
 		Doc doc = new SimpleDoc(open,flavor,null);
 		PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
-		try {
+		
 		job.print(doc, aset);
+		}catch(ArrayIndexOutOfBoundsException aio) {
+			System.out.println(aio.getMessage());
 		} catch (PrintException ex) {
-		System.out.println(ex.getMessage());
+			System.out.println(ex.getMessage());
 		}
 	}
 	
@@ -1213,11 +1215,11 @@ public class ClientProfileBean implements Serializable{
 		this.profile = profile;
 	}
 
-	public Employee getEmployee() {
+	public Employees getEmployee() {
 		return employee;
 	}
 
-	public void setEmployee(Employee employee) {
+	public void setEmployee(Employees employee) {
 		this.employee = employee;
 	}
 
@@ -1285,6 +1287,7 @@ public class ClientProfileBean implements Serializable{
 		
 		if(pList.size()==1){
 			collamnt = collectibleAmnt(pList.get(0));
+			collamnt = collamnt.replace("₱", "");
 			amnt += Double.valueOf(collamnt.replace(",", ""));
 			pList.get(0).setAmntCollectible(collamnt);
 			clientList.add(pList.get(0));
@@ -1297,6 +1300,8 @@ public class ClientProfileBean implements Serializable{
 			exit();
 			for(ClientProfile p : pList){
 				collamnt = collectibleAmnt(p);
+				collamnt = collamnt.replace("₱", "");
+				collamnt = collamnt.replace("?", "");
 				amnt += Double.valueOf(collamnt.replace(",", ""));
 				p.setAmntCollectible(collamnt);
 				clientList.add(p);
@@ -1309,7 +1314,7 @@ public class ClientProfileBean implements Serializable{
 	}
 	
 	private String collectibleAmnt(ClientProfile clientProfile){
-		String amnt = null;
+		String amnt = "0.00";
 		try{
 		String sql = "SELECT transamount as transamount FROM client_trans WHERE clientId=? AND status=1";
 		String[] params = new String[1];
@@ -1383,7 +1388,7 @@ public class ClientProfileBean implements Serializable{
 	}
 	
 	
-	public StreamedContent profImage;
+	private StreamedContent profImage;
 	public StreamedContent getProfImage() {
 		return profImage;
 	}
@@ -1414,8 +1419,13 @@ public class ClientProfileBean implements Serializable{
 		g.drawImage(img, 10, 10, w * scale, h * scale, null);
 
 		ImageIO.write(bi, "png", bos);
-		image = new DefaultStreamedContent(new ByteArrayInputStream(
-				bos.toByteArray()), "image/png");
+		image = DefaultStreamedContent.builder()
+	    		.contentType("image/png")
+	    		.name("default.png")
+	    		.stream(()-> this.getClass().getResourceAsStream(IMAGE_PATH + "default.png"))
+	    		.build();
+				//new DefaultStreamedContent(new ByteArrayInputStream(
+				//bos.toByteArray()), "image/png");
 		
 		}catch(IOException e){}
 		
@@ -1491,7 +1501,7 @@ public class ClientProfileBean implements Serializable{
 
         byte[] bytes = out.toByteArray();
         //System.out.println("Bytes -> " + bytes.length);
-         return new DefaultStreamedContent(new ByteArrayInputStream(bytes), "image/jpeg", getFullName().toUpperCase()+".jpg");
+         return new DefaultStreamedContent(); //new DefaultStreamedContent(new ByteArrayInputStream(bytes), "image/jpeg", getFullName().toUpperCase()+".jpg");
 		
 		}catch(Exception e){}
          
@@ -1580,7 +1590,7 @@ public class ClientProfileBean implements Serializable{
 
         try {
             BufferedImage image = ImageIO
-                    .read(event.getFile().getInputstream());
+                    .read(event.getFile().getInputStream());
             if (image != null) {
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 ImageIO.write(image, "jpg", outputStream);
@@ -1601,7 +1611,7 @@ public class ClientProfileBean implements Serializable{
 	public void docUploadListener(FileUploadEvent event) {
 		System.out.println("docUploadListener....");
         try {
-        	InputStream input = event.getFile().getInputstream();
+        	InputStream input = event.getFile().getInputStream();
         if(input!=null){
         	//save the stream in setter for saving purpuses later
         	setDocFileExt(FilenameUtils.getExtension(event.getFile().getFileName()));
@@ -1785,7 +1795,13 @@ public class ClientProfileBean implements Serializable{
 
 	            byte[] bytes = out.toByteArray();
 	            System.out.println("Bytes -> " + bytes.length);
-	            content = new DefaultStreamedContent(new ByteArrayInputStream(bytes), "image/jpeg", "corn.jpg");
+	            content = DefaultStreamedContent.builder()
+	    	    		.contentType("image/jpeg")
+	    	    		.name("corn.jpg")
+	    	    		.stream(()-> this.getClass().getResourceAsStream(IMAGE_PATH + "corn.jpg"))
+	    	    		.build();
+
+	            		//new DefaultStreamedContent(new ByteArrayInputStream(bytes), "image/jpeg", "corn.jpg");
 	            return content;
 			 }catch(Exception e){e.printStackTrace();}
 	            

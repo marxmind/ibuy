@@ -13,7 +13,7 @@ public class DataConnectDAO {
 		ReadApplicationDetails db = new ReadApplicationDetails();
 		try{
 			Class.forName(db.getDriver());
-			String url = db.getAddressPort()+db.getDatabaseName()+"?"+db.getSSL();
+			String url = db.getAddressPort()+db.getDatabaseName()+"?serverTimeZone=UTC&"+db.getSSL();
 			conn = DriverManager.getConnection(url, db.getUserName(), db.getPassword());
 			
 			

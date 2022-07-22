@@ -6,6 +6,7 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,12 +23,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
-import javax.servlet.http.HttpServletRequest;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -55,10 +55,14 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 
-@ManagedBean(name="homeBean", eager=true)
+@Named("homeBean")
 @ViewScoped
-public class HomeBean {
+public class HomeBean implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 54696436476861L;
 	private final String sep = File.separator;
 	private final String REPORT_PATH = "C:" + sep + "BuyNSell" + sep + "reports" + sep + "generated" + sep;
 	private final String REPORT_NAME = "Summary";

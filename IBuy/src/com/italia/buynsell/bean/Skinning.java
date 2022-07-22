@@ -4,11 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.Serializable;
 import java.util.Properties;
-
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 /**
  * 
  * @author mark italia
@@ -16,7 +14,7 @@ import javax.faces.bean.ViewScoped;
  * @version 1.0
  *
  */
-@ManagedBean(name="skin", eager=true)
+@Named("skin")
 @ViewScoped
 public class Skinning implements Serializable{
 

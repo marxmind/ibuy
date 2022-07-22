@@ -28,11 +28,11 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 import javax.print.Doc;
 import javax.print.DocFlavor;
 import javax.print.DocPrintJob;
@@ -69,8 +69,10 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
-@ManagedBean(name="cornBean", eager=true)
-@SessionScoped
+//@ManagedBean(name="cornBean", eager=true)
+//@SessionScoped
+@Named("cornBean")
+@ViewScoped
 public class CornRecordingBean implements Serializable{
 	 
 	/**
@@ -781,15 +783,21 @@ public String viewDeducted(String receiptNumber){
 		if(printservice.length!=1){
 		System.out.println("Printer not found");
 		}
+		try {
 		PrintService pservice = printservice[0];
 		DocPrintJob job = pservice.createPrintJob();
 		DocFlavor flavor = DocFlavor.BYTE_ARRAY.AUTOSENSE;
 		Doc doc = new SimpleDoc(open,flavor,null);
 		PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
-		try {
+		
+		
 		job.print(doc, aset);
 		} catch (PrintException ex) {
-		System.out.println(ex.getMessage());
+			System.out.println(ex.getMessage());
+		}catch(NullPointerException ne) {
+			System.out.println(ne.getMessage());
+		}catch(ArrayIndexOutOfBoundsException ae) {
+			System.out.println(ae.getMessage());
 		}
 	}
 	
@@ -804,15 +812,19 @@ public String viewDeducted(String receiptNumber){
 		if(printservice.length!=1){
 		System.out.println("Printer not found");
 		}
+		
+		try {
 		PrintService pservice = printservice[0];
 		DocPrintJob job = pservice.createPrintJob();
 		DocFlavor flavor = DocFlavor.BYTE_ARRAY.AUTOSENSE;
 		Doc doc = new SimpleDoc(cutter,flavor,null);
 		PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
-		try {
+		
 		job.print(doc, aset);
 		} catch (PrintException ex) {
-		System.out.println(ex.getMessage());
+			System.out.println(ex.getMessage());
+		} catch(ArrayIndexOutOfBoundsException ai) {
+			System.out.println(ai.getMessage());
 		}
 	}
 	
@@ -2215,7 +2227,12 @@ public String viewDeducted(String receiptNumber){
 			
 		String pdfName = REPORT_NAME +".pdf";
 	    File pdfFile = new File(REPORT_PATH + REPORT_NAME +".pdf");
-	    tempPdfFile = new DefaultStreamedContent(new FileInputStream(pdfFile), "application/pdf", pdfName);
+	    tempPdfFile = DefaultStreamedContent.builder()
+	    		.contentType("application/pdf")
+	    		.name(pdfName)
+	    		.stream(()-> this.getClass().getResourceAsStream(REPORT_PATH + REPORT_NAME +".pdf"))
+	    		.build();
+	    		//new DefaultStreamedContent(new FileInputStream(pdfFile), "application/pdf", pdfName);
   	    
   	    PrimeFaces pm = PrimeFaces.current();
   	    pm.executeScript("showPdf();hideButton();");
@@ -2236,7 +2253,11 @@ public String viewDeducted(String receiptNumber){
 			
 		    File pdfFile = new File(pdf);
   	    
-		    return new DefaultStreamedContent(new FileInputStream(pdfFile), "application/pdf", pdfName);
+		    return DefaultStreamedContent.builder()
+		    		.contentType("application/pdf")
+		    		.name(pdfName)
+		    		.stream(()-> this.getClass().getResourceAsStream(REPORT_PATH + REPORT_NAME +".pdf"))
+		    		.build();//new DefaultStreamedContent(new FileInputStream(pdfFile), "application/pdf", pdfName);
 		}else {
 			return tempPdfFile;
 		}

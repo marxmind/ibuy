@@ -1,19 +1,13 @@
 package com.italia.buynsell.bean;
 
 import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 
 import com.italia.buynsell.controller.CashIn;
 import com.italia.buynsell.controller.ClientProfile;
@@ -24,7 +18,6 @@ import com.italia.buynsell.controller.Expenses;
 import com.italia.buynsell.controller.Purchased;
 import com.italia.buynsell.controller.PurchasingCorn;
 import com.italia.buynsell.controller.Search;
-import com.italia.buynsell.dao.DataConnectDAO;
 import com.italia.buynsell.ei.EICashOut;
 import com.italia.buynsell.ei.EICashPay;
 import com.italia.buynsell.ei.EICashReturn;
@@ -32,10 +25,14 @@ import com.italia.buynsell.enm.TransStatus;
 import com.italia.buynsell.utils.Currency;
 import com.italia.buynsell.utils.DateUtils;
 
-@ManagedBean(name="searchBean", eager=true)
+@Named("searchBean")
 @ViewScoped
 public class SearchBean implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5688989808871L;
 	List<Search> searchList = new ArrayList<>();
 	private String searchString;
 	private Date calendarFrom;

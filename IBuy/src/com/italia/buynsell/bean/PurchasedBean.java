@@ -8,13 +8,12 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -24,10 +23,10 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 import javax.print.Doc;
 import javax.print.DocFlavor;
 import javax.print.DocPrintJob;
@@ -43,9 +42,6 @@ import javax.print.attribute.standard.Copies;
 import javax.print.attribute.standard.PrinterName;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import com.italia.buynsell.controller.CashIn;
-import com.italia.buynsell.controller.Expenses;
 import com.italia.buynsell.controller.GenericPrint;
 import com.italia.buynsell.controller.GenericReportMain;
 import com.italia.buynsell.controller.Purchased;
@@ -56,9 +52,13 @@ import com.italia.buynsell.utils.Currency;
 import com.italia.buynsell.utils.DateUtils;
 import com.italia.buynsell.utils.LogUserActions;
 
-@ManagedBean (name="pureBean", eager=true)
+@Named("pureBean")
 @ViewScoped
-public class PurchasedBean {
+public class PurchasedBean implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 468794871L;
 	private String description;
 	private String amount;
 	private String datein;
@@ -250,6 +250,7 @@ public class PurchasedBean {
 		NumberFormat format = NumberFormat.getCurrencyInstance();
 		amount = format.format(money).replace("$", "");
 		amount = amount.replace("Php", "");
+		amount = amount.replace("₱", "");
 		}catch(Exception e){
 			
 		}
@@ -796,15 +797,18 @@ private void updateData(List data){
 		if(printservice.length!=1){
 		System.out.println("Printer not found");
 		}
+		try {
 		PrintService pservice = printservice[0];
 		DocPrintJob job = pservice.createPrintJob();
 		DocFlavor flavor = DocFlavor.BYTE_ARRAY.AUTOSENSE;
 		Doc doc = new SimpleDoc(open,flavor,null);
 		PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
-		try {
+		
 		job.print(doc, aset);
+		}catch(ArrayIndexOutOfBoundsException aio) {
+			System.out.println(aio.getMessage());
 		} catch (PrintException ex) {
-		System.out.println(ex.getMessage());
+			System.out.println(ex.getMessage());
 		}
 	}
 	
@@ -819,15 +823,18 @@ private void updateData(List data){
 		if(printservice.length!=1){
 		System.out.println("Printer not found");
 		}
+		try {
 		PrintService pservice = printservice[0];
 		DocPrintJob job = pservice.createPrintJob();
 		DocFlavor flavor = DocFlavor.BYTE_ARRAY.AUTOSENSE;
 		Doc doc = new SimpleDoc(cutter,flavor,null);
 		PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
-		try {
+		
 		job.print(doc, aset);
+		}catch(ArrayIndexOutOfBoundsException aio) {
+			System.out.println(aio.getMessage());
 		} catch (PrintException ex) {
-		System.out.println(ex.getMessage());
+			System.out.println(ex.getMessage());
 		}
 	}
 	public String getSearchParam() {

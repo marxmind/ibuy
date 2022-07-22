@@ -8,14 +8,14 @@ import java.io.PrintWriter;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
 import com.italia.buynsell.controller.ReadApplicationDetails;
 import com.italia.buynsell.utils.DateUtils;
 
-@ManagedBean (name="chatBean", eager=true)
+@Named("chatBean")
 @ViewScoped
 public class ChatBean implements Serializable{
 

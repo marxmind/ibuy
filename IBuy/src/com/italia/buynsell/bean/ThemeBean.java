@@ -2,12 +2,9 @@ package com.italia.buynsell.bean;
 
 import java.io.Serializable;
 
-import javax.faces.bean.ApplicationScoped;
-import javax.faces.bean.ManagedBean;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Named;
 import javax.servlet.http.HttpSession;
-
-import com.italia.buynsell.controller.ReadApplicationDetails;
-
 /**
  * 
  * @author mark italia
@@ -15,8 +12,8 @@ import com.italia.buynsell.controller.ReadApplicationDetails;
  * @version 1.0
  *
  */
+@Named("themeBean")
 @ApplicationScoped
-@ManagedBean(name="themeBean", eager=true)
 public class ThemeBean implements Serializable{
 
 	/**
@@ -25,7 +22,7 @@ public class ThemeBean implements Serializable{
 	private static final long serialVersionUID = 147868854437557L;
 
 	public String getApplicationTheme(){
-		String theme = "luna-blue";
+		String theme = "saga";
 		try {
 		System.out.println("Applying theme...");
 		/*ReadApplicationDetails db = new ReadApplicationDetails();

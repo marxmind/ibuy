@@ -6,6 +6,7 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,11 +25,11 @@ import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -42,15 +43,18 @@ import com.italia.buynsell.controller.GenericPrint;
 import com.italia.buynsell.controller.GenericReportMain;
 import com.italia.buynsell.controller.ReadApplicationDetails;
 import com.italia.buynsell.dao.DataConnectDAO;
-import com.italia.buynsell.ipay.IPayTables;
 import com.italia.buynsell.utils.Currency;
 import com.italia.buynsell.utils.DateUtils;
 import com.italia.buynsell.utils.LogUserActions;
 
-@ManagedBean (name="debitBean", eager=true)
+@Named("debitBean")
 @ViewScoped
 @Deprecated
-public class DebitBean {
+public class DebitBean implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 537569796761L;
 	private String description;
 	private String amount;
 	private String datein;

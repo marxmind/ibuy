@@ -89,24 +89,23 @@ xmlns:p="http://primefaces.org/ui"
 					<span class="login100-form-title js-tilt">
 						MATT BUY AND SELL + TRUCKING SERVICES
 					</span>
-					<p:selectOneRadio id="customRadio" value="#{loginBean.ui}" layout="responsive" columns="2" styleClass="js-tilt">
-						<f:selectItem itemLabel="MAX" itemValue="" />
+					<p:selectOneRadio id="customRadio" value="#{loginBean.ui}" layout="responsive" columns="2" >
 						<f:selectItem itemLabel="Avalon" itemValue="6" />
 					</p:selectOneRadio>
-					<p:selectOneMenu value="#{loginBean.idThemes}" styleClass="js-tilt">
+					<p:selectOneMenu value="#{loginBean.idThemes}" >
 			          	<f:selectItems value="#{loginBean.themes}"/>
 			          </p:selectOneMenu>
-					<div class="ui-inputgroup wrap-input100 validate-input js-tilt" data-validate = "Username is required">
+					<div class="ui-inputgroup wrap-input100 validate-input" data-validate = "Username is required">
 						<span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
 						<p:inputText id="idUName" placeholder="Username" value="#{loginBean.name}"/>
 					</div>
 					
-					<div class="ui-inputgroup wrap-input100 validate-input js-tilt" data-validate = "Password is required">
+					<div class="ui-inputgroup wrap-input100 validate-input" data-validate = "Password is required">
 						<span class="ui-inputgroup-addon"><i class="fa fa-lock"></i></span>
 						<p:password placeholder="Password" value="#{loginBean.password}"/>
 					</div>
 					
-					<div class="ui-inputgroup js-tilt">
+					<div class="ui-inputgroup">
             		<p:commandLink id="logId" action="#{loginBean.validateUserNamePassword}" update="msg" ajax="false" immediate="false" onclick="showLoading()">
 					 <span class="fa-stack fa-lg">
 			                  <i class="fa fa-circle fa-stack-2x"></i>
@@ -239,7 +238,7 @@ xmlns:p="http://primefaces.org/ui"
       <div class="row">
         <div class="col-lg-6 text-lg-left text-center">
           <div class="copyright">
-            &copy; Copyright <strong>#{versionBean.copyright.appname}</strong>. All Rights Reserved
+            <ui:include src="copyright.xhtml" />	
           </div>
           <div class="credits">
             Managed by <a href="http://www.facebook.com/marxmind">MARXMIND</a>

@@ -14,8 +14,8 @@ public class Currency {
 	}
 	
 	public static String removeCurrencySymbol(String value, String replaceChr){
-		String[] symbols = {"Php","php","PHP","$","\u20B1",","};
-		if(value==null) return "";
+		String[] symbols = {"Php","php","PHP","$","\u20B1",",","₱","?"};
+		if(value==null) return "0.00";
 		for(String symbol : symbols){
 			value = value.replace(symbol, replaceChr);
 		}
@@ -36,7 +36,7 @@ public class Currency {
 		if(amount==null) return "0";
 		if(amount.isEmpty()) return "0";
 		try{
-		String[] symbols = {"Php","php","PHP","$",",","\u20B1"};
+		String[] symbols = {"Php","php","PHP","$",",","\u20B1","₱","?"};
 		for(String symbol : symbols){
 			amount = amount.replace(symbol, "");
 		}
@@ -45,6 +45,8 @@ public class Currency {
 		NumberFormat format = NumberFormat.getCurrencyInstance();
 		amount = format.format(money).replace("$", "");
 		amount = amount.replace("Php", "");
+		amount = amount.replace("₱", "");
+		amount = amount.replace("?", "");
 		}catch(Exception e){
 			
 		}

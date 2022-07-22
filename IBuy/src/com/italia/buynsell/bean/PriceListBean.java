@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,27 +19,30 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletResponse;
 
 import com.italia.buynsell.controller.CornConditions;
 import com.italia.buynsell.controller.CornPrice;
 import com.italia.buynsell.controller.Corns;
-import com.italia.buynsell.controller.PurchasingCorn;
 import com.italia.buynsell.dao.DataConnectDAO;
 import com.italia.buynsell.reports.ReportCompiler;
 
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperPrint;
 
-@ManagedBean(name="priceBean", eager=true)
+@Named("priceBean")
 @ViewScoped
-public class PriceListBean {
+public class PriceListBean implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 65486584541L;
 	private List<CornPrice> cornPrices = new ArrayList<CornPrice>();
 	private String volume;
 	private String cornName;

@@ -8,9 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 
 import org.primefaces.model.charts.ChartData;
 import org.primefaces.model.charts.axes.cartesian.CartesianScales;
@@ -31,7 +30,9 @@ import com.italia.buynsell.controller.Debit;
 import com.italia.buynsell.controller.PurchasingCorn;
 import com.italia.buynsell.utils.DateUtils;
 
-@ManagedBean
+//@ManagedBean
+//@ViewScoped
+@Named
 @ViewScoped
 public class ChartJsView implements Serializable {
 
@@ -116,7 +117,7 @@ public class ChartJsView implements Serializable {
 			
 		}
         
-        dataSet.setData(values);
+        //dataSet.setData(values);
         dataSet.setFill(false);
         dataSet.setLabel("Monthly Expenses");
         dataSet.setBorderColor("rgb(75, 192, 192)");

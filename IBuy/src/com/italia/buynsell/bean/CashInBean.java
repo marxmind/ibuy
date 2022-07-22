@@ -6,13 +6,12 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -22,11 +21,11 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -39,10 +38,16 @@ import com.italia.buynsell.utils.Application;
 import com.italia.buynsell.utils.Currency;
 import com.italia.buynsell.utils.DateUtils;
 
-@ManagedBean (name="cashInBean", eager=true)
+//@ManagedBean (name="cashInBean", eager=true)
+//@ViewScoped
+@Named("cashInBean")
 @ViewScoped
-public class CashInBean {
+public class CashInBean implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5756457561L;
 	private String description;
 	private String amount;
 	private String datein;
@@ -262,6 +267,7 @@ public class CashInBean {
 		NumberFormat format = NumberFormat.getCurrencyInstance();
 		amount = format.format(money).replace("$", "");
 		amount = amount.replace("Php", "");
+		amount = amount.replace("₱", "");
 		}catch(Exception e){
 			
 		}

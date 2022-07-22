@@ -1,34 +1,27 @@
 package com.italia.buynsell.bean;
-
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.imageio.ImageIO;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 
 import org.primefaces.PrimeFaces;
-
 import com.italia.buynsell.controller.ClientProfile;
 import com.italia.buynsell.controller.ClientTransactions;
 import com.italia.buynsell.controller.PurchasingCorn;
 import com.italia.buynsell.enm.TransStatus;
-import com.italia.buynsell.utils.Application;
 import com.italia.buynsell.utils.Currency;
 import com.italia.buynsell.utils.DateUtils;
-import com.italia.buynsell.utils.LogUserActions;
 
-@ManagedBean(name="main6Bean", eager=true)
+@Named("main6Bean")
 @ViewScoped
 public class Main6Bean implements Serializable{
 

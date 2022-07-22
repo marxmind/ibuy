@@ -7,16 +7,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
 import com.italia.buynsell.dao.LoginDAO;
 
-@ManagedBean(name="loginBean", eager=true)
+@Named("loginBean")
 @SessionScoped
 public class LoginBean implements Serializable{
 
@@ -29,7 +29,7 @@ public class LoginBean implements Serializable{
 	private String keyPress;
 	
 	private List themes;
-	private String idThemes="luna-blue";
+	private String idThemes="saga";
 	private String ui="6";
 	public String getCurrentDate(){//MMMM d, yyyy
 		DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
@@ -131,7 +131,9 @@ public class LoginBean implements Serializable{
 	public List getThemes() {
 		
 		themes = new ArrayList<>();
-		
+		themes.add(new SelectItem("arya","ARYA"));
+		themes.add(new SelectItem("saga","SAGA"));
+		themes.add(new SelectItem("vela","VELA"));
 		themes.add(new SelectItem("luna-amber","LUNA AMBER"));
 		themes.add(new SelectItem("luna-blue","LUNA BLUE"));
 		themes.add(new SelectItem("luna-green","LUNA GREEN"));

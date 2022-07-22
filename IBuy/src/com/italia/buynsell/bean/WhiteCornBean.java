@@ -1,6 +1,5 @@
 package com.italia.buynsell.bean;
 
-import java.awt.print.PrinterJob;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -11,6 +10,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -28,11 +28,11 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 import javax.print.Doc;
 import javax.print.DocFlavor;
 import javax.print.DocPrintJob;
@@ -53,7 +53,6 @@ import org.primefaces.PrimeFaces;
 
 import com.italia.buynsell.controller.ClientProfile;
 import com.italia.buynsell.controller.CornConditions;
-import com.italia.buynsell.controller.Debit;
 import com.italia.buynsell.controller.PurchasingCorn;
 import com.italia.buynsell.controller.ReadApplicationDetails;
 import com.italia.buynsell.dao.DataConnectDAO;
@@ -63,16 +62,20 @@ import com.italia.buynsell.utils.Currency;
 import com.italia.buynsell.utils.DateUtils;
 import com.italia.buynsell.utils.LogUserActions;
 import com.italia.buynsell.utils.Numbers;
-import com.mysql.fabric.xmlrpc.base.Array;
 
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
-@ManagedBean(name="whiteBean", eager=true)
+
+@Named("whiteBean")
 @ViewScoped
-public class WhiteCornBean {
+public class WhiteCornBean implements Serializable {
 	 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1586343435656L;
 	private String condition;
 	private String condSearch;
 	private List conditions = new ArrayList<>();

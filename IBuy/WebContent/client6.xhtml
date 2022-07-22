@@ -23,7 +23,7 @@ xmlns:my="http://java.sun.com/jsf/composite/my"
             <h:outputStylesheet name="sb-admin/css/sb-admin.min.css"/>
             <h:outputStylesheet name="sb-admin/css/bg-sidebar.min.css"/>
             <h:outputStylesheet name="css/font-awesome.min.css" />
-            
+            <h:outputStylesheet name="css/bodyconf.css" />
      </f:facet>
      <f:facet name="last">       
             <h:outputScript name="jquery/jquery.min.js" target="head"/>
@@ -475,7 +475,7 @@ xmlns:my="http://java.sun.com/jsf/composite/my"
         <footer class="sticky-footer citizenBox">
           <div class="container my-auto">
             <div class="copyright text-center my-auto">
-              <span>Copyright 2019</span>
+              <ui:include src="copyright.xhtml" />
             </div>
           </div>
         </footer>

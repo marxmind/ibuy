@@ -6,10 +6,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
 import com.italia.buynsell.controller.Attendance;
@@ -26,7 +25,8 @@ import com.italia.buynsell.utils.Numbers;
  * @since 9/22/2018
  *
  */
-@ManagedBean(name="payBean", eager=true)
+
+@Named("payBean")
 @ViewScoped
 public class PayrollBean implements Serializable{
 

@@ -15,9 +15,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.FileUploadEvent;
@@ -36,7 +36,9 @@ import com.italia.buynsell.utils.Numbers;
  *
  */
 
-@ManagedBean(name="attendBean", eager=true)
+//@ManagedBean(name="attendBean", eager=true)
+//@ViewScoped
+@Named("attendBean")
 @ViewScoped
 public class UploadAttendanceBean implements Serializable{
 
@@ -145,7 +147,7 @@ public class UploadAttendanceBean implements Serializable{
 	public void uploadData(FileUploadEvent event){
 		
 		 try {
-			 InputStream stream = event.getFile().getInputstream();
+			 InputStream stream = event.getFile().getInputStream();
 			 //String ext = FilenameUtils.getExtension(event.getFile().getFileName());
 			 String file = event.getFile().getFileName();
 			 
@@ -507,7 +509,7 @@ public class UploadAttendanceBean implements Serializable{
 	
 	private boolean writeDocToFile(FileUploadEvent event){
 		try{
-		InputStream stream = event.getFile().getInputstream();
+		InputStream stream = event.getFile().getInputStream();
 		String fileExt = event.getFile().getFileName().split("\\.")[1];
 		String filename = "attendance-" + DateUtils.getCurrentDateMMDDYYYYTIMEPlain() + "."+fileExt.toLowerCase();
 		

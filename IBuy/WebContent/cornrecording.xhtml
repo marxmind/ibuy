@@ -23,7 +23,7 @@ xmlns:my="http://java.sun.com/jsf/composite/my"
             <h:outputStylesheet name="sb-admin/css/sb-admin.min.css"/>
             <h:outputStylesheet name="sb-admin/css/bg-sidebar.min.css"/>
             <h:outputStylesheet name="css/font-awesome.min.css" />
-            
+            <h:outputStylesheet name="css/bodyconf.css" />
      </f:facet>
      <f:facet name="last">       
             <h:outputScript name="jquery/jquery.min.js" target="head"/>
@@ -146,12 +146,12 @@ xmlns:my="http://java.sun.com/jsf/composite/my"
 				<p:panelGrid id="idCorns" columns="6" layout="grid">
         					
         					<p:outputLabel value="Date:"/>
-							<p:inputText value="#{cornBean.date}" readonly="true"/>
+							<p:inputText value="#{cornBean.date}" readonly="true" style="width: 15em"/>
         					
 		        			<p:outputLabel value="Customer Name:"/>
 							<p:autoComplete id="clieId" value="#{cornBean.clientName}" placeholder="Client Name"
 								completeMethod="#{cornBean.autoClientSuggestion}" minQueryLength="4" queryDelay="300" maxResults="5" 
-								 dropdown="true" var="cl" itemLabel="#{cl.fullName}" itemValue="#{cl}" converter="converter">
+								 dropdown="true" var="cl" itemLabel="#{cl.fullName}" itemValue="#{cl}" converter="converter" inputStyle="width: 15em">
 								 <p:ajax event="itemSelect" listener="#{cornBean.clickClient}" update="idCorns"/>
 									<p:column>
 									<p:graphicImage name="images/#{cl.picturePath}.jpg" rendered="#{not empty cl.picturePath}" width="40" height="50"/>
@@ -162,37 +162,37 @@ xmlns:my="http://java.sun.com/jsf/composite/my"
 							</p:autoComplete>
 							
 							<p:outputLabel value="Corn Color:"/> 
-								<p:selectOneMenu value="#{cornBean.cornColor}">
+								<p:selectOneMenu value="#{cornBean.cornColor}" style="width: 15em">
 									<f:selectItems value="#{cornBean.cornColors}"/>
 									<p:ajax event="change" update="idCorns" listener="#{cornBean.reloadConditions}"/>
 								</p:selectOneMenu>
 							
 							<p:outputLabel value="Condition:"/> 
-								<p:selectOneMenu value="#{cornBean.condition}">
+								<p:selectOneMenu value="#{cornBean.condition}" style="width: 15em">
 									<f:selectItems value="#{cornBean.conditions}"/>
 								</p:selectOneMenu>
 							
 							<p:outputLabel value="Kilo:"/>
-							<p:inputText value="#{cornBean.kilo}"/>
+							<p:inputText value="#{cornBean.kilo}" style="width: 15em"/>
 							
 							<p:outputLabel value="Discount:"/>
-							<p:inputText value="#{cornBean.discount}"/>
+							<p:inputText value="#{cornBean.discount}" style="width: 15em"/>
 							
 							<p:outputLabel value="Amount:"/>
-								<p:inputText value="#{cornBean.amount}">
+								<p:inputText value="#{cornBean.amount}" style="width: 15em">
 									<f:convertNumber maxFractionDigits="2" pattern="##,##0.00"/>
 									<f:ajax render="totalid" event="change"/>
 								</p:inputText>
 							
 							
 							<p:outputLabel value="Driver:"/>
-								<p:inputText value="#{cornBean.driver}">
+								<p:inputText value="#{cornBean.driver}" style="width: 15em">
 									<f:convertNumber maxFractionDigits="2" pattern="##,##0.00"/>
 									<f:ajax render="totalid" event="change"/>
 								</p:inputText>
 							
 							<p:outputLabel id="tolid" value="Total:"/>
-								<p:inputText id="totalid" value="#{cornBean.totalPrice}" readonly="true">
+								<p:inputText id="totalid" value="#{cornBean.totalPrice}" style="width: 15em" readonly="true">
 								</p:inputText>
 							
 							<p:outputLabel value="Deduction details"/>
@@ -201,7 +201,8 @@ xmlns:my="http://java.sun.com/jsf/composite/my"
 					color: black;font-style: normal; 	
 					font-family: Times New Roman; 
 					font-size: 100%;
-					font-weight: bold;" autoResize="false" scrollHeight="50"/>
+					font-weight: bold;
+					width: 15em" autoResize="false" scrollHeight="50"/>
 					
 					<p:outputLabel value="Kilo Details"/>
 					<p:inputTextarea value="#{cornBean.kiloDetails}" rows="5" cols="20"
@@ -209,18 +210,22 @@ xmlns:my="http://java.sun.com/jsf/composite/my"
 					color: black;font-style: normal; 	
 					font-family: Times New Roman; 
 					font-size: 100%;
-					font-weight: bold;" autoResize="false" scrollHeight="50"/>
+					font-weight: bold;
+					width: 15em" autoResize="false" scrollHeight="50"/>
 					
 					<p:outputLabel/>
 					<p:outputLabel/>
 					
 					<p:outputLabel value="Total Deducted:"/>
-						<p:inputNumber value="#{cornBean.deductedTotal}" placeholder="0.00">
+						<p:inputNumber value="#{cornBean.deductedTotal}" placeholder="0.00" inputStyle="width: 15em">
 							<p:ajax event="change" listener="#{cornBean.calculateNet}" update="netId"/>
 						</p:inputNumber>	
 					
 					<p:outputLabel id="netId" value="Net:"/>
-					<p:inputNumber value="#{cornBean.finalAmount}" placeholder="0.00" />
+					<p:inputNumber value="#{cornBean.finalAmount}" placeholder="0.00" inputStyle="width: 15em"/>
+		        	
+		        	<p:outputLabel/>
+					<p:outputLabel/>
 		        	
         		</p:panelGrid>
 		   
@@ -344,7 +349,7 @@ xmlns:my="http://java.sun.com/jsf/composite/my"
         <footer class="sticky-footer citizenBox">
           <div class="container my-auto">
             <div class="copyright text-center my-auto">
-              <span>Copyright 2019</span>
+              <ui:include src="copyright.xhtml" />
             </div>
           </div>
         </footer>

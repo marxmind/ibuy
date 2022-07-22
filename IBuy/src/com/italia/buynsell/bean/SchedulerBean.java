@@ -9,8 +9,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
@@ -24,7 +24,7 @@ import com.italia.buynsell.controller.ClientTransactions;
 import com.italia.buynsell.utils.Currency;
 import com.italia.buynsell.utils.DateUtils;
 
-@ManagedBean (name="schedBean", eager=true)
+@Named("schedBean")
 @ViewScoped
 public class SchedulerBean implements Serializable {
 
@@ -59,7 +59,7 @@ public class SchedulerBean implements Serializable {
 			 sched.add(loadDuedate(trans));
 			 
 	        }
-		 
+		 /* temporay comment
 		 eventModel = new LazyScheduleModel() {
      		@Override
      		public void loadEvents(Date start, Date end) {
@@ -69,7 +69,7 @@ public class SchedulerBean implements Serializable {
      			
      		}
      	};
-     	
+     	*/
 		 
 		 
 		}catch(Exception e) {}
@@ -97,7 +97,7 @@ public class SchedulerBean implements Serializable {
 			Date dateFrom = formatter.parse(fromDate);
 	        Date dateTo = formatter.parse(toDate);
 	        
-	        eve = new DefaultScheduleEvent(title, dateFrom, dateTo); 
+	        eve = new DefaultScheduleEvent<>(); //new DefaultScheduleEvent(title, dateFrom, dateTo); 
 	        eve.setId(trans.getTransId()+"");
 	        
 		}catch(Exception e) {}

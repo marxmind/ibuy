@@ -1,12 +1,18 @@
 package com.italia.buynsell.bean;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.view.ViewScoped;
+import java.io.Serializable;
 
-@ManagedBean(name="naviBean", eager=true)
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
+
+@Named("naviBean")
 @ViewScoped
-public class NaviBean {
+public class NaviBean implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4365457671L;
 	public String home(){
 		
 		HomeBean bean = new HomeBean();
