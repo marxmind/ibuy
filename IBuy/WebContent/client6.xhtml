@@ -77,11 +77,11 @@ xmlns:my="http://java.sun.com/jsf/composite/my"
       </button>
       
       <div class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-        	  		<div class="input-group">
-	               				<p:inputText value="#{clientBean.searchString}" placeholder="Search here" styleClass="js-tilt">
+        	  		<div class="ui-inputgroup">
+	               				<p:inputText value="#{clientBean.searchString}" placeholder="Search here">
                          			<p:ajax event="keyup" listener="#{clientBean.loadSearch}" delay="800" update="dataId taClient"/>
             					</p:inputText>
-				    			<div class="input-group-append js-tilt">
+				    			<div class="input-group-append">
 						            <button class="btn btn-primary" type="button">
 						              <i class="fas fa-search"></i>
 						            </button>

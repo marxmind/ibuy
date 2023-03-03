@@ -55,7 +55,7 @@ xmlns:p="http://primefaces.org/ui"
       <a class="navbar-brand js-scroll-trigger" href="#page-top">
         <span class="d-block d-lg-none" style="color: #0d7cbb">SWEET CORN</span>
         <span class="d-none d-lg-block js-tilt">
-          <p:graphicImage name="logo/ibuy6.png" styleClass="img-fluid img-profile rounded-circle mx-auto mb-2" />
+          <p:graphicImage name="logo/ibuy.png" styleClass="img-fluid img-profile rounded-circle mx-auto mb-2" />
         </span>
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,7 +80,7 @@ xmlns:p="http://primefaces.org/ui"
 		<div class="container-login100">
 			<div class="wrap-login100">
 				<div class="login100-pic js-tilt">
-					<p:graphicImage name="logo/buynlogo.png"/>
+					<p:graphicImage name="logo/ibuy.png"/>
 				</div>
 
 				<h:form prependId="false" id="formId" class="login100-form validate-form">
@@ -129,17 +129,17 @@ xmlns:p="http://primefaces.org/ui"
 	
 	<section  id="versiondtls">
        <div class="my-auto">
-          <h2 class="mb-5">Version <span class="text-primary">6.0</span>  </h2>
+          <h2 class="mb-5">Version <span class="text-primary">#{versionBean.copyright.currentversion}</span>  </h2>
           
           <div class="resume-item d-flex flex-column flex-md-row mb-5">
             <div class="resume-content mr-auto">
               <div>Latest Build</div>
-              <p class="text-primary">6.0</p>
+              <p class="text-primary">#{versionBean.copyright.currentversion}</p>
               <div>Recent Build</div>
-              <p class="text-primary">5.3</p>
+              <p class="text-primary">#{versionBean.copyright.oldversion}</p>
             </div>
             <div class="resume-date text-md-right">
-              <span class="text-primary">June 30, 2019</span>
+              <span class="text-primary">#{versionBean.versionController.buildapplieddate}</span>
             </div>
           </div>
           
@@ -157,6 +157,11 @@ xmlns:p="http://primefaces.org/ui"
               <p>Unauthorized reproduction or distribution of this program, or any part of it,  may result in severe civil and criminal penalties, and will be prosecuted to the maximum extent possible under the law.</p>
             </div>
           </div>
+        
+        <p:dataList value="#{versionBean.fixes}" var="rpt" type="ordered">
+        			<f:facet name="header">Build Details</f:facet>
+        			#{rpt.fixdesc}
+        </p:dataList>
         
        
 	</div>

@@ -121,7 +121,7 @@ public class ChartJsView implements Serializable {
         dataSet.setFill(false);
         dataSet.setLabel("Monthly Expenses");
         dataSet.setBorderColor("rgb(75, 192, 192)");
-        dataSet.setLineTension(0.1);
+        dataSet.setTension(0.1);
         data.addChartDataSet(dataSet);
         
         data.setLabels(labels);

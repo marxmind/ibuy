@@ -77,12 +77,12 @@ xmlns:my="http://java.sun.com/jsf/composite/my"
       </button>
       
       <div class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-        	  		<div class="input-group">
-	               				<p:inputText id="tb" value="#{creditBean.searchParam}" placeholder="Search..." styleClass="js-tilt">
+        	  		<div class="ui-inputgroup">
+	               				<p:inputText id="tb" value="#{creditBean.searchParam}" placeholder="Search...">
 			                         <p:ajax event="keyup" listener="#{creditBean.loadSearch}" update="dataId docForm"/>
 					            </p:inputText>
-					            <p:calendar value="#{creditBean.calendarFrom}" pattern="yyyy-MM-dd" effect="slideDown" styleClass="js-tilt"/>
-					            <p:calendar value="#{creditBean.calendarTo}" pattern="yyyy-MM-dd" effect="slideDown" styleClass="js-tilt"/>
+					            <p:calendar value="#{creditBean.calendarFrom}" pattern="yyyy-MM-dd" effect="slideDown"/>
+					            <p:calendar value="#{creditBean.calendarTo}" pattern="yyyy-MM-dd" effect="slideDown"/>
 				    			<div class="input-group-append js-tilt">
 								           <p:commandButton icon="fa fa-search" update="dataId docForm" actionListener="#{creditBean.loadSearch}" />	
 				          		</div>

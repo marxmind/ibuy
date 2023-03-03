@@ -77,19 +77,19 @@ xmlns:my="http://java.sun.com/jsf/composite/my"
       </button>
       
       <div class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-        	  		<div class="input-group">
-	               				<p:calendar id="tb" value="#{cornBean.calendarFrom}" pattern="yyyy-MM-dd" effect="slideDown" styleClass="js-tilt"/>
-	    						<p:calendar value="#{cornBean.calendarTo}" pattern="yyyy-MM-dd" effect="slideDown" styleClass="js-tilt"/> 
-								<p:selectOneMenu value="#{cornBean.cornColorSearch}" styleClass="js-tilt">
+        	  		<div class="ui-inputgroup">
+	               				<p:calendar id="tb" value="#{cornBean.calendarFrom}" pattern="yyyy-MM-dd" effect="slideDown"/>
+	    						<p:calendar value="#{cornBean.calendarTo}" pattern="yyyy-MM-dd" effect="slideDown"/> 
+								<p:selectOneMenu value="#{cornBean.cornColorSearch}">
 									<f:selectItems value="#{cornBean.cornColorsSearch}"/>
 								</p:selectOneMenu> 
-								<p:selectOneMenu value="#{cornBean.condSearch}" styleClass="js-tilt">
+								<p:selectOneMenu value="#{cornBean.condSearch}">
 									<f:selectItems value="#{cornBean.conditionsSearch}"/>
 								</p:selectOneMenu> 
-								<p:selectOneMenu value="#{cornBean.filtered}" styleClass="js-tilt">
+								<p:selectOneMenu value="#{cornBean.filtered}">
 									<f:selectItems value="#{cornBean.filteredSearch}"/>
 								</p:selectOneMenu>
-								<div class="input-group-append js-tilt">
+								<div class="input-group-append">
 									<p:commandButton update="dataid1 dataid2 idCorns" icon="fa fa-search" actionListener="#{cornBean.search}" />
 									<p:commandLink title="Report in pdf format" actionListener="#{cornBean.printPdf}" update="formId pdfid">
 			                			<p:graphicImage name="img/pdf.jpg" width="24" height="24"/>

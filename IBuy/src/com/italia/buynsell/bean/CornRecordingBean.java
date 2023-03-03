@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -28,6 +29,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -72,7 +75,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 //@ManagedBean(name="cornBean", eager=true)
 //@SessionScoped
 @Named("cornBean")
-@ViewScoped
+@SessionScoped
 public class CornRecordingBean implements Serializable{
 	 
 	/**
@@ -487,6 +490,10 @@ public class CornRecordingBean implements Serializable{
 		Application.addMessage(3, "Error", "Please provide amount");
 	}
 	
+	if(getClientName()==null) {
+		isOk = false;
+		Application.addMessage(3, "Error", "Please provide client name");
+	}
 	
 	if(isOk){
 	
@@ -2227,13 +2234,29 @@ public String viewDeducted(String receiptNumber){
 			
 		String pdfName = REPORT_NAME +".pdf";
 	    File pdfFile = new File(REPORT_PATH + REPORT_NAME +".pdf");
-	    tempPdfFile = DefaultStreamedContent.builder()
+	    /*tempPdfFile = DefaultStreamedContent.builder()
 	    		.contentType("application/pdf")
 	    		.name(pdfName)
 	    		.stream(()-> this.getClass().getResourceAsStream(REPORT_PATH + REPORT_NAME +".pdf"))
 	    		.build();
 	    		//new DefaultStreamedContent(new FileInputStream(pdfFile), "application/pdf", pdfName);
-  	    
+  	    */
+	    
+	    tempPdfFile = DefaultStreamedContent.builder()
+				 .contentType("application/pdf")
+				 .name(pdfName)
+				 .stream(()-> {
+					try {
+						return new FileInputStream(pdfFile);
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						return null;
+					}
+				})
+				 .build();
+	    
+	    
   	    PrimeFaces pm = PrimeFaces.current();
   	    pm.executeScript("showPdf();hideButton();");
 		}catch(Exception e) {e.printStackTrace();}
@@ -2251,13 +2274,31 @@ public String viewDeducted(String receiptNumber){
 			//pdf += pdfName;
 			System.out.println("pdf file >>>> " + pdf);
 			
+			
 		    File pdfFile = new File(pdf);
-  	    
+		    /*
 		    return DefaultStreamedContent.builder()
 		    		.contentType("application/pdf")
 		    		.name(pdfName)
 		    		.stream(()-> this.getClass().getResourceAsStream(REPORT_PATH + REPORT_NAME +".pdf"))
 		    		.build();//new DefaultStreamedContent(new FileInputStream(pdfFile), "application/pdf", pdfName);
+		    */
+		    
+		    return DefaultStreamedContent.builder()
+					 .contentType("application/pdf")
+					 .name(pdfName)
+					 .stream(()-> {
+						try {
+							return new FileInputStream(pdfFile);
+						} catch (FileNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							return null;
+						}
+					})
+					 .build();
+		    
+		    
 		}else {
 			return tempPdfFile;
 		}

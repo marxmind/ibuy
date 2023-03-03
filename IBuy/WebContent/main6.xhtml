@@ -76,10 +76,10 @@ xmlns:my="http://java.sun.com/jsf/composite/my"
       
       <div class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
         	  <div class="input-group">
-	               <p:inputText id="searchId" value="#{main6Bean.searchString}" placeholder="Search..." styleClass="js-tilt">
+	               <p:inputText id="searchId" value="#{main6Bean.searchString}" placeholder="Search...">
 	               			<p:ajax event="keyup" listener="#{main6Bean.init}" delay="800" update="cusId idContent"/>
 	    			</p:inputText>
-	    			<div class="input-group-append js-tilt">
+	    			<div class="input-group-append">
 		            <button class="btn btn-primary" type="button">
 		              <i class="fas fa-search"></i>
 		            </button>

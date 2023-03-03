@@ -38,8 +38,7 @@
 	<classpathentry kind="lib" path="C:/workspace-june-2022/github/ibuy/IBuy/WebContent/WEB-INF/lib/font-awesome-5.13.0.jar"/>
 	<classpathentry kind="lib" path="C:/workspace-june-2022/github/ibuy/IBuy/WebContent/WEB-INF/lib/guava-29.0-jre.jar"/>
 	<classpathentry kind="lib" path="C:/workspace-june-2022/github/ibuy/IBuy/WebContent/WEB-INF/lib/itext-2.1.7.js4.jar"/>
-	<classpathentry kind="lib" path="C:/workspace-june-2022/github/ibuy/IBuy/WebContent/WEB-INF/lib/jasperreports-6.17.0.jar"/>
-	<classpathentry kind="lib" path="C:/workspace-june-2022/github/ibuy/IBuy/WebContent/WEB-INF/lib/jasperreports-fonts-6.17.0.jar"/>
+	<classpathentry kind="lib" path="C:/workspace-june-2022/github/ibuy/IBuy/WebContent/WEB-INF/lib/jasperreports-6.20.0.jar"/>
 	<classpathentry kind="lib" path="C:/workspace-june-2022/github/ibuy/IBuy/WebContent/WEB-INF/lib/javase-3.4.0.jar"/>
 	<classpathentry kind="lib" path="C:/workspace-june-2022/github/ibuy/IBuy/WebContent/WEB-INF/lib/javax.faces-2.3.9.jar"/>
 	<classpathentry kind="lib" path="C:/workspace-june-2022/github/ibuy/IBuy/WebContent/WEB-INF/lib/javax.servlet-api-3.1.0.jar"/>
@@ -67,8 +66,7 @@
 	<classpathentry kind="lib" path="C:/workspace-june-2022/github/ibuy/IBuy/WebContent/WEB-INF/lib/poi-4.1.2.jar"/>
 	<classpathentry kind="lib" path="C:/workspace-june-2022/github/ibuy/IBuy/WebContent/WEB-INF/lib/poi-ooxml-4.1.2.jar"/>
 	<classpathentry kind="lib" path="C:/workspace-june-2022/github/ibuy/IBuy/WebContent/WEB-INF/lib/poi-ooxml-schemas-4.1.2.jar"/>
-	<classpathentry kind="lib" path="C:/workspace-june-2022/github/ibuy/IBuy/WebContent/WEB-INF/lib/primefaces-10.0.0.jar"/>
-	<classpathentry kind="lib" path="C:/workspace-june-2022/github/ibuy/IBuy/WebContent/WEB-INF/lib/primefaces-extensions-10.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/workspace-june-2022/github/ibuy/IBuy/WebContent/WEB-INF/lib/primefaces-11.0.0.jar"/>
 	<classpathentry kind="lib" path="C:/workspace-june-2022/github/ibuy/IBuy/WebContent/WEB-INF/lib/qrgen-1.4.jar"/>
 	<classpathentry kind="lib" path="C:/workspace-june-2022/github/ibuy/IBuy/WebContent/WEB-INF/lib/webcam-capture-0.3.12.jar"/>
 	<classpathentry kind="lib" path="C:/workspace-june-2022/github/ibuy/IBuy/WebContent/WEB-INF/lib/weld-servlet-shaded-3.1.4.Final.jar"/>
